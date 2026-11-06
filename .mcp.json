@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "webflow": {
+    "webflow-michaels-global-trading": {
       "type": "http",
       "url": "https://mcp.webflow.com/mcp"
     }

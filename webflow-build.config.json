@@ -1,0 +1,13 @@
+{
+  "prototypeUrl": "http://127.0.0.1:5608",
+  "stagingUrl": "https://michaels-global-trading.webflow.io",
+  "repoDir": ".",
+  "bundlePattern": "brandvm\\.github\\.io/wf-mgt/(index\\.js|styles\\.css)",
+  "widths": [
+    [1440, 900],
+    [820, 1180],
+    [667, 375],
+    [390, 844]
+  ],
+  "pages": ["/"]
+}

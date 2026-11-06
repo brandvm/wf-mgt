@@ -1,4 +1,4 @@
-# <CLIENT> — design handoff → Webflow build
+# Michaels Global Trading — design handoff → Webflow build
 
 The brief every build session starts from. Written when the design is
 approved (by the designer, or at the end of the prototype phase) and kept
@@ -10,11 +10,43 @@ current during the build. Agents read it after `AGENTS.md` and `GOTCHAS.md`.
 2. This file, then `MANUAL-TODO.md` and `BUILD-NOTES.md` in this folder;
    after the build handoff, `REVIEW.md` (feedback rounds until launch) and
    `SEO-PLAN.md`.
-3. The approved design: <prototype folder and its URL>, built from <Figma file link>.
+3. The approved design: the prototype in `../prototype/` (run by Bench on
+   127.0.0.1:5608; not a git repo — back it up before big changes).
+4. **Where the Webflow build stopped:** `docs/handoff/webflow/webflow-build-state.md`
+   (batch plan, what is done, the exact next steps, and `variable-ids.json`).
 
 ## Status
 
-<Date> — <what is approved, what is built, what is next.>
+2026-11-05 (end of session) — The person confirmed the client approved the
+prototype and asked to build the style guide in Webflow. Build order agreed:
+variables → tag styles → existing classes → 361 new classes → repo port →
+style guide page, one go-ahead per batch. **Batch 1 (variables) is about
+70% done**: Colors, Colors Semantic and Typography Scale are finished, and
+Typography Role is part-way through. The remaining role updates, 40 new role
+variables, 8 text-style modes, Layout/Spacing/Radius, then verification, are
+listed step by step in `webflow/webflow-build-state.md`. Nothing is published.
+
+Prototype work this session (in `../prototype/`, approved by the person as it
+went):
+- Home "Why choose MGT": text-heavy card grid replaced by option B (sticky
+  heading column + numbered accordion, faq module). The four options are on
+  `/design/why-choose` for the client (delete once reviewed). Toronto still
+  has the old card version (open question).
+- Before/after slider: no image selection/blue flash on press; one-time
+  nudge, arrow icons and a "Drag to compare" hint (compare.ts).
+- Scroll motion (`src/modules/scroll-fx.ts`, GSAP ScrollTrigger with scrub,
+  like brandvm/mgt-live): every `.s-wrapper` fades up with the scroll (not the
+  first screen; `data-reveal="off"` opts out); footer parallax on
+  `data-footer-parallax`, G | Footer W `overflow: hidden` (P4).
+- Case study counter counts linearly (no easing).
+- The 2026 nav ported from the mgt-live sandbox (`/design/mega-menus`):
+  mega panel with Services / Service Areas / Resources, mobile menu with
+  views, hide on scroll down. Script breakpoint set to 991 (mgt-live's script
+  said 1279 while its CSS used 991). Needs proposed variables P5 and the P2
+  class changes. Phone number open: nav 647-496-6362 vs site 647-317-0860.
+- Home hero "Services" chip removed.
+- Logo marquee and image parallax applied on every page that has the markup
+  (About, Case Studies, Case Study, Contact, FAQs, Toronto).
 
 ## Ground rules for this project
 
@@ -46,6 +78,7 @@ Breakpoints: 991 (tablet), 767 (mobile landscape), 479 (mobile). Checked at
 | Collection | Fields | Used on |
 | --- | --- | --- |
 | <Name> | <field (type)…> | <pages, lists, limits and sort> |
+| FAQs | Question (Plain text, name), Answer (Plain text, multi-line), Topic (Option: Pricing, Process, IT & data, Furniture value), Show on Home (Switch), Show on Contact (Switch), Location (Reference → Locations, empty for general), Order (Number) | Collection List = `.faq-grid` with `data-faq="single"` (one open at a time), Item = `.faq-item` with `data-faq-item`, trigger `data-faq-trigger` (no `aria-expanded`, all start closed), panel `data-faq-panel`. Home: Show on Home, sort Order. Contact Us: Show on Contact. Location pages: Location = current page. FAQs page: all, plus `data-category` bound to Topic for the filter tabs. Sort by Order ascending. |
 
 ## Components to make
 
@@ -60,9 +93,15 @@ Breakpoints: 991 (tablet), 767 (mobile landscape), 479 (mobile). Checked at
 | Module | `data-*` hooks | What it does |
 | --- | --- | --- |
 | <name> | `data-…` | |
+| count-up | `data-count` (on the number; reads the parent `data-carousel-slide`'s Is Dimmed) | Counts 0 → the markup value, ease-in-out 1.6s, the first time it is in view; in a carousel, again each time its slide becomes current. Port `prototype/src/modules/count-up.ts` unchanged. |
 
 ## Decisions
 
+- 2026-11-05 · Fluid scaling set to the 1440 Figma frame: `--size-container-ideal: 1440`, min 1200px, max 1440px (repo `src/styles.css` §01 and `prototype/src/css/prototype.css`). 1em = 16px at 1440 and above, so type matches Figma; it was 13.7px with the template's 1680.
+- 2026-11-05 · Webflow variables migrated from the starter by **renaming** starter variables where a match exists (ids kept, class bindings follow) instead of delete + recreate; starter leftovers are removed only once unused (after the style guide rebuild).
+- 2026-11-05 · Home "Why choose MGT" uses option B (accordion), chosen by the person.
+- 2026-11-05 · Section fade-up and footer parallax are scroll-scrubbed (GSAP ScrollTrigger), matching the mgt-live site; the fade targets `.s-wrapper` by class on purpose.
+- 2026-11-05 · The 2026 nav is ported from the mgt-live sandbox into the prototype, with the menu breakpoint at 991px in both CSS and script.
 - <Date> · <decision and why.>
 
 ## Open decisions

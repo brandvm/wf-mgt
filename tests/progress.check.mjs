@@ -15,7 +15,8 @@ function repo() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'wf-progress-'));
   fs.cpSync(path.join(root, '.claude/skills'), path.join(dir, '.claude/skills'), { recursive: true });
   fs.mkdirSync(path.join(dir, 'docs/handoff'), { recursive: true });
-  fs.copyFileSync(path.join(root, 'docs/handoff/progress.json'), path.join(dir, 'docs/handoff/progress.json'));
+  // An empty seed, not this repo's file: a client project's has plans in it.
+  fs.writeFileSync(path.join(dir, 'docs/handoff/progress.json'), serialize(empty()));
   fs.writeFileSync(path.join(dir, 'webflow-build.config.json'), JSON.stringify({ pages: ['/', '/about'] }));
   return dir;
 }
@@ -30,7 +31,8 @@ const fails = (dir, ...args) => {
 };
 const read = (dir) => JSON.parse(fs.readFileSync(path.join(dir, 'docs/handoff/progress.json'), 'utf8'));
 
-test('the seed file is empty and in the current format', () => {
+// Only the template ships the empty seed; a client project fills it in.
+test('the seed file is empty and in the current format', { skip: !fs.existsSync(path.join(root, 'scripts/pack.mjs')) && 'template only' }, () => {
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root, 'docs/handoff/progress.json'), 'utf8')), empty());
 });
 

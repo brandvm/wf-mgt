@@ -99,9 +99,9 @@
    a body font-size in the Designer: this rule wins and the Designer value
    would be a hidden no-op. */
 :root {
-  --size-container-ideal: 1680;
-  --size-container-min: 1440px;
-  --size-container-max: 1680px;
+  --size-container-ideal: 1440;
+  --size-container-min: 1200px;
+  --size-container-max: 1440px;
   --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
   --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
 }

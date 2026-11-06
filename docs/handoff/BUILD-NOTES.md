@@ -12,6 +12,7 @@ conditional on which field, and each component's props.
 | Collection / component | How to edit | Notes |
 | --- | --- | --- |
 | | | |
+| FAQs | CMS → FAQs: edit Question and Answer; tick Show on Home / Show on Contact, or pick a Location, to choose where it appears; Order sets the position. | All questions start closed and only one opens at a time (faq module). Every item needs an Answer or its question won't open. |
 
 ## Integrations
 

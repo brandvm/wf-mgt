@@ -1,8 +1,34 @@
 {
   "format": 2,
-  "plans": [],
-  "ticks": {},
-  "todos": [],
+  "plans": [
+    {"id":"build","kind":"new-build","status":"active","started":"2026-11-05"}
+  ],
+  "ticks": {
+    "build/build/Prototype": {
+      "0bce77454d31": {"text":"The Figma file is linked to the client.","by":"check","at":"2026-11-05T18:11:46.263Z"},
+      "8af9e86a22de": {"text":"Every picked frame built as a prototype page.","by":"check","at":"2026-11-05T20:05:59.056Z"},
+      "9caf63578faf": {"text":"Frames picked, in order, each with its page address.","by":"check","at":"2026-11-05T18:49:33.367Z"}
+    }
+  },
+  "todos": [
+    {"id":"t-b2191bf3","text":"Figma gives only desktop (1440) values. Please supply Tablet/Mobile sizes for the type roles (Display 60, H1 52, H2 45… stay the same size on phones for now) and for Layout (section padding, nav height, gaps), or point to the mobile frames.","done":false,"page":"/design/style-guide"},
+    {"id":"t-63e2eff3","text":"Confirm the design frame is 1440 wide. The fluid scaling (repo src/styles.css §01 and prototype.css) is still the template's 1680, so at 1440 everything renders about 14% smaller than Figma. If yes, both get changed to ideal 1440.","done":false},
+    {"id":"t-e4a9993b","text":"In Figma the icons inside the round icon circles (phone button, Learn More arrow) are the same colour as the circle, so they don't show. The prototype uses white on navy (light backgrounds) and navy on white (dark backgrounds). OK?","done":false,"page":"/design/style-guide"},
+    {"id":"t-6039172a","text":"Icons: keep the Figma SVGs (chevron-right, phone, plus, arrow-up-right, chevron-down), or swap them for the matching Phosphor icons so the C | Button component's Icon prop works in Webflow?","done":false,"page":"/design/style-guide"},
+    {"id":"t-004055c7","text":"Values the file doesn't give: the options in the \"Project deadline\" select; the fill opacity of the Social button and the glass chip on dark (set to white 8% / 12% for now); success/warning/error colours (still the starter's). Disabled buttons (40% opacity in Figma) are not built yet. Please confirm or supply.","done":false,"page":"/design/style-guide"},
+    {"id":"t-da854383","text":"Homepage content missing from Figma: (1) the Services, Service Areas and Resources dropdown menus, plus where every nav, footer and card link goes (they're \"#\" for now); (2) the Warehouse & Commercial, IT Equipment & Electronics and Sustainability & ESG tabs in Our Services (only Office Furniture has content); (3) answers for 8 of the 9 FAQs; (4) the case studies (the file shows SNC-Lavalin three times).","done":false,"page":"/"},
+    {"id":"t-b5b15a13","text":"The homepage has no Tablet or Mobile frame, so I drew those layouts from the desktop frame, including a hamburger menu (Phosphor \"list\" icon). Heading sizes on smaller screens are stand-ins: Display 52/40, H1 45/36, H2 40/36, H3 36/24, Stat 40/36 (tablet/phone). Please confirm them or send mobile frames.","done":false,"page":"/"},
+    {"id":"t-fa8225e3","text":"Colours on the homepage that aren't style-guide tokens: body text is ink at 72% (shown as text/muted #617081 for now); service descriptions are navy 72%; dates #8c949e. In the file, the icon circle on dark is solid white in the style guide but white 16% on the page (the page version is used). Should these become tokens, or use the existing ones?","done":false,"page":"/"},
+    {"id":"t-bdd596c0","text":"About Us has no Tablet or Mobile frame, so I drew those layouts from the desktop frame (sections stack, the stat cards drop below the photo on phones). The service cards' Learn More links and the Get a Quote / Contact Us buttons have no destination yet (\"#\"). Please confirm the layouts and send the link addresses.","done":false,"page":"/about-us"},
+    {"id":"t-a3e12c9e","text":"Toronto page content missing from Figma: the options for the quote form's Project deadline, Service needed and Approximate project size selects; what \"Add company details or photos (optional)\" opens; where the form sends (and the Privacy Policy link); answers for 5 of the 6 FAQs. There's no Tablet or Mobile frame, so I drew those layouts from the desktop frame (the form drops under the copy and goes to one column on phones).","done":false,"page":"/location-toronto"},
+    {"id":"t-a9d09bb0","text":"FAQs page: answers for 11 of the 12 questions are missing from Figma, and the file doesn't say which questions belong to the Pricing, Process, IT & data and Furniture value tabs (the tabs work but show every question until each one has a topic). There's no Tablet or Mobile frame, so I drew those layouts from the desktop frame (one column of questions on phones, tabs wrap).","done":false,"page":"/faqs"},
+    {"id":"t-0123a2aa","text":"Contact Us: the form in Figma is two screenshots of an old form, not designed layers, so I rebuilt it with the style guide's form styles. Please confirm: radio buttons vs dropdowns, the submit button (none in the screenshot; I used \"Request my office assessment\"), and reCAPTCHA (Webflow's form setting, not in the prototype). Answers for 5 of the 6 FAQs are missing. There's no Tablet or Mobile frame, so I drew those layouts from the desktop frame (the info cards drop under the form).","done":false,"page":"/contact-us"},
+    {"id":"t-2b635135","text":"Case study page: the \"Case studies\" breadcrumb and \"View all case studies\" need a listing page address (not in the file). There's no Tablet or Mobile frame, so I drew those layouts from the desktop frame (the project details panel and sidebar drop under the content, the stat band goes to 2 then 1 column).","done":false,"page":"/case-study-snc-lavalin"},
+    {"id":"t-0dd35589","text":"Case Studies listing: the file shows only SNC-Lavalin (featured and all 6 cards), while the count says \"9 case studies\". The other case studies are missing, along with the Service / Industry / Sort options and what \"Load more articles\" loads. There's no Tablet or Mobile frame, so I drew those layouts from the desktop frame (the featured photo moves above its copy, cards go to 2 then 1 column). Also: /design/why-choose (a layout-options review page I didn't make) uses classes that aren't in the prototype's CSS files. Remove it, or keep it as review-only?","done":false,"page":"/case-studies-5"},
+    {"id":"t-e91b2679","text":"FAQ answers: only the first question on each page (Home, FAQs, Contact Us, Toronto) has real answer copy. The other 28 show a placeholder. Get the answers from the client (and each question's topic for the FAQs page filter) so they can go into the FAQs CMS collection.","done":false},
+    {"id":"t-a1441925","text":"Nav port: publish mgt-live to staging (webflow.io) so /design/mega-menus is reachable (it returns 404 now), or confirm which nav to bring into the MGT prototype: the 2026 mega nav (mgt-live repo src/modules/nav.ts) or the current live dropdown nav.","done":false},
+    {"id":"t-62d61042","text":"Phone number: the 2026 nav (from mgt-live) uses 647-496-6362, but the rest of the MGT prototype (hero, footer, CTAs) uses 647-317-0860. Which is correct?","done":false}
+  ],
   "components": [],
   "history": []
 }

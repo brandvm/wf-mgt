@@ -13,6 +13,9 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const tmp = (name) => fs.mkdtempSync(path.join(os.tmpdir(), `wf-bench-${name}-`));
 const node = (script, args, cwd, env = {}) => spawnSync('node', [script, ...args], { cwd, encoding: 'utf8', env: { ...process.env, ...env } });
+// pack.mjs and check-template.mjs are template only: new-project removes them
+// from client repos, so their tests skip there.
+const templateOnly = { skip: !fs.existsSync(path.join(root, 'scripts/pack.mjs')) && 'template only' };
 const RECORD = { template: 'official', name: 'Brand Vision', version: '0.10.0', base: '0.10.0' };
 
 // A tiny template repo with one commit, so packing never depends on this
@@ -31,7 +34,7 @@ function templateRepo() {
   return dir;
 }
 
-test('packs a version, signed, with its changelog notes', () => {
+test('packs a version, signed, with its changelog notes', templateOnly, () => {
   const repo = templateRepo();
   const keys = tmp('keys');
   assert.equal(node('scripts/pack.mjs', ['--keygen', keys], repo).status, 0);
@@ -59,7 +62,7 @@ test('packs a version, signed, with its changelog notes', () => {
   assert.doesNotMatch(files, /\.git\//);
 });
 
-test('refuses to pack without a key unless --unsigned', () => {
+test('refuses to pack without a key unless --unsigned', templateOnly, () => {
   const repo = templateRepo();
   const r = node('scripts/pack.mjs', [], repo, { PACK_KEY: '' });
   assert.notEqual(r.status, 0);
@@ -69,7 +72,7 @@ test('refuses to pack without a key unless --unsigned', () => {
   assert.ok(!fs.existsSync(path.join(repo, 'packs/wf-template-1.2.3.json.sig')));
 });
 
-test('this template meets the contract; an incomplete one does not', () => {
+test('this template meets the contract; an incomplete one does not', templateOnly, () => {
   assert.equal(node('scripts/check-template.mjs', [], root).status, 0);
   const broken = tmp('broken');
   for (const f of ['.wf-template.json', 'package.json', 'webflow-build.config.example.json', 'loader.html', 'scripts/new-project.mjs']) {

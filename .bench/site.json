@@ -1,0 +1,37 @@
+{
+  "kind": "wf-template",
+  "webflow": {
+    "siteId": "6aecfdb66cfe7667efc6d078",
+    "staging": "https://michaels-global-trading.webflow.io"
+  },
+  "local": {
+    "command": "pnpm dev",
+    "reload": "esbuild"
+  },
+  "loads": [
+    {
+      "url": "https://brandvm.github.io/wf-mgt/*",
+      "local": "/*"
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/gh/brandvm/wf-mgt@*/dist/*",
+      "local": "/*"
+    },
+    {
+      "match": "brandvm\\.github\\.io/wf-mgt/(index\\.js|styles\\.css)",
+      "local": "$1"
+    }
+  ],
+  "staging": {
+    "kind": "pages",
+    "branch": "master",
+    "build": "pnpm build",
+    "page": "loader"
+  },
+  "live": {
+    "kind": "jsdelivr-tag"
+  },
+  "packs": {
+    "from": "repo"
+  }
+}
