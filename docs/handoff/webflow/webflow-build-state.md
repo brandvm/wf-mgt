@@ -307,6 +307,10 @@ Segmented Tab Is Active, Detail Row Is Last. Selection:
   icon is Icon (Is Size 14 on forms) › Icon Glyph `i` with `class="ph
   ph-caret-down"`. Background properties removed from Is Select and Filter
   Pill Select. All 8 selects on the style guide wrapped and read back.
+  Then the hand-built icon became an **Icon Size** instance (Icon prop
+  `ph ph-caret-down`) in each Select Icon: variant **14px** (new,
+  `be343e17-9894-2cac-5a01-9e068a36439f`, font-size 0.875em, ordered after
+  12px) on the 5 form selects, 16px (base) on the 3 pills; read back.
 - Converter: local `url("/…")` images and variable `accent-color` are
   reported; `calc(Nav Height + x)` binds to its Calc variable; duplicate
   longhands are removed with the last value winning (Form More: `border: 0`

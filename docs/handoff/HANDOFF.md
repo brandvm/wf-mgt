@@ -33,8 +33,8 @@ the hero to the case cards) done and verified the same way, then batch 6
 About, Toronto quote form, Contact; 4 computed Layout variables for the
 hero calc values) and batch 8 (59: case study and Case Studies listing).
 **All 360 planned classes are in Webflow and verified.** Manual steps A
-and B (the select chevrons) are done: a Phosphor caret-down in Select W /
-Select Icon, no background image. A separate session is
+and B (the select chevrons) are done: an Icon Size instance (caret-down, new
+14px variant) in Select W / Select Icon, no background image. A separate session is
 building the page shell, Nav and Footer components (notes in
 `webflow/components-build.md`). Batch 9 (repo port: 11 modules, GSAP +
 Lenis, the prototype's repo CSS) is done, committed (be8e640) and on staging.
