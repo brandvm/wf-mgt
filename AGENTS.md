@@ -10,9 +10,9 @@ Filled in by `pnpm new-project` on 2026-11-06.
 
 - Client / site: `Michaels Global Trading`
 - GitHub: `brandvm/wf-mgt`, default branch `master`
-- Webflow site ID: `6aecfdb66cfe7667efc6d078`
+- Webflow site ID: `6aecfdb66cfe7667efc6d078` (short name `wf-mgt`; checked 2026-11-06)
 - Webflow MCP server: `webflow-michaels-global-trading` (`.mcp.json`)
-- Staging site: `https://michaels-global-trading.webflow.io`
+- Staging site: `https://wf-mgt.webflow.io`
 - Staging bundles: `https://brandvm.github.io/wf-mgt/`
 - Production domain: `not attached yet`
 - Production release: `none yet`

@@ -17,6 +17,29 @@ current during the build. Agents read it after `AGENTS.md` and `GOTCHAS.md`.
 
 ## Status
 
+2026-11-06 — **Batch 1 (variables) finished and verified** on
+`6aecfdb66cfe7667efc6d078` (the same site, renamed to `wf-mgt`; staging
+wf-mgt.webflow.io). Every collection matches the prototype snapshot + P5.
+Starter leftovers (Spacing Hairline/2/96/128, Radius 2) stay until the style
+guide rebuild. Batch 2 (heading colour → Text/Accent on h1–h6 and D0–D6) done
+and verified the same day. Batch 3 (G | Nav, G | Nav W with a new Colors
+Semantic "Nav" mode, Section Is Hero padding, G | Footer W on the Dark mode)
+done and verified after an interrupted session; a "Nav Open" mode is ready
+for the open-state classes. Batch 4 (82 new styles: shared components and
+the whole nav, with their breakpoints, states and modes) done and verified
+by script against a full read-back. Batch 5 (80 more: the Home page from
+the hero to the case cards) done and verified the same way, then batch 6
+(71: reasons, steps, articles, FAQ, CTA banner, footer) and batch 7 (68:
+About, Toronto quote form, Contact; 4 computed Layout variables for the
+hero calc values) and batch 8 (59: case study and Case Studies listing).
+**All 360 planned classes are in Webflow and verified.** Manual steps A
+and B (the two select chevron images) are open. A separate session is
+building the page shell, Nav and Footer components (notes in
+`webflow/components-build.md`). Batch 9 (repo port: 11 modules, GSAP +
+Lenis, the prototype's repo CSS) is done and passes check/build/test, but
+is not committed. Next: commit + push (the person's OK), then batch 10
+(style guide page); see `webflow/webflow-build-state.md`.
+
 2026-11-05 (end of session) — The person confirmed the client approved the
 prototype and asked to build the style guide in Webflow. Build order agreed:
 variables → tag styles → existing classes → 361 new classes → repo port →

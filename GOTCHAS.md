@@ -63,3 +63,47 @@ collected from client repos into those files.
 - Status: open (fixed here; upstream to wf-template)
 - Found by: claude
 
+### 2026-11-06 · The class plan silently leaves out properties listed in checkFirst
+- Area: mcp
+- Scope: template-candidate
+- Symptom: classes built from `styles-plan.json` were missing their background or hover colour (Nav Bg, Nav Caret, Nav Toggle, Nav Link hover, Nav Mega Cta, Nav Menu on Tablet, Button Color Is Light, Icon Circle Is Button: 11 properties). Nothing in a class's `rules` said so.
+- Cause: `pnpm wf:styles` drops any declaration whose variable isn't in `webflow-snapshot/variables.json` and only mentions it in the plan's top-level `checkFirst` list. Here the snapshot predated batch 1, which created those variables.
+- Fix: before building classes, read `checkFirst`; put back each property whose variable exists in Webflow now. `docs/handoff/webflow/tools/plan2actions.py` does it and reports the rest (JS variables like `--compare` → repo CSS). Better upstream: re-run `wf:styles` from a fresh snapshot after the variables batch, or have it keep the property with a warning.
+- Status: open (worked around here; upstream to wf-template)
+- Found by: claude
+
+### 2026-11-06 · Repo CSS reads five Webflow variable names (approved)
+- Area: css
+- Scope: project
+- Symptom: none yet. This is a watch list. `src/styles.css` §05 (Michaels Global Trading components) reads `--_colors---brand--navy`, `--_colors---base--white`, `--_colors---brand--yellow`, `--_colors---navy-tint--navy-16` and `--_spacing---24` for the open services tab, the open FAQ/reason accordions and the Contact step line.
+- Cause: those states are attribute or descendant selectors (`[aria-expanded="true"] .faq-icon`) the Designer can't express. The person chose variables over literal colours on 2026-11-06 (AGENTS.md rule 4), so the rules follow colour changes.
+- Fix: **renaming any of these five in Webflow (Colors › Brand/Navy, Base/White, Brand/Yellow, Navy Tint/Navy 16, Spacing › 24) silently breaks those rules**, because Webflow rewrites its own references and never this bundle's. After a rename, update `src/styles.css`, then `pnpm build` and push.
+- Status: open (watch list)
+- Found by: claude
+
+### 2026-11-06 · background-position without a background image is dropped; accent-color takes no variable
+- Area: mcp
+- Scope: template-candidate
+- Symptom: Form Input Is Select's `background-position` was echoed back by `create_style`, but a later `get_styles` didn't have it. Retrying as `calc(100% - 1em) 50%` was echoed and dropped the same way. Separately, `create_style` with `accent-color` bound to a colour variable failed the whole action ("Property accent-color does not support setting a variable of type color").
+- Cause: Webflow stores background position per background-image layer; with no image (the chevron is a prototype file, not an asset) there is no layer to hold it. The style API only takes variables on some properties (as with `outline-width` and `row-gap`).
+- Fix: the position goes in the same Designer step as the image (MANUAL-TODO A). Radio Input's `accent-color` is set to the literal `#002e75` (Brand/Navy). `tools/plan2actions.py` now flags variable `accent-color` and local `url("/…")` images. Lesson: the write response is not proof; only a later read is.
+- Status: open (manual step A)
+- Found by: claude
+
+### 2026-11-06 · A light card inside a dark section needs the Base mode, not Dark
+- Area: designer
+- Scope: template-candidate
+- Symptom: the converter mapped Quote Card's Colors Semantic overrides to the Dark mode, which would have made the white quote card dark inside the dark Toronto hero.
+- Cause: in the prototype, Quote Card re-declares the light values (white page, ink text, navy accent) to reset inside a dark parent. "Has semantic overrides" was treated as "is dark".
+- Fix: choose the mode from what the overrides say: navy Background/Nav → Nav, white Background/Nav → Nav Open, ink Text/Primary → Base, white Text/Primary → Dark. Quote Card is set to `base`. The API accepts `mode_id: "base"` on `set_style_variable_mode`, although variable updates refuse it.
+- Status: fixed
+- Found by: claude
+
+### 2026-11-06 · "Moved to a new site" was the same site renamed
+- Area: mcp
+- Scope: project
+- Symptom: the build-state note said the build had moved to a new site (wf-mgt.webflow.io), that batch 1 didn't apply to it and had to be redone, and AGENTS.md held a site-ID placeholder.
+- Cause: the Webflow site's short name was changed to `wf-mgt` (so its staging URL changed); the site ID `6aecfdb66cfe7667efc6d078` and every variable id stayed the same.
+- Fix: before redoing work after a "new site" note, `list_sites` and compare the id, then read one collection against `variable-ids.json`. Here all ids matched and batch 1 continued; AGENTS.md now has the id.
+- Status: fixed
+- Found by: claude

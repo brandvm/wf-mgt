@@ -2,7 +2,7 @@
   "kind": "wf-template",
   "webflow": {
     "siteId": "6aecfdb66cfe7667efc6d078",
-    "staging": "https://michaels-global-trading.webflow.io"
+    "staging": "https://wf-mgt.webflow.io"
   },
   "local": {
     "command": "pnpm dev",

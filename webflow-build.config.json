@@ -1,6 +1,6 @@
 {
   "prototypeUrl": "http://127.0.0.1:5608",
-  "stagingUrl": "https://michaels-global-trading.webflow.io",
+  "stagingUrl": "https://wf-mgt.webflow.io",
   "repoDir": ".",
   "bundlePattern": "brandvm\\.github\\.io/wf-mgt/(index\\.js|styles\\.css)",
   "widths": [

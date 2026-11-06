@@ -56,4 +56,5 @@ again at each gate, so the steps are found early and not at the end:
 
 | ID | Where (page › element or class) | Breakpoint | Set | Why the API can't | Done |
 | --- | --- | --- | --- | --- | --- |
-| A | | Desktop | | | ☐ |
+| A | Class Form Input › Is Select (the select fields on the Toronto quote form and Contact) | Desktop | Upload `prototype/images/icons/chevron-down.svg` as an asset. On Is Select add a Background image layer with it: no repeat, size 1.1667em (width), position X right with 1em offset (or `calc(100% - 1em)`), Y center. Repeat and size are already on the class through the API. | The style API has no asset upload for backgrounds, and Webflow drops `background-position` from a class with no background image. Both `right 1em center` and `calc(100% - 1em) 50%` were dropped without an error (2026-11-06). | ☐ |
+| B | Class Filter Pill Select (the Service / Industry / Sort pills on the Case Studies listing) | Desktop | Upload `prototype/images/icons/chevron-down-navy-16.svg` as an asset. On Filter Pill Select add a Background image layer with it: no repeat, size 1.0667em, position X right, Y center. Repeat and size are already on the class. | Same as A: no asset upload through the style API, and `background-position` is dropped without an image. | ☐ |
