@@ -155,3 +155,39 @@ collected from client repos into those files.
 - Fix: before redoing work after a "new site" note, `list_sites` and compare the id, then read one collection against `variable-ids.json`. Here all ids matched and batch 1 continued; AGENTS.md now has the id.
 - Status: fixed
 - Found by: claude
+
+### 2026-11-06 · The nav's filled phone icon won't render: only the regular Phosphor weight is bundled
+- Area: css
+- Scope: project
+- Symptom: G | Nav W's phone icons use `ph-fill ph-phone`; the repo's `src/phosphor.css` (`pnpm phosphor`, default regular) has no `ph-fill` rules, so on staging those icons show nothing. The prototype loads regular and fill from a CDN, so it looked fine there.
+- Cause: the prototype and the bundle load different Phosphor weights.
+- Fix: either `pnpm phosphor regular fill` (adds the fill font to the bundle) or switch the nav to `ph ph-phone` (regular, as on Home). For the nav session to decide; check on staging after the next publish.
+- Status: open
+- Found by: claude
+
+### 2026-11-06 · More than ~50 actions in one MCP call hit 429 Too Many Requests
+- Area: mcp
+- Scope: template-candidate
+- Symptom: a 58-action `data_element_tool` call (moves, removes, a query) succeeded for the first 50 and returned `429 too_many_requests` for the last 8; nothing was rolled back.
+- Cause: Webflow API rate limit, counted per action.
+- Fix: keep calls under ~50 actions, read the result per action, and resend only the failed ones (they succeeded on the retry a minute later).
+- Status: worked around
+- Found by: claude
+
+### 2026-11-06 · Building a page in a slot: placeholders, then builder images, instances and DOM buttons
+- Area: mcp
+- Scope: template-candidate
+- Symptom: inside G | Page W's slot, `set_attributes` on imported elements fails, imported `<img>` lose their asset and attributes, `<button>` becomes a Link, and icons should be component instances, so a plain WHTML import of a prototype section can't be finished afterwards.
+- Cause: the limits listed in lessons/mcp.md (importer, slot, attributes).
+- Fix: import each section with an empty `div[data-todo="<kind>-<n>"]` wherever an image, icon, component button or `<button>` goes; find them with `query_elements` `attribute_name: data-todo`; build next to each placeholder: Images with `data_element_builder` (asset, class and attributes at creation all stick in the slot), `insert_component_instance` "before" the placeholder (then set props; a variant is its id as a string), DOM buttons with their attributes at creation and the placeholder's children moved in (instances move too); then remove the placeholders. Bare `data-*` attributes need a value, including one at the end of a tag. Used for the whole Home page (batch 11); scripts in `docs/handoff/webflow/tools/page-build/`, steps in `webflow-build-state.md` › Batch 11.
+- Status: worked (Home page)
+- Found by: claude
+
+### 2026-11-06 · An image without a class or size lazy-loads at 0×0 and never shows
+- Area: mcp
+- Scope: template-candidate
+- Symptom: on staging the Home check and reason icons (SVG images with no class) were invisible: `loading="lazy"`, `naturalWidth` 0, 0×0 box, never requested.
+- Cause: Webflow publishes images without `width`/`height` (it takes them from the asset, and API-uploaded assets have none), and a 0×0 lazy image never intersects the viewport. The prototype had `width`/`height` attributes. `data_element_builder` refuses `width` as an attribute ("reserved attribute name"), and the refused builds still left 10 class-less images behind.
+- Fix: give every image a class with its size (Check Chip Icon 14px, Icon Tile Img 26px), in Webflow and the prototype. After a refused build, query the page for strays and remove them.
+- Status: fixed (Home, republished and checked 2026-11-06)
+- Found by: claude

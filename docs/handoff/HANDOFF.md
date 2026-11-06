@@ -17,6 +17,16 @@ current during the build. Agents read it after `AGENTS.md` and `GOTCHAS.md`.
 
 ## Status
 
+2026-11-06 (later) — **Batch 11: the Home page is built in Webflow** (all 10
+sections before Locations and CTA Banner, read back and matched against the
+prototype; not published). Icons are Icon Size instances (Phosphor) and the
+Secondary buttons are a Button link holding a Button Color instance; see
+Decisions and `webflow/webflow-build-state.md` › Batch 11.
+Staging check done; Chip and Button Color › Secondary were still the
+starter's styles and are now the prototype's (with the person's OK), and
+the check/reason icon images got sizing classes. Republished and
+re-checked: Home matches the prototype at all four widths.
+
 2026-11-06 — **Batch 1 (variables) finished and verified** on
 `6aecfdb66cfe7667efc6d078` (the same site, renamed to `wf-mgt`; staging
 wf-mgt.webflow.io). Every collection matches the prototype snapshot + P5.
@@ -132,6 +142,8 @@ Breakpoints: 991 (tablet), 767 (mobile landscape), 479 (mobile). Checked at
 - 2026-11-05 · Home "Why choose MGT" uses option B (accordion), chosen by the person.
 - 2026-11-05 · Section fade-up and footer parallax are scroll-scrubbed (GSAP ScrollTrigger), matching the mgt-live site; the fade targets `.s-wrapper` by class on purpose.
 - 2026-11-05 · The 2026 nav is ported from the mgt-live sandbox into the prototype, with the menu breakpoint at 991px in both CSS and script.
+- 2026-11-06 · Icons in Webflow are Icon / Icon Size component instances (Phosphor), never hand-built `i.ph` or inline SVG; Figma SVG icons are mapped to the nearest Phosphor icon. Exception: the FAQ/reason plus/minus stays SVG (repo CSS animates its bar). Icon Size got a 14px variant. Chosen by the person.
+- 2026-11-06 · Secondary buttons: a Button link (`a.button`) holding a Button Color instance set to Secondary (C | Button can't take the variant through the API). Chosen by the person.
 - <Date> · <decision and why.>
 
 ## Open decisions

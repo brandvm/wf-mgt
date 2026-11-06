@@ -542,6 +542,100 @@ sections in the shell's slot; then remove the starter sections, re-point
 the sidebar links (set_link, page section), and use component instances
 for component rows.
 
+## Batch 11 — the Home page, built 2026-11-06 (not published)
+
+Page Home (`6aecfdb66cfe7667efc6d073`), in G | Page W's slot, before the
+Locations and CTA Banner instances the components session placed there.
+All 10 prototype sections (hero, logo strip, services, overview, before &
+after, case studies, why choose, how it works, resources, FAQs), each
+imported with its id (`top`, `services`, `about`, `before-after`,
+`case-studies`, `why-choose`, `how-it-works`, `resources`, `faqs`). The
+To Slot helper div is removed. Decisions by the person:
+
+- **Icons:** Icon Size instances (Phosphor, regular weight) in place of the
+  prototype's Figma SVGs: caret-right (buttons, arrow links, service rows,
+  carousel arrows), phone, caret-down ("Learn more"), the nav's armchair /
+  warehouse / desktop-tower / leaf on the service tabs, and two 12px carets
+  on the compare handle. The FAQ and reason plus/minus stay inline SVG
+  (repo CSS hides `.faq-icon-bar` when open). The prototype's `index.html`
+  was changed to the same markup (backup in the session scratchpad).
+- **Secondary buttons:** a Button link (`a.button`) holding a Button Color
+  instance with Variant Secondary and the Label / Icon props (C | Button
+  can't take the Secondary variant through the API).
+
+How it was built (scripts in `tools/page-build/`; `prep.py` reads `prototype/index.html`, pass another page by editing its path): `prep.py`
+turns each prototype section into import markup where every image, icon,
+Secondary button and `<button>` is an empty `div[data-todo]`; after the
+WHTML import, `query_elements` by `attribute_name: data-todo` finds them;
+images are built with `data_element_builder` (Image + `set_image_asset` +
+`set_attributes` `loading` / `data-parallax` / `fetchpriority`, which works
+inside the slot at creation), icons and buttons are
+`insert_component_instance` "before" the placeholder plus
+`set_component_instance_prop_values`, `<button>`s are DOM buttons built
+before the placeholder with their attributes, the placeholder's children
+moved in (instances move fine), then every placeholder removed.
+`cmp.py` compares a full read-back with the import markup: all 10
+sections match (only differences: `loading="eager"` added on the three
+above-the-fold images, and parser artefacts: `viewBox` case, ListItem).
+4 new assets: hero.webp `6aee49138909f64088d37dde`, blog-2
+`6aee4913f3bc535a42f92d4d`, blog-3 `6aee4913f3d595c60828bd80`,
+client-logos-loop `6aee49137a58e781eac25c40`.
+
+Still static, to become CMS later: case study cards, blog cards and the
+FAQ list (FAQs collection, HANDOFF › CMS; Collection List writes fail in a
+slot, so that is a Designer step or a page outside the shell). Links that
+are `#` in the prototype stay `#`; `/contact-us`, `/faqs`,
+`/case-studies-5`, `/case-study-snc-lavalin` are URL links until those pages
+exist. The hero's three classes made an empty Section › Is Hero › is-dark
+chain (harmless).
+
+**Staging check (2026-11-06, after the person's publish):** published HTML
+has the 11 sections in order (`top` … `faqs`, `locations`, `contact-cta`),
+no placeholders, 33 Phosphor icons, 21 `<button>`s, Secondary variant class
+on the 6 buttons. Tabs, FAQ and reason accordions work; carousel and
+compare behave as in the prototype in the hidden browser pane (scroll and
+rAF don't run there). Computed-style diff of every class at 1440 / 820 /
+390 (`tools/page-build/styles-diff.mjs`) leaves three differences:
+1. **Chip** still has the starter's style (Label type 11px/600 tracked,
+   padding 4/12, no fill) instead of the prototype's (Chip type mode
+   13px/500, padding 8/16, Background/Tint fill, Chip/Border, inline-flex,
+   backdrop blur). Moves every section with a chip down by 14px.
+2. **Button Color › Secondary** still the starter's outline (transparent,
+   1px Border/Subtle, Text/Primary) instead of Brand/Navy fill, white text,
+   State/Navy Hover; and Button Icon is 20px where the prototype has
+   1.125em (18px).
+   **Both fixed 2026-11-06 with the person's OK** and read back: Chip now
+   Typography Styles mode Chip (`mode-19de66c1-…`), padding 0.6154em /
+   1.2308em, border Chip/Border, background Background/Tint, colour
+   Text/Primary, `backdrop-filter: blur(42px)`; Button Color › Secondary
+   variant: border removed, background Brand/Navy, colour Base/White, hover
+   State/Navy Hover; Button Icon font-size 1.25em → 1.125em. Every Chip and
+   Secondary button site-wide changes with it (style guide included).
+3. `<button>` text inherits the body's −0.32px tracking in Webflow, the
+   prototype's browser default is normal (0.3px, left as is).
+Fixed during the check: the 4 check and 6 reason icon images had no class
+and lazy-loaded at 0×0, so they never loaded; new classes Check Chip Icon
+(14px) and Icon Tile Img (26px), also in the prototype (Home, About,
+Toronto). Images still have no `srcset`/width/height (API uploads, see
+lessons/mcp.md › size 0).
+
+**Re-check after the second publish (2026-11-06): Home matches the
+prototype.** `compare.mjs` on all 9 content sections at 1440 / 820 / 667 /
+390: 0 differences everywhere. `styles-diff.mjs` at 1440 / 820 / 390: only
+rounding (Chip padding 8.0002px) and the case card image's `display` at
+390 (block vs inline-block, no geometry change); font fallback and the
+`<button>` tracking left out as noted. Icon images publish with their
+classes and load at 14 / 26px.
+
+**Still open for Home:** case studies, blog cards and FAQs as CMS lists;
+real links once the pages exist; image `srcset` (API uploads); the
+carousel and compare drag checked by eye in a visible browser.
+
+**Earlier plan:** the person publishes; then check Home on staging at 1440 / 991 /
+767 / 390 against the prototype (`pnpm wf:compare /`), the section order in
+the slot (the API can't list slot children), the tabs, carousel, compare,
+FAQ and reason accordions, the marquee and parallax.
+
 ## How to continue in a new session
 
 1. Read `AGENTS.md`, `GOTCHAS.md`, this file, `HANDOFF.md`.
