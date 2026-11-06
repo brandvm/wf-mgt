@@ -33,7 +33,8 @@ the hero to the case cards) done and verified the same way, then batch 6
 About, Toronto quote form, Contact; 4 computed Layout variables for the
 hero calc values) and batch 8 (59: case study and Case Studies listing).
 **All 360 planned classes are in Webflow and verified.** Manual steps A
-and B (the two select chevron images) are open. A separate session is
+and B (the select chevrons) are done: a Phosphor caret-down in Select W /
+Select Icon, no background image. A separate session is
 building the page shell, Nav and Footer components (notes in
 `webflow/components-build.md`). Batch 9 (repo port: 11 modules, GSAP +
 Lenis, the prototype's repo CSS) is done, committed (be8e640) and on staging.
@@ -43,7 +44,7 @@ leftover variables removed. Published to webflow.io by the person and checked:
 every class on the page, images load, `noindex` present. The sidebar
 highlight still needs a look. The loader was re-pasted (step D) and staging
 now runs this repo's bundle. Then Clean up unused styles; manual step C
-(form labels) is open. See
+(form labels) is partly done (Contact Form row left). See
 `webflow/webflow-build-state.md`.
 
 2026-11-05 (end of session) — The person confirmed the client approved the

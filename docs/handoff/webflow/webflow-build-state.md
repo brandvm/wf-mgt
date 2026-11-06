@@ -5,7 +5,7 @@
 > `wf-mgt.webflow.io`). Every collection, mode and variable id below was
 > still there, so batch 1 continued on it rather than being redone.
 
-Last updated 2026-11-06 (batches 1–9 finished and on staging; manual steps A and B open; element building running in a separate session). Read this before any Webflow write.
+Last updated 2026-11-06 (batches 1–9 finished and on staging; manual steps A and B done (Phosphor caret in Select W); element building running in a separate session). Read this before any Webflow write.
 Site: Michaels Global Trading, `6aecfdb66cfe7667efc6d078` (the only site the
 `webflow-michaels-global-trading` connection reaches — checked 2026-11-05).
 Staging: wf-mgt.webflow.io.
@@ -299,9 +299,14 @@ Segmented Tab Is Active, Detail Row Is Last. Selection:
   Form More Label → Form Label, Radio Label → Body XS.
 - Radio Input `accent-color` = literal `#002e75` (the API refuses a
   variable there).
-- **Manual step A** (MANUAL-TODO): the select chevron. Its image is a
-  prototype file and Webflow drops `background-position` without an image,
-  so both are set in the Designer.
+- **Manual step A** (MANUAL-TODO): the select chevron. First done as a
+  background image (asset `6aee39671b9feb858153bf50`), then replaced on
+  2026-11-06 by the Phosphor icon: new classes Select W (position relative),
+  Select Icon (absolute, top/bottom 0, right Spacing/12, Colors Text/Label,
+  pointer-events none) and Select Icon › Is Pill (right 0, Brand/Navy); the
+  icon is Icon (Is Size 14 on forms) › Icon Glyph `i` with `class="ph
+  ph-caret-down"`. Background properties removed from Is Select and Filter
+  Pill Select. All 8 selects on the style guide wrapped and read back.
 - Converter: local `url("/…")` images and variable `accent-color` are
   reported; `calc(Nav Height + x)` binds to its Calc variable; duplicate
   longhands are removed with the last value winning (Form More: `border: 0`
@@ -332,7 +337,8 @@ card stat) plus the last 13 combos. Selection: `tools/batch-8.json`.
   width with a variable colour).
 - `appearance: none` was accepted on Filter Pill Select (`repoCss` adds
   `-webkit-appearance`).
-- **Manual step B**: the filter pill chevron (same reason as A).
+- **Manual step B**: the filter pill chevron, same change with Is Pill
+  (both chevron assets were deleted afterwards).
 
 ## Building elements (in progress in a separate session)
 
