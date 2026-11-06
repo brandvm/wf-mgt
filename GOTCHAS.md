@@ -63,6 +63,51 @@ collected from client repos into those files.
 - Status: open (fixed here; upstream to wf-template)
 - Found by: claude
 
+### 2026-11-06 · Staging ran the template's bundle: the loader was never re-pasted
+- Area: loader
+- Scope: template-candidate
+- Symptom: on wf-mgt.webflow.io the page loaded `brandvm.github.io/wf-template/index.js` and `wf-template/styles.css`; none of this repo's modules ran, although batch 9 was on staging.
+- Cause: the site was duplicated from the starter with the template's head code and G | Components Embeds; `pnpm new-project` updates `loader.html` in the repo but nothing re-pastes it into Webflow.
+- Fix: re-paste the four pieces from `loader.html` (MANUAL-TODO D, done by the person). The head and footer code can be written through the MCP (`data_scripts_tool › set_site_freeform_code`, read back with `get_site_freeform_code`); the canvas Embeds likely through `data_element_settings_tool › set_settings` key `code` (untested). Claude first called this a manual step without checking the tools. Only the publish needs the person (Brand Vision hook). Upstream: new-project should print a "re-paste the loader" step, and `pnpm wf:install` (or the staging check) should fail when the published `SITE` differs from the repo.
+- Status: fixed (re-pasted and verified on staging 2026-11-06)
+- Found by: claude
+
+### 2026-11-06 · Nested sg:start markers cut a style guide specimen short
+- Area: designer
+- Scope: template-candidate
+- Symptom: the generated style guide's Why Split specimen had 27 opening and 25 closing divs, and the Reason List row was missing; importing it would have nested every later Components row inside it.
+- Cause: on the Home page a `sg:start` block (Reason List) sat inside another (Why Split). `gen-style-guide.mjs` pairs each start with the next `sg:end`, so Why Split ended at Reason List's end marker. `check:style-guide` still passed.
+- Fix: removed the inner markers (the outer specimen still applies the Reason List classes) and regenerated. Upstream: the generator should support nesting or fail on it, and the check should count tags per specimen.
+- Status: fixed here; upstream to wf-template
+- Found by: claude
+
+### 2026-11-06 · A bare `<li>` rejects the whole WHTML call
+- Area: mcp
+- Scope: template-candidate
+- Symptom: a five-row import failed with "List Item can only be placed in a List" and inserted nothing.
+- Cause: the Step Card specimen was a lone `<li>`; the importer validates list items against a List parent and fails the whole call, not just that action.
+- Fix: wrap specimens in their list (`<ol class="step-grid">`). After any refused call, read the parent back before resending: here it showed an earlier batch had also never been sent.
+- Status: fixed
+- Found by: claude
+
+### 2026-11-06 · Attributes can't be written inside the page shell's slot; the importer empties form buttons
+- Area: mcp
+- Scope: template-candidate
+- Symptom: on the style guide (content in G | Page W's slot), `set_attributes` failed on every form label and input ("Tool set_attributes failed" / "MPS rejected update … [Conflict] … component map"), also alone and on retry; `move_element`, `remove_element`, `set_link` and `set_style` worked. Imported `<form>`s lost every label `for`, radio `value` and select `<option>`, all inputs got one id (`field`), selects were renamed "Field", and `<button type="submit">` became an empty Form Button (its children dropped). `data_element_builder` refused the `attributes` and `textContent` settings on DOM elements, and refused `set_style` with two classes when the combo doesn't exist yet.
+- Cause: attribute writes go through the component map of the instance that owns the slot; the importer maps form controls to Webflow form elements with their own settings.
+- Fix: for the submit, move in a DOM `button` holding a Button Color instance. For plain controls, `data_element_builder` with `set_attributes` (the schema field, not `settings`), then the importer for `<span>`/`<option>` text appended into them. Label `for`, field ids, radio values and select options are a Designer step (MANUAL-TODO C). The real Contact and Toronto forms sit in the same slot, so expect the same.
+- Status: open (manual step C)
+- Found by: claude
+
+### 2026-11-06 · The style guide came out of a stale snapshot
+- Area: mcp
+- Scope: template-candidate
+- Symptom: the regenerated style guide's Overview said Colors Semantic had 22 variables and 2 modes and Colors 29; Webflow had 30 / 4 modes and 34 after batches 1–7. The Colors and Themes sections were missing the nav colours, Nav / Nav Open modes and Layout calc variables.
+- Cause: `pnpm style-guide` reads `prototype/webflow-snapshot/variables.json`, which was taken before the variable batches and never refreshed.
+- Fix: before generating the style guide for Webflow, rebuild the snapshot from Webflow (`get_variables` with all modes per collection, converted to the snapshot format; leftovers slated for deletion left out), then `pnpm style-guide` and `pnpm check:style-guide`. New colours need their Sg Swatch Color combos created first.
+- Status: fixed (snapshot refreshed 2026-11-06)
+- Found by: claude
+
 ### 2026-11-06 · The class plan silently leaves out properties listed in checkFirst
 - Area: mcp
 - Scope: template-candidate

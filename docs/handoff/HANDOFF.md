@@ -37,8 +37,14 @@ and B (the two select chevron images) are open. A separate session is
 building the page shell, Nav and Footer components (notes in
 `webflow/components-build.md`). Batch 9 (repo port: 11 modules, GSAP +
 Lenis, the prototype's repo CSS) is done, committed (be8e640) and on staging.
-Next: batch 10
-(style guide page); see `webflow/webflow-build-state.md`.
+Batch 10 (style guide page) is built: all 10 sections rebuilt from the
+prototype and read back, 45 images uploaded and bound, the starter
+leftover variables removed. Published to webflow.io by the person and checked:
+every class on the page, images load, `noindex` present. The sidebar
+highlight still needs a look. The loader was re-pasted (step D) and staging
+now runs this repo's bundle. Then Clean up unused styles; manual step C
+(form labels) is open. See
+`webflow/webflow-build-state.md`.
 
 2026-11-05 (end of session) — The person confirmed the client approved the
 prototype and asked to build the style guide in Webflow. Build order agreed:

@@ -260,11 +260,7 @@
       "72": "variable-04a22d04-edc8-fee2-8211-8fd5ea461565",
       "80": "variable-9ea1e2e3-3d64-46e9-7277-000b6b63a3cb",
       "100": "variable-197d6f40-d07f-3bd8-9430-a4e7cccb3e8e",
-      "110": "variable-3900d0de-cab9-b4da-d58b-88d5e7261250",
-      "_leftover Hairline": "variable-23054164-d161-4b8d-de92-4516309107a3",
-      "_leftover 2": "variable-a9fc9bfa-2bfc-bdc5-fede-a5ad8a9e60ec",
-      "_leftover 96": "variable-ca46bdae-b1dc-c37a-5c26-d61b5ce1ae22",
-      "_leftover 128": "variable-1e888474-9bac-d62b-6777-2f57b11158ef"
+      "110": "variable-3900d0de-cab9-b4da-d58b-88d5e7261250"
     },
     "Radius": {
       "None": "variable-a8c1fe69-9839-5cb8-a6c4-5cb38c78d5e8",
@@ -273,8 +269,7 @@
       "Medium": "variable-b4144a3e-d4d9-4580-c74e-eebdcd57236b",
       "Card": "variable-8e4b293b-dafd-3359-6444-6412fdc2c0d1",
       "Panel": "variable-2d3c72a2-ca0b-67af-425a-27fdc263e0eb",
-      "Pill": "variable-cab9bd5f-5f2c-2d5e-95f0-662b6468413b",
-      "_leftover 2": "variable-46794811-a9a6-123c-79d1-b1c9104a34e5"
+      "Pill": "variable-cab9bd5f-5f2c-2d5e-95f0-662b6468413b"
     },
     "Typography Role (8 new roles)": {
       "Family/Stat": "variable-42263525-7c73-9087-426a-0e4f9a431f88",

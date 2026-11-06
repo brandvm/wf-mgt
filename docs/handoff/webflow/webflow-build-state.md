@@ -386,14 +386,151 @@ read Webflow variable names (variables, not literal colours).
   committed with `src/`; a push deploys staging bundles). No
   `loader.html` change, so nothing to re-paste.
 
-## Next: batch 10, the style guide page (needs the person's go-ahead)
+## Batch 10 — the style guide page (in progress, started 2026-11-06)
 
-Rebuild `/design/style-guide` (page `6aecfdb66cfe7667efc6d075`) from
-`prototype/design/style-guide/index.html` with the webflow-style-guide
-skill, replacing the starter's Sg swatch/bar/radius combos; then remove
-the starter leftovers (Spacing Hairline/2/96/128, Radius 2) once nothing
-uses them. Coordinate with the components session: it may place the
-Nav/Footer on that page.
+The person said "Start batch 10". Rebuild `/design/style-guide` (page
+`6aecfdb66cfe7667efc6d075`) from `prototype/design/style-guide/index.html`
+with the webflow-style-guide skill; then remove the starter leftovers
+(Spacing Hairline/2/96/128, Radius 2) once nothing uses them. The
+components session was asked to leave this page alone (Nav/Footer on Home
+only).
+
+**Step 1 — classes, done and read back (37 styles, 0 differences):**
+- Six type classes on the Body S pattern (the five Typography Styles
+  variables + the role's mode): Stat, Body XS, Button Text (Button mode),
+  Link Text, Tab Text (+ `text-transform: uppercase`), Caption.
+- 31 Sg variable combos the starter didn't have: Sg Swatch Color + Is
+  Brand Navy / Navy 900 / Navy 800 / Yellow / Orange, Text Ink / Label /
+  Muted, Base White, Bg Surface / Tint / Field, Border Default, State Yellow
+  Hover / Navy Hover / Focus, White Tint White 8/12/16, Navy Tint Navy
+  12/16; Sg Bar + Is 20/72/80/100/110; Sg Radius + Is Field / Small /
+  Medium / Card / Panel (four corner longhands each).
+- Not created: `.faq-icon-bar` (a class on an SVG `<path>` inside an
+  Embed, styled by repo CSS, no Webflow class needed) and `.is-nav-open`
+  (set on `<html>` by the nav module).
+
+- For the components session, five empty two-class combos (read back):
+  Caption / Body S / Label Text + Text Secondary, Body L + Footer Cta
+  Text, Label Text + Footer Label. Empty on purpose: the element publishes
+  both class names, so the globals' colour, width and opacity still apply.
+  Check the footer CTA width and label opacity on staging.
+
+**Snapshot refreshed (2026-11-06):** `prototype/webflow-snapshot/variables.json`
+was rebuilt from Webflow (all collections, all modes; the starter leftovers
+left out), so the generated page now has 34 colours, the Nav / Nav Open
+modes and the Layout calc variables. The old snapshot and page are backed
+up in the session scratchpad. `pnpm style-guide` and `pnpm
+check:style-guide` pass. Five more swatch combos were created for it (Sg
+Swatch Color + Is Black Tint Black 8/12/16, Is White Tint White 24/64),
+read back.
+
+**Step 2 done (2026-11-06):** all 10 sections rebuilt, each imported
+before the starter's, read back with a script (every element's class list
+and text identical to the source), the starter's removed and its sidebar
+link re-pointed:
+
+| # | Section | New element id |
+| --- | --- | --- |
+| 1 | Overview | `42d25cc6-264a-865a-9817-be7d9db73b6f` |
+| 2 | Colors | `a2aa325a-fdd3-da36-bc04-7f6fa0e706d6` |
+| 3 | Themes | `36de8495-edef-7fa7-50e8-de8b0d241349` |
+| 4 | Typography | `8951555b-f8b6-6bff-c70f-574e61a2408f` |
+| 5 | Utilities | `5c746aed-da7a-5c6f-7ab3-fd6697137bee` |
+| 6 | Spacing | `1fda9854-b9cd-4906-0e42-5095f11851de` |
+| 7 | Buttons | `7f02229e-673e-2405-b3ec-349566e91783` |
+| 8 | Forms | `7d386042-83ce-d157-88b4-b959400a0589` |
+| 9 | Components | `cd6c4803-c6ee-f927-0e7d-6c0b5663c0f2` |
+| 10 | Other classes | `58f7f8ac-21f5-9fbf-fad2-ea34bf1332d5` |
+
+- Buttons: the Primary and Secondary rows hold the starter's **Button
+  Color** instances (moved in; base and Secondary variant), not static
+  copies. The Small row is still a static copy that looks like the default
+  size (no Small instance existed). The accordion `<button>` came in as a
+  Link with `type="button"`; `inert` was dropped on every Sg Demo.
+- Other classes: 77 tiles. Left out on purpose: `.is-nav-open`,
+  `.g-nav-w.is-instant`, `.compare.is-touched` (JS/repo-CSS states, would
+  have been created as empty Webflow classes). Only in the starter's
+  version: S Bg, S Bg Media, S Bg Overlay (they come back with the
+  Components hero specimens) and Sg Preview / Sg Preview Screen (page
+  previews, unused here).
+- A 19 KB single action worked. Scoped queries inside the shell slot
+  return nothing; read back by `element_id` with `children_depth: -1`.
+- Forms (the person chose form blocks, filter bar as plain elements):
+  Form, Select and Textarea rows and the Contact Form are Webflow form
+  blocks (`.form` on the wrapper, `.form-stack` combo on the contact one).
+  The importer gave every input the same id (`field`, `field-2`, `radio`;
+  the repo's unique-form-ids module renames duplicates at runtime),
+  dropped every label `for`, the radio `value`s and the select options,
+  renamed the selects to "Field", and turned the submit `<button>` into an
+  empty Form Button: it was replaced by the starter's DOM `button.button`
+  holding a Button Color instance (label "Submit", not "Request my office
+  assessment"). `set_attributes` inside the shell slot fails (MANUAL-TODO
+  C). The Filter Bar is plain DOM (`form.filter-bar` › `.filter-group` ›
+  `label.filter-pill` › span + select › option), built with
+  `data_element_builder` plus the importer for the spans and options; it
+  has no `.form` class (that only sets `margin-bottom: 0`). The importer
+  also created a combo `.form._w-form` ("w-form", `margin-bottom: 0`);
+  left for Clean up unused styles.
+- Components: 41 rows, each read back against the source (row by row:
+  identical classes and text; `&` comes back as its own text node). The
+  starter's 19 instances were moved in: Section Head, 14 Icon / Icon Size,
+  2 C | Button, C | Icon Button, C | Video. 45 images uploaded as assets
+  (`data_assets_tool › create_asset` + curl to S3, 201 each, every file
+  served at its exact size; `cta-team.webp` reused from the nav/footer
+  session) and all 61 Image elements bound with `set_image_asset` (works
+  inside the slot) and read back. Quote Card's submit was rebuilt as a DOM
+  `button.button.is-full` (the importer empties form `<button>`s); its
+  "Add company details" button came in as a Link. Values Panel, Featured
+  Case and Trusted Bar hold static Secondary-styled buttons that render as
+  Primary (their `w-variant` token was stripped). Step Card is wrapped in
+  `ol.step-grid` (a bare `<li>` rejects the whole import call).
+- The prototype's Why Split specimen was cut two divs short and the Reason
+  List row was missing: nested `sg:start` markers on the Home page (Reason
+  List inside Why Split). The inner markers were removed from
+  `prototype/index.html` (comments only; backup in the session scratchpad),
+  the page regenerated, `check:style-guide` passes.
+- Starter leftovers removed: Sg Bar Is Hairline / Is 2 / Is 96 / Is 128 and
+  Sg Radius Is 2 (the only users, verified on a full style read-back at all
+  breakpoints), then the variables Spacing Hairline, 2, 96, 128 and Radius
+  2 (no aliases). Spacing now has 14, Radius 7.
+- **Staging check (published by the person 2026-11-06 15:16 UTC):**
+  - Every class in the published site CSS is on the page, and every combo
+    sits on one element, except: Webflow's own `gm-style-iw` and
+    `wf-layout-layout`; `sg-preview` / `sg-preview-screen` (page previews,
+    unused here); five importer combos `._w-form`, `._w-button`,
+    `._w-input` (×2), `._w-select` (selectors that can't match); and 12
+    starter Sg combos (Brand Accent/Ink/Paper, Ink Tint 4/12/24, Paper Tint
+    12/24/48/64 swatches, Sg Radius Is 4/8). All of these are meant to go
+    in Clean up unused styles.
+  - All 67 images load; the only `data-manual-todo` marker is C.
+  - `<meta name="robots" content="noindex, nofollow">` is already in the
+    page head (from the starter).
+  - **Not verified:** the sidebar highlight (`w--current`). The browser
+    pane was hidden, where requestAnimationFrame never fires, so
+    webflow.js's section tracking can't run there; the markup is right
+    (each link points at its section, ids published). Check by eye.
+  - **Found:** the installed loader is the template's. The published page
+    has `SITE = "wf-template"` in the head code and the 2a Embed links
+    `brandvm.github.io/wf-template/styles.css`, so staging runs the
+    template's bundle, not this repo's (none of the batch 9 modules).
+    MANUAL-TODO D.
+- **Loader re-pasted (MANUAL-TODO D, 15:33 UTC):** head and footer code
+  read back through `get_site_freeform_code` and match `loader.html`; the
+  page loads `brandvm.github.io/wf-mgt/index.js` and `styles.css`, Lenis
+  starts (`html.lenis`), no console errors, repo CSS applies (the open
+  accordion icon is navy). The modules on real pages are still to check
+  once pages exist.
+- **Next:** the person checks the sidebar highlight by eye; then Clean up
+  unused styles (it should remove only the 23 styles listed above).
+- Tools in the session scratchpad: `sg/prep.py` (split, strip tokens),
+  `sg/cmp.py` (read-back vs source), `sg/split.py`.
+
+**Step 2 — markup, waiting on the Designer** (the Designer MCP app must be
+open in the Designer tab). Section by section from the generated page,
+with `w-variant-*` and `ph`/`ph-*` tokens stripped, `before` the starter's
+sections in the shell's slot; then remove the starter sections, re-point
+the sidebar links (set_link, page section), and use component instances
+for component rows.
 
 ## How to continue in a new session
 
