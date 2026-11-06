@@ -5,7 +5,7 @@
 > `wf-mgt.webflow.io`). Every collection, mode and variable id below was
 > still there, so batch 1 continued on it rather than being redone.
 
-Last updated 2026-11-06 (batches 1–9 finished; batch 9 not committed; manual steps A and B open; element building running in a separate session). Read this before any Webflow write.
+Last updated 2026-11-06 (batches 1–9 finished and on staging; manual steps A and B open; element building running in a separate session). Read this before any Webflow write.
 Site: Michaels Global Trading, `6aecfdb66cfe7667efc6d078` (the only site the
 `webflow-michaels-global-trading` connection reaches — checked 2026-11-05).
 Staging: wf-mgt.webflow.io.
@@ -23,7 +23,7 @@ build runs in this order:
 | 2 | Tag styles: P1 (H1–H6 and D0–D6 colour → Colors Semantic › Text/Accent) | **done 2026-11-06** |
 | 3 | Existing classes: P2 (G \| Nav, G \| Nav W — the 2026 nav), P3 (Section Is Hero padding), P4 (G \| Footer W) | **done 2026-11-06** |
 | 4–8 | 361 new classes from `prototype/src/css/new-classes.css`, ~70 per batch. Plan: `pnpm wf:styles` → `.webflow-build/styles/styles-plan.json`. Skip `.w-inline-block` (Webflow's own) | **batch 4 done 2026-11-06** (82 styles: shared + nav); **batch 5 done 2026-11-06** (80 styles: Home, hero → case cards); **batch 6 done 2026-11-06** (71 styles: reasons → footer); **batch 7 done 2026-11-06** (68 styles: About, Toronto quote, Contact); **batch 8 done 2026-11-06** (59 styles: case study + listing). **All done: 360/361** |
-| 9 | Repo port: modules + 35 repo-css rules from the prototype; `pnpm add gsap lenis`; commit/push needs the person's OK | **done 2026-11-06**, not committed |
+| 9 | Repo port: modules + 35 repo-css rules from the prototype; `pnpm add gsap lenis`; commit/push needs the person's OK | **done 2026-11-06** (be8e640, staging deployed) |
 | 10 | Style guide page `/design/style-guide` (page id `6aecfdb66cfe7667efc6d075`): rebuild from `prototype/design/style-guide/index.html`; replace the starter's Sg swatch/bar/radius combos with this site's | not started |
 
 Batch 1 was approved with its real scope ("bring every collection up to the
@@ -342,7 +342,7 @@ the prototype markup while batch 8 ran. That session places elements only
 and creates no classes. Its notes are in
 `webflow/components-build.md`. Review that file before page building.
 
-## Batch 9 — repo port, done 2026-11-06 (not committed yet)
+## Batch 9 — repo port, done 2026-11-06 (commit be8e640, on staging)
 
 The person said "Start batch 9", and approved the repo-css rules that
 read Webflow variable names (variables, not literal colours).
@@ -382,7 +382,7 @@ read Webflow variable names (variables, not literal colours).
 - Open: `--nav-h` in §01 (anchor scroll offset) is still the template
   default. It should follow Nav/Height (5.3125/4.5/4/4em); set it when the
   nav is on a page.
-- **Commit and push need the person's OK** (AGENTS.md: `dist/` is
+- **Committed and pushed** on 2026-11-06 with the person's OK (be8e640). CI passed and staging serves bundle hash `a018dcb0a14b`. (AGENTS.md: `dist/` is
   committed with `src/`; a push deploys staging bundles). No
   `loader.html` change, so nothing to re-paste.
 

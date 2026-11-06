@@ -36,8 +36,8 @@ hero calc values) and batch 8 (59: case study and Case Studies listing).
 and B (the two select chevron images) are open. A separate session is
 building the page shell, Nav and Footer components (notes in
 `webflow/components-build.md`). Batch 9 (repo port: 11 modules, GSAP +
-Lenis, the prototype's repo CSS) is done and passes check/build/test, but
-is not committed. Next: commit + push (the person's OK), then batch 10
+Lenis, the prototype's repo CSS) is done, committed (be8e640) and on staging.
+Next: batch 10
 (style guide page); see `webflow/webflow-build-state.md`.
 
 2026-11-05 (end of session) — The person confirmed the client approved the
