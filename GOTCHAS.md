@@ -228,6 +228,7 @@ collected from client repos into those files.
 - Cause: `.services-panel { display: flex }` outranks the browser's `[hidden] { display: none }`. Home had one panel, so nobody saw it. `faq.ts` relies on `hidden` too and works only because Faq Panel sets no display.
 - Fix (person's rule: first-paint state in Designer styles): Services Panel `display: none`, new combo Services Panel › Is Active `display: flex` on the open panel in the markup (template, Home, style guide), and `tabs.ts` toggles `is-active` on panels as well as `hidden`. FAQ panels on the template now carry `hidden` in the markup so they don't flash open before the script. Any class that sets `display` on an element a module hides with `hidden` needs the same treatment.
 - Status: fixed in Webflow; `src/modules/tabs.ts` + `dist/` rebuilt, not committed yet
+- Update 2026-11-09: pushed in 62726ed and published. Side effect on Home: its Services tabs have 4 tabs but only 1 panel (prototype too), so clicking tabs 2–4 now hides the only panel and the section goes blank; before, the class kept that panel showing whatever tab was clicked. Home needs one panel per tab (CMS lists as on the Service Areas template).
 - Found by: human
 
 ### 2026-11-09 · Collection List writes: a Reference filter is refused; text Spans can't bind, DOM spans can
@@ -236,5 +237,15 @@ collected from client repos into those files.
 - Symptom: `filters` `[{fieldSlug:"category",operator:"equals",value:"<item id>"}]` failed with "[Conflict] … component map" on four fresh body-level lists (an object value is rejected as "requires a string or binding value", so the string is the right shape); `source` and `sort` on the same lists took. A text Span from the importer (`0<span>1</span>`) refused a `text` binding ("not applicable"); a DOM `span` built with `data_element_builder` took a Number binding. `set_attributes` (`hidden`, `data-faq`) worked on imported blocks inside the page shell's slot, unlike the form labels in GOTCHAS 2026-11-06.
 - Cause: unknown, Webflow-side; the referenced items were drafts, which may matter.
 - Fix: Reference filters are a Designer step (MANUAL-TODO G). For a "01"-style number, a static "0" plus a DOM span bound to an integer Order (works while Order < 10). Hide a list's default Empty State with `set_visibility false`, never remove it (lessons: removing it deletes the list).
+- Update 2026-11-09: the Designer refused the filter on those lists too; they were rebuilt in the Designer (next entry), so the filter is not an API-only limit.
+- Status: worked around
+- Found by: claude
+
+### 2026-11-09 · Collection Lists built through the API refuse filters, in the Designer too
+- Area: mcp
+- Scope: template-candidate
+- Symptom: every Collection List made with `data_element_builder` (at body level, then moved into G \| Page W's slot) refused a filter: the API's "[Conflict] … component map" (GOTCHAS 2026-11-09 above), and the same "[Conflict] The operation could not be applied to the component map" toast when clicking Add filter in the Designer, after a reload as well. Source, sort and the row link (Collection page › Current Service) still took. A Collection List added in the Designer at the same place took filters at once. The importer had also left a custom attribute `href = #` on every imported link, which would override a Collection page link.
+- Cause: unknown, Webflow-side; the API-built list carries something the Designer's filter write can't apply.
+- Fix: in the Designer, add a Collection List (select the parent and add it, or it nests in the selected list and fails), set source, filter and sort there; then through the API move the item content into the new Collection Item, `set_style` the list class, hide the empty state, remove the old list. Moves keep bindings and link settings. Remove the `href` custom attribute on imported links. Done for the Service Areas template (4 Services + FAQs) and Home (4 Services). The Designer hides draft items, so these lists show "No items" there until items are published.
 - Status: worked around
 - Found by: claude

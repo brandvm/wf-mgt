@@ -163,6 +163,51 @@ original in the session scratchpad.
   are **MANUAL-TODO E and G** (marker above the FAQs). Office tab count 5 → 4
   (4 services per category).
 
+## Update 2026-11-09 (later still): Home's Our Services as four CMS panels
+
+Asked by the person ("Yes, build them"), the same build as the template's.
+
+- Prototype `index.html` (backup in this session's scratchpad): 4 panels, office
+  Is Active, warehouse/IT/ESG `hidden` without Is Active; heading and intro from
+  Service Categories; the template's 4 category photos; rows marked
+  `data-collection="Services"` / `data-field` (Name, Card Summary, Order); tab
+  counts 4/4/4/4. Checked at 1440 and 390, scripts off and on: page height equal
+  (10646 / 16022) and each tab shows only its panel.
+- Webflow Home (`6aecfdb66cfe7667efc6d073`), Services Card `00839ffc-…4dd`:
+  panels Office `…4dc` (Services Panel + Is Active), Warehouse
+  `75096df6-…8a2b`, IT `f1a6d2bd-…544e`, ESG `4d9c4f1b-…98f9` (Services Panel,
+  `hidden`). Each has a static heading, intro and image, then a Services
+  Collection List sorted by Order (wrappers `85045bad-…a9fd`, `404428da-…bc7a`,
+  `641c5a63-…c891`, `bb706e51-…3fb5`; lists styled Service List; empty states
+  hidden). Rows: "0" + DOM span bound to Order, Link Text → Name, Body XS →
+  Card Summary. Built at body level, then moved into the slot. The old static
+  list (row 5) and the placeholders are removed.
+- Category filter and row link: MANUAL-TODO G (Home added), marker Caption
+  `data-manual-todo="G"` above the Office list (`66f4de0b-…2a20`). Until done,
+  every tab lists all services. Read back 2026-11-09; not published.
+
+## Update 2026-11-09 (latest): manual steps E and G done in the Designer
+
+The person asked Claude to do the manual steps in their Chrome. The API-built
+Collection Lists refused filters in the Designer too (GOTCHAS 2026-11-09), so
+each was rebuilt as a Designer-made list and its item content moved in through
+the API.
+
+- Template: FAQs list `5ccbb57b-…0556` (Faq Grid, `data-faq="single"`,
+  Location = Current Service Area, sort Order). Services lists Office
+  `a400b834-…0832`, Warehouse `67c95ccd-…d970`, IT `79094260-…ff7e`, ESG
+  `10b04f6b-…8c77` (Service List, Category = its category, sort Order).
+- Home: Office `6f9e2142-…deaa`, Warehouse `bc867eea-…37a3`, IT
+  `e90a8714-…f93c`, ESG `e89516da-…d6ca`, same settings.
+- Every Service Row links to Current Service; the importer's custom attribute
+  `href = #` is removed. Empty states hidden. Old lists and both markers removed.
+- Checked: API read-back (4 Service Lists per page, no `href` attribute, no
+  `data-manual-todo` left) and, after a Designer reload, a filter and a moved
+  row's link kept. Not published; the items are drafts, so the lists show
+  nothing until they are published.
+- Prototype rows now link to `/services/<slug>`; Toronto's "Used Office
+  Furniture Buyers" row has no Services item and still links to `#`.
+
 ## What is left
 
 1. **MANUAL-TODO E and G** in the Designer (filters, row links), then
