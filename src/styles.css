@@ -632,7 +632,7 @@ html.lenis body {
    copies this sheet into HubSpot's iframe and adds the site's form classes).
    Only HubSpot's own wrappers are undone here, so a field reads label, hint,
    input like the Designer's form; every look comes from the Webflow classes.
-   A radio question: Radio Group on the field, its options straight inside. */
+   A radio question: Choice Group on the field, its tiles straight inside. */
 .hs-form .hs-form-field > .input,
 .hs-form .inputs-list.multi-container,
 .hs-form .inputs-list.multi-container > li {
@@ -653,11 +653,52 @@ html.lenis body {
   margin-left: 0.25em;
 }
 
-/* A radio question's label: in the Designer's form it is a fieldset legend,
-   which sits outside the fieldset's flex gap; here it is a flex item, so the
-   gap already gives the space Radio Legend's margin adds there. */
-.hs-form .hs-fieldtype-radio > .radio-legend {
-  margin-bottom: 0;
+/* HubSpot's own blocks (submit, error summary, a radio question's error)
+   span both Form Columns. */
+.hs-form.form-columns > :not(.form-field):not(.choice-group),
+.hs-form .choice-group > .hs-error-msgs {
+  grid-column: 1 / -1;
+}
+
+/* reCAPTCHA's badge: hidden, as Google allows when the page shows its
+   notice (the Designer's [data-hubspot-note] under the submit). It stays
+   in the page so the invisible check still runs. */
+.hs-form .hs_recaptcha {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* repo-css: designer-cant — appearance and :checked, a Choice tile's own
+   radio: a ring in the text colour, a dot when checked (white on the navy
+   Is Checked tile). */
+.choice .radio-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.125em;
+  height: 1.125em;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  color: inherit;
+  opacity: 0.55;
+}
+
+.choice .radio-input:checked {
+  background-image: radial-gradient(circle, currentColor 0 0.25em, transparent 0.3em);
+  opacity: 1;
+}
+
+/* repo-css: designer-cant — ::file-selector-button, the upload's button
+   inside File Drop: a small outline pill in the text colour. */
+.file-drop::file-selector-button {
+  margin-right: 1em;
+  padding: 0.5em 1em;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 }
 
 /* ============================================================

@@ -8,7 +8,11 @@
 //   3. else by position: the n-th trigger and the n-th panel inside the
 //      closest [data-faq] (questions and answers from two lists).
 // The module writes the ids, aria-controls and aria-expanded itself, and
-// hides closed panels (the `hidden` attribute). A trigger that should start
+// hides closed panels (the `hidden` attribute). First paint comes from the
+// Designer: panel classes are `display: none` and the module adds their
+// Is Open combo (`is-open`) to open ones, so nothing opens and then snaps
+// shut before this script runs. A panel that starts open carries Is Open in
+// the Designer as well as aria-expanded="true" on its trigger. A trigger that should start
 // open has aria-expanded="true". Several can be open at once; with
 // data-faq="single" on the root, opening one closes the others.
 // The panel eases open and closed (height, padding, opacity) unless
@@ -37,10 +41,12 @@ export function initFaq(): void {
 
   const animate = (panel: HTMLElement, open: boolean) => {
     if (still() || !panel.animate) {
+      panel.classList.toggle('is-open', open);
       panel.hidden = !open;
       return;
     }
     panel.getAnimations().forEach((a) => a.cancel());
+    panel.classList.add('is-open');
     panel.hidden = false;
     const { paddingTop, paddingBottom } = getComputedStyle(panel);
     const opened = { height: `${panel.offsetHeight}px`, paddingTop, paddingBottom, opacity: 1 };
@@ -49,6 +55,7 @@ export function initFaq(): void {
     const run = panel.animate(open ? [closed, opened] : [opened, closed], { duration: MS, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' });
     run.onfinish = () => {
       panel.style.overflow = '';
+      panel.classList.toggle('is-open', open);
       panel.hidden = !open;
     };
     run.oncancel = () => {
@@ -68,6 +75,7 @@ export function initFaq(): void {
     panel.setAttribute('aria-labelledby', trigger.id);
     const open = trigger.getAttribute('aria-expanded') === 'true';
     trigger.setAttribute('aria-expanded', String(open));
+    panel.classList.toggle('is-open', open);
     panel.hidden = !open;
 
     const toggle = () => {

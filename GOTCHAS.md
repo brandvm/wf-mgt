@@ -202,6 +202,16 @@ collected from client repos into those files.
 - Status: fixed (published through the API 2026-11-07)
 - Found by: claude
 
+
+### 2026-11-09 · CMS field groups can be written through the API
+- Area: mcp
+- Scope: template-candidate
+- Symptom: the person asked for every collection's fields to be grouped in the CMS editor ("in webflow we can group cms fields now"). The build notes and lessons had no step for it.
+- Cause: field groups are new in Webflow; the skill predates them.
+- Fix: `data_cms_tool › update_collection_field_groups` with the full ordered list of `{displayName, description?, fieldIds}` (ids from `get_collection_field_groups › groupableCollectionFields`; Name and Slug can't be grouped). The write's own response doesn't show the groups: read back with `get_collection_field_groups › collectionFieldGroups`. Group by page section (Core, Hero, …, SEO). Done on Service Areas (8 groups); every new collection should get its groups in the same batch as its fields.
+- Status: worked (Service Areas, 2026-11-09)
+- Found by: human + claude
+
 ### 2026-11-09 · HubSpot's v2 embed always renders in an iframe; style it from inside
 - Area: js
 - Scope: template-candidate
@@ -209,4 +219,22 @@ collected from client repos into those files.
 - Cause: v2 renders forms in an iframe unless the form is set to raw HTML in HubSpot (a paid setting that would also unstyle the live site's form). The iframe has no `src`, so it is same-origin. Webflow's base (`html { height: 100% }`, `body { min-height: 100% }`) tied the content to the frame height; a ResizeObserver (the page's or the frame's own) never fired for the frame's elements; HubSpot rewrites the iframe height after re-renders; wheel events in a frame never reach the page's Lenis. The submissions API was no alternative: captcha and file upload.
 - Fix: `src/modules/hubspot-form.ts`: in `onFormReady`, remove HubSpot's `<style>`s, copy the page's stylesheets in, set the frame's body font size from the page's (the fluid scaling reads 100vw), add the site's Webflow classes to HubSpot's elements (re-added by a MutationObserver from the frame's realm), html `height: auto` + body `min-height: 0`, fit the iframe on DOM mutations / stylesheet loads / resize with `height … !important`, forward wheel to Lenis, move the Designer's `[data-hubspot-submit]` button in and click HubSpot's hidden submit. `instanceof HTMLElement` is false for the frame's nodes (other realm). The hidden Browser pane throttles rAF, so check this in headless Playwright, not there.
 - Status: worked (prototype; staging after the next publish)
+- Found by: claude
+
+### 2026-11-09 · A class with `display` beats the `hidden` attribute: all four tab panels showed at once
+- Area: designer
+- Scope: template-candidate
+- Symptom: on the Service Areas template (4 tab panels, the first prototype page with more than one) every panel showed side by side; the tabs module had set `hidden` on panels 2–4 and they still computed `display: flex`.
+- Cause: `.services-panel { display: flex }` outranks the browser's `[hidden] { display: none }`. Home had one panel, so nobody saw it. `faq.ts` relies on `hidden` too and works only because Faq Panel sets no display.
+- Fix (person's rule: first-paint state in Designer styles): Services Panel `display: none`, new combo Services Panel › Is Active `display: flex` on the open panel in the markup (template, Home, style guide), and `tabs.ts` toggles `is-active` on panels as well as `hidden`. FAQ panels on the template now carry `hidden` in the markup so they don't flash open before the script. Any class that sets `display` on an element a module hides with `hidden` needs the same treatment.
+- Status: fixed in Webflow; `src/modules/tabs.ts` + `dist/` rebuilt, not committed yet
+- Found by: human
+
+### 2026-11-09 · Collection List writes: a Reference filter is refused; text Spans can't bind, DOM spans can
+- Area: mcp
+- Scope: template-candidate
+- Symptom: `filters` `[{fieldSlug:"category",operator:"equals",value:"<item id>"}]` failed with "[Conflict] … component map" on four fresh body-level lists (an object value is rejected as "requires a string or binding value", so the string is the right shape); `source` and `sort` on the same lists took. A text Span from the importer (`0<span>1</span>`) refused a `text` binding ("not applicable"); a DOM `span` built with `data_element_builder` took a Number binding. `set_attributes` (`hidden`, `data-faq`) worked on imported blocks inside the page shell's slot, unlike the form labels in GOTCHAS 2026-11-06.
+- Cause: unknown, Webflow-side; the referenced items were drafts, which may matter.
+- Fix: Reference filters are a Designer step (MANUAL-TODO G). For a "01"-style number, a static "0" plus a DOM span bound to an integer Order (works while Order < 10). Hide a list's default Empty State with `set_visibility false`, never remove it (lessons: removing it deletes the list).
+- Status: worked around
 - Found by: claude

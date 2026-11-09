@@ -119,6 +119,11 @@ Breakpoints: 991 (tablet), 767 (mobile landscape), 479 (mobile). Checked at
 
 ## CMS
 
+Full plan, open decisions and build order: `webflow/cms-plan.md`
+(2026-11-09, waiting for the person's review). Collections: Service
+Categories, Services, Service Areas, FAQs, Case Studies, Blog Categories,
+Blog Posts. None exist in Webflow yet.
+
 | Collection | Fields | Used on |
 | --- | --- | --- |
 | <Name> | <field (type)…> | <pages, lists, limits and sort> |

@@ -14,7 +14,9 @@
 // The active tab gets .is-active (a Designer combo class) and
 // aria-selected; a tab with aria-selected="true" in the markup starts
 // active, else the first. Arrow keys, Home and End move between tabs
-// (roving tabindex). Panels use the `hidden` attribute.
+// (roving tabindex). Panels use the `hidden` attribute and .is-active: the
+// panel class is display: none and its Is Active combo shows it, so the
+// open panel is right on first paint before this script runs.
 export function initTabs(): void {
   document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root, r) => {
     const tabs = Array.from(root.querySelectorAll<HTMLElement>('[data-tabs-tab]'));
@@ -58,7 +60,10 @@ export function initTabs(): void {
         tab.classList.toggle('is-active', active);
         tab.setAttribute('aria-selected', String(active));
         tab.tabIndex = active ? 0 : -1;
-        if (panels[i]) panels[i]!.hidden = !active;
+        if (panels[i]) {
+          panels[i]!.hidden = !active;
+          panels[i]!.classList.toggle('is-active', active);
+        }
       });
       if (focus) tabs[index].focus();
     };

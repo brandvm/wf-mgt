@@ -645,6 +645,8 @@ person's OK 2026-11-08 (read back; the Icon prop binding kept), published to web
 
 **2026-11-09 · Staging check:** `compare.mjs` on all 11 Home sections at 1440 / 820 / 667 / 390: two differences, both fixed in Webflow with the person's OK (read back; published to webflow.io through the API at the person's request the same day, then How it works, footer, hero and FAQs re-compared at all four widths: 0 differences): the How it works phone icon (Icon Size instance `9f2156ba…`) had a 20px Variant override, reset to base (16px); Footer Logo Img got `aspect-ratio: 256 / 55` (the logo rendered 0 tall). The nav differs only in its static lists where the prototype has CMS list markup.
 
+**2026-11-09 · About logo carousel:** asked by the person: the About section's logo strip (`.logo-strip.is-ruled`) now uses plain Logo Strip Img (5em, 3.5em on Mobile Landscape and below) like the hero strip; Is Small removed from that element only (element `6b4f923f…`, read back) and from `prototype/index.html`. The Is Small combo stays for Toronto and the style guide. Published to webflow.io through the API at the person's request; About and hero re-compared at all four widths: 0 differences.
+
 **Still open for Home:** case studies, blog cards and FAQs as CMS lists;
 real links once the pages exist; image `srcset` (API uploads); the
 carousel and compare drag checked by eye in a visible browser.

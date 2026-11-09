@@ -12,6 +12,10 @@ Filled in by `pnpm new-project` on 2026-11-06.
 - GitHub: `brandvm/wf-mgt`, default branch `master`
 - Webflow site ID: `6aecfdb66cfe7667efc6d078` (short name `wf-mgt`; checked 2026-11-06)
 - Webflow MCP server: `webflow-michaels-global-trading` (`.mcp.json`)
+- Old build (the live site, mgt-live): MCP server
+  `webflow-michaels-global-trading-live`, **read-only** — reading the live
+  site for reference and porting; never write or publish through it.
+  Site ID: `<not checked yet>` (fill in from `list_sites` after its sign-in).
 - Staging site: `https://wf-mgt.webflow.io`
 - Staging bundles: `https://brandvm.github.io/wf-mgt/`
 - Production domain: `not attached yet`
