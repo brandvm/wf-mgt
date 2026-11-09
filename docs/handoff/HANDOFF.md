@@ -91,6 +91,10 @@ went):
 ## Ground rules for this project
 
 - <Who gives the go-ahead for Webflow writes, and how.>
+- 2026-11-07 · The Brand Vision `bv` plugin (bv-toolkit, with the hook that
+  blocked `publish_site`) was removed from this machine by the person.
+  Claude may now publish, **to the webflow.io subdomain only and only when
+  the person asks for that publish**; custom domains stay the person's step.
 - <Anything that differs from conventions.md, agreed with the designer.>
 - <Which repo or folders are read-only, if any.>
 
@@ -144,6 +148,7 @@ Breakpoints: 991 (tablet), 767 (mobile landscape), 479 (mobile). Checked at
 - 2026-11-05 · The 2026 nav is ported from the mgt-live sandbox into the prototype, with the menu breakpoint at 991px in both CSS and script.
 - 2026-11-06 · Icons in Webflow are Icon / Icon Size component instances (Phosphor), never hand-built `i.ph` or inline SVG; Figma SVG icons are mapped to the nearest Phosphor icon. Exception: the FAQ/reason plus/minus stays SVG (repo CSS animates its bar). Icon Size got a 14px variant. Chosen by the person.
 - 2026-11-06 · Secondary buttons: a Button link (`a.button`) holding a Button Color instance set to Secondary (C | Button can't take the variant through the API). Chosen by the person.
+- 2026-11-07 · FAQs are a vertical list (one column at every width) instead of the 3 / 2 / 1-column card grid; Faq Trigger's min-height (3.84em, there to line cards up across columns) removed. Applies to every FAQ list (Home, FAQs, Contact Us, Toronto). Asked by the person; prototype and Webflow changed together.
 - <Date> · <decision and why.>
 
 ## Open decisions

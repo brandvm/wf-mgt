@@ -627,6 +627,22 @@ rounding (Chip padding 8.0002px) and the case card image's `display` at
 `<button>` tracking left out as noted. Icon images publish with their
 classes and load at 14 / 26px.
 
+**2026-11-07 · FAQ list:** Faq Grid → `grid-template-columns: minmax(0, 1fr)`
+at base, the Tablet and Mobile Landscape overrides removed; Faq Trigger's
+`min-height` removed (base and Mobile Landscape). Read back. The person's
+first publish after it came from a Designer tab that hadn't loaded the
+change (staging kept the 3-column CSS); Claude then published to the
+webflow.io subdomain only, with the person's OK, and staging has it.
+Check after that publish: the FAQ list matches the prototype at every
+width once the prototype's `<button>`s inherit letter-spacing like
+Webflow's (`.faq-trigger`, `.reason-trigger`, `.carousel-arrow`
+`letter-spacing: inherit` in `new-classes.css`; Webflow already inherits
+the H6 role's −0.18px). Left: Button Content's "after" Icon Size has a
+Variant override **14px** (set after the earlier check, not by Claude), so
+every button caret was 16px instead of 18px. Reset to base with the
+person's OK 2026-11-08 (read back; the Icon prop binding kept), published to webflow.io through the API the same day: all 7 Home button carets measure 18×18 on staging and no `be343e17` variant is left in the HTML. Prototype `new-classes.css` changed the same way (rows 98px at
+1440).
+
 **Still open for Home:** case studies, blog cards and FAQs as CMS lists;
 real links once the pages exist; image `srcset` (API uploads); the
 carousel and compare drag checked by eye in a visible browser.

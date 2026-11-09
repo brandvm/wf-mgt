@@ -191,3 +191,13 @@ collected from client repos into those files.
 - Fix: give every image a class with its size (Check Chip Icon 14px, Icon Tile Img 26px), in Webflow and the prototype. After a refused build, query the page for strays and remove them.
 - Status: fixed (Home, republished and checked 2026-11-06)
 - Found by: claude
+
+### 2026-11-07 · A publish from an old Designer tab left the API's style changes off staging
+- Area: mcp
+- Scope: template-candidate
+- Symptom: after Claude changed Faq Grid and Faq Trigger through the API (read back fine), the person published and staging still served the old 3-column CSS; earlier API changes (Chip, Button Icon) were on staging.
+- Cause: most likely the publish came from a Designer tab opened before the API writes, which publishes the state it has loaded.
+- Fix: reload the Designer before publishing after API style changes, or publish through the API (`publish_site` with `publishToWebflowSubdomain: true`). Check the published stylesheet for the changed rule after every publish.
+- Status: fixed (published through the API 2026-11-07)
+- Found by: claude
+
