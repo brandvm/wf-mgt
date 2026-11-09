@@ -190,6 +190,7 @@ collected from client repos into those files.
 - Cause: Webflow publishes images without `width`/`height` (it takes them from the asset, and API-uploaded assets have none), and a 0×0 lazy image never intersects the viewport. The prototype had `width`/`height` attributes. `data_element_builder` refuses `width` as an attribute ("reserved attribute name"), and the refused builds still left 10 class-less images behind.
 - Fix: give every image a class with its size (Check Chip Icon 14px, Icon Tile Img 26px), in Webflow and the prototype. After a refused build, query the page for strays and remove them.
 - Status: fixed (Home, republished and checked 2026-11-06)
+- Update 2026-11-09: the footer logo (Footer Logo Img: width 16em, height auto, an API-uploaded SVG) had the same 0-height box on staging. Fixed with `aspect-ratio: 256 / 55` on the class, which gives the image a height before it loads. Use `aspect-ratio` on any image class that sets only a width.
 - Found by: claude
 
 ### 2026-11-07 · A publish from an old Designer tab left the API's style changes off staging

@@ -643,6 +643,8 @@ every button caret was 16px instead of 18px. Reset to base with the
 person's OK 2026-11-08 (read back; the Icon prop binding kept), published to webflow.io through the API the same day: all 7 Home button carets measure 18×18 on staging and no `be343e17` variant is left in the HTML. Prototype `new-classes.css` changed the same way (rows 98px at
 1440).
 
+**2026-11-09 · Staging check:** `compare.mjs` on all 11 Home sections at 1440 / 820 / 667 / 390: two differences, both fixed in Webflow with the person's OK (read back; published to webflow.io through the API at the person's request the same day, then How it works, footer, hero and FAQs re-compared at all four widths: 0 differences): the How it works phone icon (Icon Size instance `9f2156ba…`) had a 20px Variant override, reset to base (16px); Footer Logo Img got `aspect-ratio: 256 / 55` (the logo rendered 0 tall). The nav differs only in its static lists where the prototype has CMS list markup.
+
 **Still open for Home:** case studies, blog cards and FAQs as CMS lists;
 real links once the pages exist; image `srcset` (API uploads); the
 carousel and compare drag checked by eye in a visible browser.
