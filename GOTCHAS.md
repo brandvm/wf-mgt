@@ -202,3 +202,11 @@ collected from client repos into those files.
 - Status: fixed (published through the API 2026-11-07)
 - Found by: claude
 
+### 2026-11-09 · HubSpot's v2 embed always renders in an iframe; style it from inside
+- Area: js
+- Scope: template-candidate
+- Symptom: the live Contact form (legacy HubSpot form, theme "round", reCAPTCHA and a file upload on) rendered into `iframe.hs-form-iframe` with `hbspt.forms.create`, also with `css: ''`; repo CSS on the page can't reach it. Then, once restyled, the iframe stayed at 150px / an early height, and wheel scrolling over it skipped Lenis.
+- Cause: v2 renders forms in an iframe unless the form is set to raw HTML in HubSpot (a paid setting that would also unstyle the live site's form). The iframe has no `src`, so it is same-origin. Webflow's base (`html { height: 100% }`, `body { min-height: 100% }`) tied the content to the frame height; a ResizeObserver (the page's or the frame's own) never fired for the frame's elements; HubSpot rewrites the iframe height after re-renders; wheel events in a frame never reach the page's Lenis. The submissions API was no alternative: captcha and file upload.
+- Fix: `src/modules/hubspot-form.ts`: in `onFormReady`, remove HubSpot's `<style>`s, copy the page's stylesheets in, set the frame's body font size from the page's (the fluid scaling reads 100vw), add the site's Webflow classes to HubSpot's elements (re-added by a MutationObserver from the frame's realm), html `height: auto` + body `min-height: 0`, fit the iframe on DOM mutations / stylesheet loads / resize with `height … !important`, forward wheel to Lenis, move the Designer's `[data-hubspot-submit]` button in and click HubSpot's hidden submit. `instanceof HTMLElement` is false for the frame's nodes (other realm). The hidden Browser pane throttles rAF, so check this in headless Playwright, not there.
+- Status: worked (prototype; staging after the next publish)
+- Found by: claude

@@ -628,6 +628,38 @@ html.lenis body {
   background-color: var(--_colors---navy-tint--navy-16);
 }
 
+/* repo-css: third-party — HubSpot form markup (hubspot-form module, which
+   copies this sheet into HubSpot's iframe and adds the site's form classes).
+   Only HubSpot's own wrappers are undone here, so a field reads label, hint,
+   input like the Designer's form; every look comes from the Webflow classes.
+   A radio question: Radio Group on the field, its options straight inside. */
+.hs-form .hs-form-field > .input,
+.hs-form .inputs-list.multi-container,
+.hs-form .inputs-list.multi-container > li {
+  display: contents;
+}
+
+.hs-form .hs-error-msgs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hs-form legend.hs-field-desc {
+  padding: 0;
+}
+
+.hs-form .hs-form-required {
+  margin-left: 0.25em;
+}
+
+/* A radio question's label: in the Designer's form it is a fieldset legend,
+   which sits outside the fieldset's flex gap; here it is a flex item, so the
+   gap already gives the space Radio Legend's margin adds there. */
+.hs-form .hs-fieldtype-radio > .radio-legend {
+  margin-bottom: 0;
+}
+
 /* ============================================================
    06. UTILITIES
    ============================================================ */

@@ -8,6 +8,7 @@ import { initCountUp } from './modules/count-up';
 import { initEnvironmentSwitcher } from './modules/environment-switcher';
 import { initFaq } from './modules/faq';
 import { initFilterTabs } from './modules/filter-tabs';
+import { initHubspotForm } from './modules/hubspot-form';
 import { initMarquee } from './modules/marquee';
 import { initNav } from './modules/nav';
 import { initParallax } from './modules/parallax';
@@ -49,6 +50,7 @@ function boot() {
   run('tabs', initTabs);
   run('faq', initFaq);
   run('filter-tabs', initFilterTabs);
+  run('hubspot-form', () => { initHubspotForm(lenis); });
   run('compare', initCompare);
   run('carousel', initCarousel);
   run('count-up', initCountUp); // after carousel: reads the slides' Is Dimmed
