@@ -26,6 +26,7 @@ Changes made during the build that differ from the approved design, and
 who approved them.
 
 - <Date> · <change> · <approved by>
+- 2026-11-10 · Privacy Policy ported from live with small wording fixes (see HANDOFF Status 2026-11-10); effective date kept at January 17, 2024 · needs the client's legal OK
 
 ## Redirect map
 

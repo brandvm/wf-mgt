@@ -17,6 +17,8 @@ current during the build. Agents read it after `AGENTS.md` and `GOTCHAS.md`.
 
 ## Status
 
+2026-11-10 — **Privacy Policy built and published to webflow.io** (`/privacy-policy`, page `6af3327aa8d35aeae21df7c9`, duplicated from FAQs): dark page hero, then the live site's policy text in Max Width Text › Rich Body + Is Article (plain headings, paragraphs and lists, editable in the Designer; not a CMS rich text), CTA Banner. The footer link and the quote-form note on the Services and Service Areas templates point to it; the staging link crawl (51 pages) finds no broken or `#` links. Rich Body ul/ol got `padding-left: 1.3333em` so bullets sit inside the text column (blog posts and service pages too). Text changes from live, for the client to confirm: the empty "Type of website: Business" line dropped, "Ontario Inc.." fixed, the run-on "Browser encryption, third party trusted software While…" rewritten as a sentence, the cookie list merged into three items. The officer's phone stays (647) 821-9961 as on live.
+
 2026-11-09 (night) — **FAQs page built and published to webflow.io** (`/faqs`, page `6af29b6d4dd2addd044071ca`): hero, CMS FAQ list with the shared Side Filter topic sidebar (counts), CTA Banner; checked at 1440/991/767/375 (10 questions, one open at a time, filters 2/5/1/2). Topic filtering for the two-word topics needs the uncommitted `filter-tabs.ts` change pushed. Two questions (move-out date, unsellable furniture) are drafts waiting for the client's answers. Figma compare 05 filled.
 
 2026-11-09 — **About Us (`/about-us`, page `6af29af4b6d39bded3d833be`) built,
