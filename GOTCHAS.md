@@ -285,3 +285,21 @@ collected from client repos into those files.
 - Fix: set the value the browser already uses, so staging doesn't change: `grid-template-rows: auto` on all, plus `grid-template-columns: auto` on Is Full. Read back from a full `get_styles` (all breakpoints, combos merged with their parent): none left. Whenever a class gets `display: grid` through the API, write both templates in the same call. To audit: every selector whose effective display is grid at a breakpoint (own + parent class, cascading down the breakpoints) must have both templates.
 - Status: fixed (published 2026-11-09; the live stylesheet has both templates on all seven rules)
 - Found by: human
+
+### 2026-11-09 · Clicking a component in the Components panel inserts an instance
+- Area: designer
+- Scope: template-candidate
+- Symptom: to edit the Locations component, Claude clicked its row in the Components panel; a new Locations instance appeared at the end of Home's Body, after G | Page W.
+- Cause: a click on a panel row inserts the component into the page; editing is the row's hover icon (Edit component), or double-clicking an instance on the canvas.
+- Fix: undone with cmd+z (Body back to G | Components and G | Page W). Open a component definition with the row's Edit icon only.
+- Status: fixed
+- Found by: claude
+
+### 2026-11-09 · Locations tags from the CMS: a list in a component needs the Designer for sort, binding and link
+- Area: mcp
+- Scope: template-candidate
+- Symptom: the Locations component's Collection List built with `data_element_builder` (`scope_component_id`) took its source, but the API refused sort ("No source connected", right after the source took) and the Designer refused it too ("[Conflict] … component map").
+- Cause: the same API-built-list conflict as the page lists (entries above), inside a component definition.
+- Fix: add the Collection List in the Designer inside the component (open it with the Components panel row's Edit icon), set source and sort there, then move the item content in through the API (`move_element` with `scope_component_id`), class it, hide the empty state, remove the old list. Field binding (Link Text → Name) and the link work in the Designer on either list; in a list the link is the Link dot › Connect › Service Areas › **URL Path** (not Type › Collection page), and both survive the move.
+- Status: worked around
+- Found by: claude
