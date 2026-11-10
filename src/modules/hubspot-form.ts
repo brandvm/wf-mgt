@@ -44,6 +44,7 @@
 // HubSpot's own markup quirks are in src/styles.css (repo-css: third-party).
 import type Lenis from 'lenis';
 import { initCustomSelect } from './custom-select';
+import { initCtaLoop } from './cta-loop';
 
 const SCRIPT = 'https://js.hsforms.net/forms/embed/v2.js';
 
@@ -161,10 +162,13 @@ function radiosToSelects(form: HTMLFormElement) {
   initCustomSelect(form);
 }
 
-// Form Columns: single-line fields pair up side by side; everything else,
-// and the last of an odd run of single-line fields, spans the row
-// (Form Field › Is Full).
-const SHORT = 'input.hs-input:not([type=hidden]):not([type=radio]):not([type=checkbox]):not([type=file])';
+// Form Columns (auto-fit, 16em minimum: 2 columns in the quote forms, 1 on
+// phones; no breakpoint style, since inside the iframe a media query reads
+// the iframe's width, not the page's): every field pairs up side by side
+// (text, dropdown, file upload) except a textarea, which spans the row
+// (Form Field › Is Full), as does the last of an odd run. Fields with no
+// visible control (HubSpot's hidden inputs, reCAPTCHA) are skipped.
+const VISIBLE = 'input:not([type=hidden]), select, textarea';
 function setWidths(form: Element) {
   let run: Element[] = [];
   const close = () => {
@@ -177,7 +181,8 @@ function setWidths(form: Element) {
       close();
       return;
     }
-    if (field.querySelector(SHORT)) run.push(field);
+    if (field.matches('.hs_recaptcha') || !field.querySelector(VISIBLE)) return;
+    if (!field.querySelector('textarea')) run.push(field);
     else {
       close();
       setFull(field, true);
@@ -343,6 +348,7 @@ function restyle(target: HTMLElement, form: HTMLFormElement, lenis: Lenis | null
   placeParts(target, form);
   const button = useSiteSubmit(form, target.parentElement?.querySelector<HTMLElement>('[data-hubspot-submit]') ?? null);
   if (button) buttons.set(target, button);
+  initCtaLoop(frame);
   target.dataset.hubspotState = 'ready';
 }
 

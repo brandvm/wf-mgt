@@ -470,3 +470,12 @@ collected from client repos into those files.
 - Fix: (1) select the section in the Navigator, right-click › Create component, untick "Create N properties" (it makes one per text), then add only the props you want through the API (`create_prop` textContent, multiline keeps a `<br>`) and bind them with `set_settings` key `text` + `scope_component_id`. The list's source, filter and sort survive, and the instance works on CMS template pages. (2) count fields before planning new ones; the Results button label became a fixed template text. Optional bound text lists hide empty items with a repo `:has(.w-dyn-bind-empty)` rule (`data-hide-empty`) instead of one Designer condition per item.
 - Status: worked (Case Studies component on Home, Services and Service Areas templates)
 - Found by: claude
+
+### 2026-11-10 · Inside HubSpot's iframe, Webflow breakpoints read the iframe's width
+- Area: designer
+- Scope: template-candidate
+- Symptom: Form Columns set to 2 columns with a 1-column style at the 767 breakpoint showed 1 column in the 576px-wide service hero form on a 1440 screen.
+- Cause: hubspot-form copies the page's stylesheets into the form's iframe, so every media query there tests the iframe's viewport (576px), not the page's.
+- Fix: classes used inside the iframe size by their own width, not breakpoints: Form Columns is `repeat(auto-fit, minmax(min(100%, 16em), 1fr))` (2 columns in the hero and on Contact, 1 on phones). Two more lessons from the same change: `:has()` can't nest, and one invalid selector in a list drops the whole rule (split such rules); an IntersectionObserver only sees targets in its own window, so observe iframe elements with the frame's own `IntersectionObserver` (cta-loop). Form Embed's reserved min-height must be re-measured whenever the form's layout changes (now 43.75 / 37.25 / 42.75 / 66.25em, Is Contact 66.5 / 84.75em).
+- Status: fixed (published 2026-11-10)
+- Found by: claude

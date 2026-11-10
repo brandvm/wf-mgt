@@ -4,6 +4,7 @@
 import { initAriaRoles } from './modules/aria-roles';
 import { initCarousel } from './modules/carousel';
 import { initExpand } from './modules/expand';
+import { initCtaLoop } from './modules/cta-loop';
 import { initCompare } from './modules/compare';
 import { initCountUp } from './modules/count-up';
 import { initCustomSelect } from './modules/custom-select';
@@ -61,6 +62,7 @@ function boot() {
   run('item-icons', initItemIcons);
   run('compare', initCompare);
   run('carousel', initCarousel);
+  run('cta-loop', () => { initCtaLoop(); });
   run('count-up', initCountUp); // after carousel: reads the slides' Is Dimmed
   run('marquee', initMarquee);
   run('parallax', initParallax);

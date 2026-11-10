@@ -13,12 +13,27 @@
 // The module toggles Is Open and `inert`, sets aria-expanded/aria-controls
 // on the trigger and swaps its first text for data-expand-less while open.
 // The trigger keeps its href, so without JS it still goes somewhere useful.
+//
+// The panel is found by its matching data-expand-panel, or else as the
+// nearest .expand-panel around the trigger (the closest ancestor holding
+// one): the API can't write attributes inside the page shell's slot, so
+// Home's panels carry only the Expand Panel class (GOTCHAS 2026-11-06).
 let uid = 0;
+
+function findPanel(trigger: HTMLElement, key?: string): HTMLElement | null {
+  const named = key ? document.querySelector<HTMLElement>(`[data-expand-panel="${CSS.escape(key)}"]`) : null;
+  if (named) return named;
+  for (let el = trigger.parentElement; el; el = el.parentElement) {
+    const near = el.querySelector<HTMLElement>('.expand-panel');
+    if (near) return near;
+  }
+  return null;
+}
 
 export function initExpand(): void {
   document.querySelectorAll<HTMLElement>('[data-expand-trigger]').forEach((trigger) => {
     const key = trigger.dataset.expandTrigger;
-    const panel = key ? document.querySelector<HTMLElement>(`[data-expand-panel="${CSS.escape(key)}"]`) : null;
+    const panel = findPanel(trigger, key);
     if (!panel) return;
     panel.id ||= `expand-${++uid}`;
     trigger.setAttribute('role', 'button');

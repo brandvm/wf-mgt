@@ -634,9 +634,14 @@ html.lenis body {
 /* repo-css: designer-cant — :has(): a list marked data-hide-empty drops each
    item whose CMS-bound text is empty (Webflow adds .w-dyn-bind-empty to it),
    and the whole list when every item is empty (Services template › Results
-   points: four services have none). Plain CSS, so there is no flash. */
-[data-hide-empty] > li:has(.w-dyn-bind-empty),
-[data-hide-empty]:not(:has(> li:not(:has(.w-dyn-bind-empty)))) {
+   points: four services have none). Plain CSS, so there is no flash.
+   :has() can't nest, so the list test looks for a Caption with text, and
+   the two rules stay separate (one invalid selector drops a whole list). */
+[data-hide-empty] > li:has(.w-dyn-bind-empty) {
+  display: none;
+}
+
+[data-hide-empty]:not(:has(> li > .caption:not(.w-dyn-bind-empty))) {
   display: none;
 }
 
@@ -852,6 +857,45 @@ html.lenis body {
   }
   75% {
     transform: rotate(-6deg);
+  }
+}
+
+/* repo-css: js-state — cta-loop: a light sheen sweeps across a primary
+   (yellow) button about every 6s while it is on screen (.is-cta-live, set
+   by the module). designer-cant: ::after and @keyframes. The sweep takes
+   the first fifth of the cycle; the rest is rest. Hover pauses it. */
+[data-wf--button-color--variant="primary"] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+[data-wf--button-color--variant="primary"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.55) 50%, transparent 65%);
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+
+.is-cta-live[data-wf--button-color--variant="primary"]::after {
+  animation: wfc-cta-sheen 6s cubic-bezier(0.4, 0, 0.2, 1) 0.8s infinite;
+}
+
+.is-cta-live[data-wf--button-color--variant="primary"]:hover::after,
+.button:hover .is-cta-live[data-wf--button-color--variant="primary"]::after {
+  animation-play-state: paused;
+}
+
+@keyframes wfc-cta-sheen {
+  0% {
+    transform: translateX(-100%);
+  }
+  20%,
+  100% {
+    transform: translateX(100%);
   }
 }
 
@@ -1240,7 +1284,8 @@ html.lenis body {
   }
 
   .phone-button .icon-circle::after,
-  .phone-button .icon-glyph {
+  .phone-button .icon-glyph,
+  [data-wf--button-color--variant="primary"]::after {
     animation: none !important;
   }
 
