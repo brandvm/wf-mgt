@@ -631,6 +631,15 @@ html.lenis body {
   background-color: var(--_colors---navy-tint--navy-16);
 }
 
+/* repo-css: designer-cant — :has(): a list marked data-hide-empty drops each
+   item whose CMS-bound text is empty (Webflow adds .w-dyn-bind-empty to it),
+   and the whole list when every item is empty (Services template › Results
+   points: four services have none). Plain CSS, so there is no flash. */
+[data-hide-empty] > li:has(.w-dyn-bind-empty),
+[data-hide-empty]:not(:has(> li:not(:has(.w-dyn-bind-empty)))) {
+  display: none;
+}
+
 /* repo-css: third-party — HubSpot form markup (hubspot-form module, which
    copies this sheet into HubSpot's iframe and adds the site's form classes).
    Only HubSpot's own wrappers are undone here, so a field reads label, hint,
@@ -767,7 +776,7 @@ html.lenis body {
   .arrow-link:hover .icon-circle .icon,
   .article-card:hover .arrow-link .icon-circle .icon,
   .service-row:hover .service-row-arrow .icon {
-    transform: translateX(0.125em);
+    transform: translateX(0.25em);
   }
 
   .service-row:hover .service-row-arrow {
@@ -779,6 +788,81 @@ html.lenis body {
   .article-card:hover .article-card-img {
     scale: 1.04;
   }
+}
+
+/* repo-css: designer-cant — a child on its parent's hover, ::after and
+   @keyframes (client feedback 2026-11-10: more noticeable calls to action;
+   the lift and shadow are Designer hover states on Button Color and Phone
+   Button). The Arrow Link's arrow circle fills navy. The Phone Button's
+   icon circle sends one ring out and the phone glyph rocks once. */
+.arrow-link .icon-circle {
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.phone-button .icon-circle {
+  position: relative;
+}
+
+.phone-button .icon-circle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid currentColor;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .arrow-link:hover .icon-circle:not(.is-light) {
+    background-color: var(--_colors---brand--navy);
+    color: var(--_colors---base--white);
+  }
+
+  .phone-button:hover .icon-circle::after {
+    animation: wfc-ring 900ms var(--ease-out) 1;
+  }
+
+  .phone-button:hover .icon-glyph {
+    animation: wfc-wiggle 600ms ease-in-out 1;
+  }
+}
+
+@keyframes wfc-ring {
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+@keyframes wfc-wiggle {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-14deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-6deg);
+  }
+}
+
+/* repo-css: js-state — the expand module's trigger: its caret turns over
+   while the panel is open (aria-expanded). */
+[data-expand-trigger] .icon {
+  transition: transform 300ms var(--ease-out);
+}
+
+[data-expand-trigger][aria-expanded="true"] .icon {
+  transform: rotate(180deg);
 }
 
 /* repo-css: js-state — 5: the FAQ / reason icon follows aria-expanded (faq
@@ -852,12 +936,16 @@ html.lenis body {
    get a 1px underline in their own colour that grows from the left on hover
    and leaves to the right. */
 .footer-link,
-.more-link > :first-child {
+.more-link > :first-child,
+.arrow-link > .button-text,
+.arrow-link > .link-text {
   position: relative;
 }
 
 .footer-link::after,
-.more-link > :first-child::after {
+.more-link > :first-child::after,
+.arrow-link > .button-text::after,
+.arrow-link > .link-text::after {
   content: "";
   position: absolute;
   left: 0;
@@ -873,7 +961,9 @@ html.lenis body {
 
 @media (hover: hover) and (pointer: fine) {
   .footer-link:hover::after,
-  .more-link:hover > :first-child::after {
+  .more-link:hover > :first-child::after,
+  .arrow-link:hover > .button-text::after,
+  .arrow-link:hover > .link-text::after {
     transform: scaleX(1);
     transform-origin: left center;
   }
@@ -1142,8 +1232,20 @@ html.lenis body {
   .faq-icon-bar,
   .select-list,
   .button-color:active,
-  .phone-button:active {
+  .phone-button:active,
+  .button-color:hover,
+  .phone-button:hover,
+  [data-expand-trigger] .icon {
     transform: none !important;
+  }
+
+  .phone-button .icon-circle::after,
+  .phone-button .icon-glyph {
+    animation: none !important;
+  }
+
+  .expand-panel {
+    transition: none;
   }
 
   .article-card:hover .article-card-img {

@@ -27,8 +27,11 @@ let uid = 0;
 
 const PAGE = 10;
 
-export function initCustomSelect(): void {
-  document.querySelectorAll<HTMLElement>('[data-custom-select]').forEach((host) => {
+// `root` is the page by default; the HubSpot form module passes its
+// iframe's document, so the lists open and position inside the frame.
+export function initCustomSelect(root: ParentNode = document): void {
+  root.querySelectorAll<HTMLElement>('[data-custom-select]').forEach((host) => {
+    if (host.dataset.customSelectReady !== undefined) return;
     const select = host.querySelector('select');
     if (!select || select.multiple || select.dataset.customSelectNative !== undefined) return;
     enhance(host, select);
@@ -36,6 +39,9 @@ export function initCustomSelect(): void {
 }
 
 function enhance(host: HTMLElement, select: HTMLSelectElement) {
+  host.dataset.customSelectReady = '';
+  const doc = host.ownerDocument;
+  const view = doc.defaultView ?? window;
   const n = ++uid;
   const listId = `custom-select-${n}-list`;
   const buttonId = select.id ? `${select.id}-button` : `custom-select-${n}-button`;
@@ -43,12 +49,12 @@ function enhance(host: HTMLElement, select: HTMLSelectElement) {
   // The visible label: the host's own <label> (Filter Pill) or the one that
   // points at the select. Its text names the button.
   const wrapLabel = select.closest('label');
-  const forLabel = select.id ? document.querySelector<HTMLLabelElement>(`label[for="${CSS.escape(select.id)}"]`) : null;
+  const forLabel = select.id ? doc.querySelector<HTMLLabelElement>(`label[for="${CSS.escape(select.id)}"]`) : null;
   const label = forLabel ?? wrapLabel;
   const nameEl = label?.querySelector<HTMLElement>('.filter-pill-label') ?? label;
   if (nameEl && !nameEl.id) nameEl.id = `custom-select-${n}-label`;
 
-  const button = document.createElement('button');
+  const button = doc.createElement('button');
   button.type = 'button';
   button.id = buttonId;
   button.className = Array.from(select.classList).filter((c) => !c.startsWith('w-')).join(' ');
@@ -63,14 +69,14 @@ function enhance(host: HTMLElement, select: HTMLSelectElement) {
   // The value sits in a grid cell with every option's text stacked under it
   // (hidden), so the button is as wide as the longest option, like a native
   // select, and doesn't jump when the choice changes.
-  const value = document.createElement('span');
+  const value = doc.createElement('span');
   value.dataset.customSelectValue = '';
-  const current = document.createElement('span');
+  const current = doc.createElement('span');
   current.dataset.customSelectCurrent = '';
   value.append(current);
   button.append(value);
 
-  const list = document.createElement('ul');
+  const list = doc.createElement('ul');
   list.id = listId;
   list.className = 'select-list';
   list.setAttribute('role', 'listbox');
@@ -86,14 +92,14 @@ function enhance(host: HTMLElement, select: HTMLSelectElement) {
     list.replaceChildren();
     value.querySelectorAll('[data-custom-select-sizer]').forEach((s) => s.remove());
     options = Array.from(select.options).map((opt, i) => {
-      const li = document.createElement('li');
+      const li = doc.createElement('li');
       li.id = `${listId}-${i}`;
       li.className = 'select-option';
       li.setAttribute('role', 'option');
       li.textContent = opt.text;
       if (opt.disabled) li.setAttribute('aria-disabled', 'true');
       list.append(li);
-      const sizer = document.createElement('span');
+      const sizer = doc.createElement('span');
       sizer.dataset.customSelectSizer = '';
       sizer.setAttribute('aria-hidden', 'true');
       sizer.textContent = opt.text;
@@ -157,14 +163,14 @@ function enhance(host: HTMLElement, select: HTMLSelectElement) {
     list.style.removeProperty('margin-bottom');
     const r = list.getBoundingClientRect();
     const h = host.getBoundingClientRect();
-    if (r.bottom > innerHeight && h.top - r.height > 0) {
+    if (r.bottom > view.innerHeight && h.top - r.height > 0) {
       const gap = getComputedStyle(list).marginTop;
       list.style.top = 'auto';
       list.style.bottom = '100%';
       list.style.marginTop = '0px';
       list.style.marginBottom = gap;
     }
-    if (r.right > document.documentElement.clientWidth) {
+    if (r.right > doc.documentElement.clientWidth) {
       list.style.left = 'auto';
       list.style.right = '0px';
     }
@@ -179,7 +185,7 @@ function enhance(host: HTMLElement, select: HTMLSelectElement) {
     button.setAttribute('aria-expanded', 'true');
     place();
     setActive(to ?? (enabled(select.selectedIndex) ? select.selectedIndex : step(-1, 1)));
-    document.addEventListener('pointerdown', outside, true);
+    doc.addEventListener('pointerdown', outside, true);
   };
 
   const hide = () => {
@@ -189,7 +195,7 @@ function enhance(host: HTMLElement, select: HTMLSelectElement) {
     host.classList.remove('is-open');
     button.setAttribute('aria-expanded', 'false');
     setActive(-1);
-    document.removeEventListener('pointerdown', outside, true);
+    doc.removeEventListener('pointerdown', outside, true);
   };
 
   const choose = (i: number) => {

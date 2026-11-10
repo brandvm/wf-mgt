@@ -3,6 +3,7 @@
 // function that no-ops when its selector is absent from the page.
 import { initAriaRoles } from './modules/aria-roles';
 import { initCarousel } from './modules/carousel';
+import { initExpand } from './modules/expand';
 import { initCompare } from './modules/compare';
 import { initCountUp } from './modules/count-up';
 import { initCustomSelect } from './modules/custom-select';
@@ -52,6 +53,7 @@ function boot() {
   run('nav', () => { initNav(lenis); });
   run('tabs', initTabs);
   run('faq', initFaq);
+  run('expand', initExpand);
   run('filter-tabs', initFilterTabs);
   // Before finsweet-loader: Finsweet reads the native selects this keeps in sync.
   run('custom-select', initCustomSelect);

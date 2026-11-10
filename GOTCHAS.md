@@ -461,3 +461,12 @@ collected from client repos into those files.
 - Status: worked (Home carousel, published 2026-11-10)
 - Update 2026-11-10: the placeholders were deleted and the 4 real case studies jumped again (1 on-screen jump per Next). `carousel.ts` now repeats the slide set until there are at least 8 (`data-carousel-copy`, `aria-hidden`, links out of the tab order); Playwright on staging with the local bundle: 0 jumps at 1440 and 390.
 - Found by: claude
+
+### 2026-11-10 · A section holding a Collection List can only become a component in the Designer; a collection stops at 60 fields
+- Area: mcp
+- Scope: template-candidate
+- Symptom: (1) `transform_element_to_component` on Home's case studies section refused: "this element contains a Collection List bound to a CMS collection … Components can't hold a live CMS binding". (2) `create_collection_static_field` for a fifth new Services field failed: "Can not have more than 60 custom fields".
+- Cause: (1) an API-side guard; the Designer allows it (Locations already holds a list). (2) Webflow's per-collection field limit.
+- Fix: (1) select the section in the Navigator, right-click › Create component, untick "Create N properties" (it makes one per text), then add only the props you want through the API (`create_prop` textContent, multiline keeps a `<br>`) and bind them with `set_settings` key `text` + `scope_component_id`. The list's source, filter and sort survive, and the instance works on CMS template pages. (2) count fields before planning new ones; the Results button label became a fixed template text. Optional bound text lists hide empty items with a repo `:has(.w-dyn-bind-empty)` rule (`data-hide-empty`) instead of one Designer condition per item.
+- Status: worked (Case Studies component on Home, Services and Service Areas templates)
+- Found by: claude

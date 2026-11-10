@@ -34,20 +34,26 @@
 //     busy (aria-busy, label "Sending…", a spinner in place of its icon;
 //     src/styles.css js-state) so nobody clicks twice (motion-plan.md 24);
 //   - on submit, swaps the iframe for [data-hubspot-success] (adds Is Shown);
-//   - forwards wheel events to Lenis, which never sees events in a frame.
+//   - forwards wheel events to Lenis, which never sees events in a frame;
+//   - shows each radio question as the site's dropdown (radiosToSelects):
+//     a select in a Select W with the caret icon, drawn by the
+//     custom-select module inside the iframe. Choosing an option clicks the
+//     matching (hidden) radio, so HubSpot validates and submits exactly
+//     what it did with the radios.
 // Styles stay in the Designer: change a class there, never here. Only
 // HubSpot's own markup quirks are in src/styles.css (repo-css: third-party).
 import type Lenis from 'lenis';
+import { initCustomSelect } from './custom-select';
 
 const SCRIPT = 'https://js.hsforms.net/forms/embed/v2.js';
 
 // HubSpot selector → the site's classes (Webflow class names).
 const CLASSES: [string, string][] = [
   ['form.hs-form', 'form form-columns'],
-  ['.hs-form-field:not(.hs-fieldtype-radio):not(.hs-fieldtype-checkbox)', 'form-field'],
-  ['.hs-fieldtype-radio, .hs-fieldtype-checkbox', 'choice-group'],
+  ['.hs-form-field:not(.hs-fieldtype-radio):not(.hs-fieldtype-checkbox), .hs-fieldtype-radio[data-radio-select]', 'form-field'],
+  ['.hs-fieldtype-radio:not([data-radio-select]), .hs-fieldtype-checkbox', 'choice-group'],
   ['.hs-form-field > label', 'label'],
-  ['.hs-fieldtype-radio > label, .hs-fieldtype-checkbox > label', 'choice-legend'],
+  ['.hs-fieldtype-radio:not([data-radio-select]) > label, .hs-fieldtype-checkbox > label', 'choice-legend'],
   ['.hs-field-desc', 'form-hint'],
   ['input.hs-input:not([type=radio]):not([type=checkbox]):not([type=file]):not([type=hidden])', 'form-input'],
   ['textarea.hs-input', 'form-input is-textarea'],
@@ -104,6 +110,55 @@ function addClasses(root: ParentNode) {
     if (tile.classList.contains('is-checked') !== checked) tile.classList.toggle('is-checked', checked);
   });
   root.querySelectorAll('form.form-columns').forEach(setWidths);
+}
+
+// A radio question as a dropdown. The select has no name, so HubSpot never
+// reads it; its change clicks the radio with the same value. The radio list
+// stays in the form, hidden, with HubSpot's own state and validation.
+// The caret is the Icon Size component's markup at its 14px variant.
+const CARET =
+  '<div class="icon w-variant-be343e17-9894-2cac-5a01-9e068a36439f"><i aria-hidden="true" class="icon-glyph ph ph-caret-down"></i></div>';
+function radiosToSelects(form: HTMLFormElement) {
+  const doc = form.ownerDocument;
+  form.querySelectorAll<HTMLElement>('.hs-fieldtype-radio:not([data-radio-select])').forEach((field) => {
+    const radios = Array.from(field.querySelectorAll<HTMLInputElement>('input[type="radio"]'));
+    if (!radios.length) return;
+    field.dataset.radioSelect = '';
+    const list = field.querySelector<HTMLElement>('.inputs-list');
+    const legend = field.querySelector<HTMLLabelElement>(':scope > label');
+    const select = doc.createElement('select');
+    select.id = `${radios[0].id || radios[0].name}-select`;
+    select.className = 'form-input is-select';
+    if (legend) legend.htmlFor = select.id;
+    const blank = doc.createElement('option');
+    blank.value = '';
+    blank.textContent = 'Select an option';
+    select.append(blank);
+    radios.forEach((radio) => {
+      const option = doc.createElement('option');
+      option.value = radio.value;
+      option.textContent = (radio.closest('label')?.textContent ?? radio.value).trim();
+      option.selected = radio.checked;
+      select.append(option);
+    });
+    select.addEventListener('change', () => {
+      const radio = radios.find((r) => r.value === select.value);
+      if (radio && !radio.checked) radio.click();
+    });
+    const wrap = doc.createElement('div');
+    wrap.className = 'select-w';
+    wrap.dataset.customSelect = 'field';
+    const icon = doc.createElement('div');
+    icon.className = 'select-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.innerHTML = CARET;
+    wrap.append(select, icon);
+    if (list) {
+      list.style.display = 'none';
+      list.after(wrap);
+    } else field.append(wrap);
+  });
+  initCustomSelect(form);
 }
 
 // Form Columns: single-line fields pair up side by side; everything else,
@@ -272,10 +327,14 @@ function restyle(target: HTMLElement, form: HTMLFormElement, lenis: Lenis | null
     fitHeight(frame);
     forwardWheel(frame, lenis);
   }
+  radiosToSelects(form);
   addClasses(frame.body);
   form.addEventListener('change', () => addClasses(frame.body));
   const win = frame.defaultView as (Window & typeof globalThis) | null;
-  new (win?.MutationObserver ?? MutationObserver)(() => addClasses(frame.body)).observe(frame.body, {
+  new (win?.MutationObserver ?? MutationObserver)(() => {
+    radiosToSelects(form);
+    addClasses(frame.body);
+  }).observe(frame.body, {
     subtree: true,
     childList: true,
     attributes: true,
