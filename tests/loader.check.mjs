@@ -2,7 +2,7 @@
 // detection, the dev flag and its storage, RELEASE null or set, the
 // preconnect origin, the missing-config guards and the fallbacks. No
 // browser, so it runs in well under a second; the Playwright spec
-// (environment-switcher.spec.mjs) covers what needs real loading.
+// (loader.spec.mjs) covers what needs real loading.
 // Run by `pnpm test` with node --test.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';

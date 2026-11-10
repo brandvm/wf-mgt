@@ -61,100 +61,22 @@ async function setup(page, {
   return errors;
 }
 
-for (const width of [1440, 390]) test(`switches sources and keeps the page URL at ${width}px`, async ({ page }) => {
-  await page.setViewportSize({ width, height: 900 });
-  const errors = await setup(page, { url: 'https://example.webflow.io/services?tab=one#section' });
-  const launcher = page.getByRole('button', { name: 'Choose environment (Staging)' });
-  await launcher.click();
-  await expect(page.getByRole('button', { name: 'Staging', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await page.getByRole('button', { name: 'Dev', exact: true }).click();
-  await expect(page).toHaveURL('https://example.webflow.io/services?tab=one&wfc-dev=1#section');
-  await page.getByRole('button', { name: 'Choose environment (Dev)' }).click();
-  expect(await page.evaluate(() => window.WFC.source)).toBe(local);
-  await page.getByRole('button', { name: 'Staging', exact: true }).click();
-  await expect(page).toHaveURL('https://example.webflow.io/services?tab=one&wfc-dev=0#section');
-  await expect(launcher).toBeVisible();
-  expect(await page.evaluate(() => window.WFC.source)).toBe(stage);
-  expect(await page.evaluate(() => localStorage.getItem('wfc-dev'))).toBe('0');
-  expect(errors).toEqual([]);
-});
 
-test('mode persists on another page without a query flag', async ({ page }) => {
-  await setup(page);
-  await page.getByRole('button', { name: 'Choose environment (Staging)' }).click();
-  await page.getByRole('button', { name: 'Dev', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Choose environment (Dev)' })).toBeVisible();
-  await page.goto('https://example.webflow.io/about');
-  await expect(page.getByRole('button', { name: 'Choose environment (Dev)' })).toBeVisible();
-  expect(await page.evaluate(() => window.WFC.source)).toBe(local);
-});
-
-test('URL selection works when localStorage is blocked', async ({ page }) => {
-  const errors = await setup(page, { blockedStorage: true });
-  await page.getByRole('button', { name: 'Choose environment (Staging)' }).click();
-  await page.getByRole('button', { name: 'Dev', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Choose environment (Dev)' })).toBeVisible();
-  expect(await page.evaluate(() => window.WFC.source)).toBe(local);
-  expect(errors).toEqual([]);
-});
-
-test('local JS failure shows staging and removes the local stylesheet', async ({ page }) => {
+test('local JS failure falls back to staging and removes the local stylesheet', async ({ page }) => {
   const errors = await setup(page, {
     url: 'https://example.webflow.io/?wfc-dev=1',
     unavailable: url => url.startsWith(local) && url.includes('index.js'),
   });
-  await page.getByRole('button', { name: 'Choose environment (Staging)' }).click();
-  await expect(page.getByRole('status')).toHaveText('Dev unavailable · using staging');
+  await expect.poll(() => page.evaluate(() => window.WFC.source)).toBe(stage);
   await expect(page.locator('#wfc-css-dev')).toHaveCount(0);
   await expect(page.locator('#wfc-css')).toHaveAttribute('href', new RegExp('^' + stage));
-  await page.getByRole('button', { name: 'Staging', exact: true }).click();
-  await expect(page).toHaveURL('https://example.webflow.io/?wfc-dev=0');
-  await page.getByRole('button', { name: 'Choose environment (Staging)' }).click();
-  await expect(page.getByRole('status')).toBeHidden();
   expect(errors).toEqual([]);
 });
 
-test('staging failure identifies the pinned release and allows a retry', async ({ page }) => {
-  let failStage = true;
-  const errors = await setup(page, { unavailable: url => failStage && url.startsWith(stage) && url.includes('index.js') });
-  await page.getByRole('button', { name: 'Choose environment (Staging)' }).click();
-  await expect(page.getByRole('status')).toHaveText('Staging unavailable · using release');
-  expect(await page.evaluate(() => window.WFC.source)).toBe(release);
+test('staging failure falls back to the pinned release', async ({ page }) => {
+  const errors = await setup(page, { unavailable: url => url.startsWith(stage) && url.includes('index.js') });
+  await expect.poll(() => page.evaluate(() => window.WFC.source)).toBe(release);
   await expect(page.locator('#wfc-css')).toHaveAttribute('href', release + 'styles.css');
-  failStage = false;
-  await page.getByRole('button', { name: 'Staging', exact: true }).click();
-  await expect(page).toHaveURL('https://example.webflow.io/?wfc-dev=0');
-  await page.getByRole('button', { name: 'Choose environment (Staging)' }).click();
-  expect(await page.evaluate(() => window.WFC.source)).toBe(stage);
-  await expect(page.getByRole('status')).toBeHidden();
-  expect(errors).toEqual([]);
-});
-
-test('supports keyboard access, Escape, outside clicks, and duplicate initialization', async ({ page }) => {
-  const errors = await setup(page);
-  const launcher = page.getByRole('button', { name: 'Choose environment (Staging)' });
-  await launcher.focus();
-  await page.keyboard.press('Enter');
-  await expect(page.getByRole('button', { name: 'Staging', exact: true })).toBeFocused();
-  await page.keyboard.press('Escape');
-  await expect(launcher).toBeFocused();
-  await expect(page.getByRole('group', { name: 'Code environment' })).toBeHidden();
-  await launcher.click();
-  await page.locator('h1').click();
-  await expect(launcher).toBeVisible();
-  await page.addScriptTag({ content: js });
-  await expect(page.locator('#wfc-environment')).toHaveCount(1);
-  expect(errors).toEqual([]);
-});
-
-for (const scenario of [
-  { label: 'production', url: 'https://client.example/?wfc-dev=1' },
-  { label: 'localhost', url: 'http://localhost:3000/' },
-  { label: 'Webflow editor', editor: true },
-  { label: 'Designer', design: true },
-]) test(`hidden in ${scenario.label}`, async ({ page }) => {
-  const errors = await setup(page, scenario);
-  await expect(page.locator('#wfc-environment')).toHaveCount(0);
   expect(errors).toEqual([]);
 });
 

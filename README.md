@@ -102,40 +102,28 @@ What `pnpm new-project` does, and the person's steps after it, in order.
 
 ## Daily
 
-- Run `pnpm dev`, then click the small **Staging** pill in the bottom-left of
-  the `.webflow.io` site and choose **Dev**. Choose **Staging** to switch back.
-  The page reloads and remembers your choice. The control starts collapsed;
-  click elsewhere or press Escape to collapse it again.
-- The pill shows the bundle actually loaded. If localhost fails and the loader
-  uses staging, it shows **Staging** with a fallback note when expanded.
-  Start `pnpm dev` and select **Dev** again to retry. If staging falls back to a
-  pinned release, the note identifies that fallback; select **Staging** to retry.
-- `?wfc-dev=1` / `?wfc-dev=0` still work, including when localStorage is blocked.
+- Run `pnpm dev`, then open the `.webflow.io` site with `?wfc-dev=1` to load
+  the local bundle (remembered in localStorage); `?wfc-dev=0` switches back to
+  staging. If localhost doesn't answer, the loader falls back to staging.
 - `git push` → client-facing staging bundle updates in ~1 min (no Webflow publish)
 - Live reload works in the browser. It does **not** work on the Designer canvas,
   which never runs scripts — reload the Designer tab instead.
 
-The switcher is limited to `*.webflow.io`, hidden in the Webflow editor/Designer
-and print, and isolated from site styles with Shadow DOM. Its implementation is
-`src/modules/environment-switcher.ts`; `src/index.ts` initializes it after the DOM
-is ready. It has no runtime dependencies or client-specific URLs.
+There is no on-page Dev / Staging switcher (removed 2026-11-10 on this
+project). The loader's `window.WFC.source` field records which bundle loaded,
+including a fallback. A JS fallback also removes local CSS and selects the
+fallback stylesheet.
 
-New projects created from this template include it automatically. Existing
-projects can copy the module, merge the types from `src/globals.d.ts`, add the initializer, and update
-all three snippets from `loader.html` (move their version into `RELEASE`).
-The loader's `window.WFC.source` field records fallback selection before the bundle
-runs. A JS fallback also removes local CSS and selects the fallback stylesheet.
-
-### Verify the switcher
+### Verify the loader
 
 ```sh
 pnpm exec playwright install chromium  # one-time browser setup
 pnpm test                              # build + browser checks
 ```
 
-The tests use a generic example project and mocked asset responses, covering
-mode selection, URL/storage persistence, fallback, keyboard/mobile interaction,
-and host/editor restrictions without starting a local server.
+`tests/loader.spec.mjs` uses a generic example project and mocked asset
+responses: dev flag, fallbacks, release and staging stylesheets, and that
+public pages never request localhost.
 
 ## Release (launch / retainer updates)
 

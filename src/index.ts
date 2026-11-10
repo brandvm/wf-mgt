@@ -6,7 +6,6 @@ import { initCarousel } from './modules/carousel';
 import { initCompare } from './modules/compare';
 import { initCountUp } from './modules/count-up';
 import { initCustomSelect } from './modules/custom-select';
-import { initEnvironmentSwitcher } from './modules/environment-switcher';
 import { initFaq } from './modules/faq';
 import { initFilterTabs } from './modules/filter-tabs';
 import { initFinsweetLoader } from './modules/finsweet-loader';
@@ -43,7 +42,6 @@ function boot() {
   // Right after the lock is gone: Lenis measures the page height at init.
   run('smooth-scroll', initSmoothScroll);
 
-  run('environment-switcher', initEnvironmentSwitcher);
   // Starter fixes for markup Webflow publishes (conventions.md §9–11).
   run('aria-roles', initAriaRoles);
   run('placeholders', initPlaceholders);
