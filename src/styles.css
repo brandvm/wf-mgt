@@ -701,6 +701,37 @@ html.lenis body {
   cursor: pointer;
 }
 
+/* Custom select (custom-select module). The look is Designer classes: the
+   button carries the select's own classes, the list is Select List / Select
+   Option with their Is Open / Is Active / Is Selected combos.
+   repo-css: js-state — the native select stays in the form, under the
+   button, for submission and Finsweet; the value cell stacks every option's
+   text so the button keeps the width of the longest one. */
+[data-custom-select-native] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-custom-select-value] {
+  display: grid;
+  min-width: 0;
+}
+
+[data-custom-select-value] > * {
+  grid-area: 1 / 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+[data-custom-select-sizer] {
+  visibility: hidden;
+}
+
 /* ============================================================
    06. UTILITIES
    ============================================================ */
@@ -875,6 +906,18 @@ html.lenis body {
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+/* repo-css: designer-cant — :has(): one keyboard ring on the wrapper of a
+   control that is hidden or drawn by its wrapper (Filter Pill around a
+   custom select, Choice around a radio, Segmented Tab around the blog's
+   sr-only radios). The Designer sets the ring's colour, width and offset on
+   those classes with outline-style none; this only switches it on. The
+   inner control's own ring is off in its Designer Focus Visible state. */
+.filter-pill:has(:focus-visible),
+.choice:has(:focus-visible),
+.segmented-tab:is(:focus-visible, :has(:focus-visible)) {
+  outline-style: solid;
 }
 
 @media (prefers-reduced-motion: reduce) {

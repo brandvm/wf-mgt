@@ -5,6 +5,7 @@ import { initAriaRoles } from './modules/aria-roles';
 import { initCarousel } from './modules/carousel';
 import { initCompare } from './modules/compare';
 import { initCountUp } from './modules/count-up';
+import { initCustomSelect } from './modules/custom-select';
 import { initEnvironmentSwitcher } from './modules/environment-switcher';
 import { initFaq } from './modules/faq';
 import { initFilterTabs } from './modules/filter-tabs';
@@ -52,6 +53,8 @@ function boot() {
   run('tabs', initTabs);
   run('faq', initFaq);
   run('filter-tabs', initFilterTabs);
+  // Before finsweet-loader: Finsweet reads the native selects this keeps in sync.
+  run('custom-select', initCustomSelect);
   run('hubspot-form', () => { initHubspotForm(lenis); });
   run('item-icons', initItemIcons);
   run('compare', initCompare);
