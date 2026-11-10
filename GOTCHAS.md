@@ -276,3 +276,12 @@ collected from client repos into those files.
 - Fix: put the layout class on the Form Form element (`set_style` on the `FormForm` child) and keep only Form on the wrapper. Done on the Services Template; Toronto's quote form still has it on the wrapper. Check every imported form for this.
 - Status: fixed on the Services Template; Toronto open
 - Found by: claude
+
+### 2026-11-09 · A grid class without explicit columns/rows shows 2 × 2 in the Designer
+- Area: mcp
+- Scope: template-candidate
+- Symptom: the Designer canvas didn't match staging in places, e.g. the quote form's full-width submit button (Button › Is Full) sat at half width in the Designer and full width on staging.
+- Cause: classes written through the API with `display: grid` and no `grid-template-columns` / `grid-template-rows`. The published CSS has no template, so the browser uses one implicit track; the Designer fills an unset template with its own default of 2 columns × 2 rows. Spotted by the person. Nine classes had it: Button › Is Full (both), and rows only on Nav Mega Stats, Nav Mega Grid (and its Is Split / Is Resources), Nav Mega Links › Is Two Col, Nav Posts, Choice Group, Form Columns.
+- Fix: set the value the browser already uses, so staging doesn't change: `grid-template-rows: auto` on all, plus `grid-template-columns: auto` on Is Full. Read back from a full `get_styles` (all breakpoints, combos merged with their parent): none left. Whenever a class gets `display: grid` through the API, write both templates in the same call. To audit: every selector whose effective display is grid at a breakpoint (own + parent class, cascading down the breakpoints) must have both templates.
+- Status: fixed (published 2026-11-09; the live stylesheet has both templates on all seven rules)
+- Found by: human
