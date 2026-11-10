@@ -459,4 +459,5 @@ collected from client repos into those files.
 - Cause: the Block's `text` setting replaces all its children.
 - Fix: write the Block's static text first (end it with a no-break space, U+00A0, so it isn't trimmed), then build the DOM span empty and bind it with a separate `set_settings` call. Read the children back after any `text` write. Separately: a carousel built from only 3 static slides looked jumpy because `carousel.ts` re-orders slides on every move and with 3 the moved slide is on screen; with 11 CMS slides, Playwright saw no on-screen jumps (only off-screen slides move).
 - Status: worked (Home carousel, published 2026-11-10)
+- Update 2026-11-10: the placeholders were deleted and the 4 real case studies jumped again (1 on-screen jump per Next). `carousel.ts` now repeats the slide set until there are at least 8 (`data-carousel-copy`, `aria-hidden`, links out of the tab order); Playwright on staging with the local bundle: 0 jumps at 1440 and 390.
 - Found by: claude

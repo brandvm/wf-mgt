@@ -195,4 +195,4 @@ Blog Posts. None exist in Webflow yet.
 
 - 2026-11-10 · **Case study hero photos** for Toys“R”Us, Moneris and WilsonHCG are stand-ins taken from the Warehouse Decommissioning, Office Furniture Decommissioning and IT Asset Disposition service heroes. Replace with real project photos when the client has them (the content zip only had an SNC-Lavalin logo).
 - <Images, copy and `#` links still to replace, with an owner.>
-- 2026-11-10 · **10 placeholder case studies** (CMS › Case Studies, slugs `placeholder-case-study-01` … `-10`, all copies of SNC-Lavalin, SEO title starts `[PLACEHOLDER]`), published so the Home carousel has enough slides. Delete (or replace with real projects) before launch. Asked by the person.
+- 2026-11-10 · **10 placeholder case studies** (CMS › Case Studies, slugs `placeholder-case-study-01` … `-10`, all copies of SNC-Lavalin, SEO title starts `[PLACEHOLDER]`), published so the Home carousel has enough slides. Delete (or replace with real projects) before launch. Asked by the person. **Deleted 2026-11-10** at the person's request; the four real case studies remain (Home carousel now has 4 slides).

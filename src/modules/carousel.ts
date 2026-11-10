@@ -9,6 +9,15 @@
 // amount, so nothing moves on screen. The current slide stays the same
 // element, so its dimming and count-up are not restarted. With fewer than
 // three slides it doesn't loop. It starts on the first slide in the markup.
+//
+// With only a few slides (3 to MIN_SLIDES - 1) the slide being moved to the
+// other end is still on screen, so the move shows as a jump. The set is then
+// repeated until there are at least MIN_SLIDES. Copies are hidden from
+// assistive tech (aria-hidden) and their links and buttons leave the tab
+// order, so each slide is announced and focused once; they still work on
+// click. Runs before count-up and parallax, so the copies get those too.
+const MIN_SLIDES = 8;
+
 export function initCarousel(): void {
   document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
     const track = root.querySelector<HTMLElement>('[data-carousel-track]');
@@ -17,6 +26,23 @@ export function initCarousel(): void {
     const first = list()[0];
     if (!first) return;
     const loops = list().length >= 3;
+
+    const originals = list();
+    if (loops && originals.length < MIN_SLIDES) {
+      const parent = originals[originals.length - 1].parentElement ?? track;
+      while (list().length < MIN_SLIDES) {
+        originals.forEach((s) => {
+          const copy = s.cloneNode(true) as HTMLElement;
+          copy.setAttribute('aria-hidden', 'true');
+          copy.setAttribute('data-carousel-copy', '');
+          copy.removeAttribute('id');
+          copy.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
+          copy.querySelectorAll('a, button, input, select, textarea, [tabindex]')
+            .forEach((el) => el.setAttribute('tabindex', '-1'));
+          parent.appendChild(copy);
+        });
+      }
+    }
 
     const current = () => {
       const mid = track.getBoundingClientRect().left + track.clientWidth / 2;
