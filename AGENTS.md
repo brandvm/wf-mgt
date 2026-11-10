@@ -15,7 +15,7 @@ Filled in by `pnpm new-project` on 2026-11-06.
 - Old build (the live site, mgt-live): MCP server
   `webflow-michaels-global-trading-live`, **read-only** — reading the live
   site for reference and porting; never write or publish through it.
-  Site ID: `<not checked yet>` (fill in from `list_sites` after its sign-in).
+  Site ID: `658c5919dffd45bc022c9153` (short name `mgt-live`, domains www.michaelsglobaltrading.com and michaelsglobaltrading.com; checked 2026-11-09).
 - Staging site: `https://wf-mgt.webflow.io`
 - Staging bundles: `https://brandvm.github.io/wf-mgt/`
 - Production domain: `not attached yet`
