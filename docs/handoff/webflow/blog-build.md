@@ -300,7 +300,11 @@ article" floated 29–63px above the bottom. Classes only, no repo CSS:
   card links of Home ×3, Service Areas Template ×3, Style Guide ×2, Case
   Studies ×1 (blog cards already had Is End).
 - Prototype mirrors it (`new-classes.css` › Blog; `is-end` on 14 card links).
-Check at 1440 / 991 / 767 / 390 waits for the next site publish.
+Checked on staging after the publish (headless, 1440 / 991 / 767 / 390, /blog,
+a post, Home, Toronto, /case-studies): every card is as tall as the tallest
+in its row (0px short), and "Read article" sits at the body's bottom padding
+on every card (within 1px, rounding). Columns 3 / 2 / 1 / 1. /case-studies
+has one published item, so row equality there is untested until more go live.
 
 ## What is left
 

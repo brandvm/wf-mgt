@@ -1,0 +1,123 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "WebPage",
+        "FAQPage"
+      ],
+      "@id": "https://www.michaelsglobaltrading.com/faqs#webpage",
+      "url": "https://www.michaelsglobaltrading.com/faqs",
+      "name": "FAQs | Michaels Global Trading",
+      "isPartOf": {
+        "@id": "https://www.michaelsglobaltrading.com/#website"
+      },
+      "about": {
+        "@id": "https://www.michaelsglobaltrading.com/#organization"
+      },
+      "inLanguage": "en-CA",
+      "breadcrumb": {
+        "@id": "https://www.michaelsglobaltrading.com/faqs#breadcrumbs"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What factors determine the cost of liquidation and decommissioning services?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Costs depend on asset volume and type, site access (elevators, stairs, loading dock, during the day or evening removal), travel time, and what you include, for example office furniture decommissioning or IT equipment liquidation with data wiping, donation sorting, and certified recycling. Tight lease timelines, specialty items like glass walls, safes, or server racks, and landlord requirements can add additional labour and trucking costs. We confirm scope after a walkthrough and provide an itemized estimate for Toronto and the GTA and other Canadian locations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the typical process for asset liquidation and decommissioning?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Five stages: assessment, planning, removal, transportation, and resale, donation, or recycling. We walk the site, inventory assets, set schedules, and pre plan which items to resale, donate, or recycle. Insured crews decommission workstations, manage IT disconnects with optional data wipe, stage loads, and provide broom clean and simple disposition records at close. Evening and weekend work is available across the GTA; see our contact page for scheduling."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you handle data security during the decommissioning of IT equipment?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We maintain a chain of custody, capture serials, and follow Canadian government media sanitization guidance for secure data wipe or physical destruction, with certificates and a simple log available on request. When projects involve resale, recovery, or end of life processing, we integrate IT asset disposition to align with PIPEDA and provincial privacy rules."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What types of assets can be liquidated or decommissioned?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Office furniture (systems, casegoods, seating, storage), IT and electronics (desktops, laptops, servers, networking), racking and shelving, retail fixtures, and specialty pieces subject to walkthrough. If parts of your lot have resale potential, we may provide credits through office furniture liquidation; otherwise we route to donation or certified recycling through commercial asset liquidation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the benefits of using professional liquidation and decommissioning services?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Maximize asset value, ensure compliance, minimize environmental impact, and free up space and resources. Expert services like Michaels Global Trading in wholesale liquidation, office electronic liquidation, and office furniture liquidation ensure a smooth transition."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you assist with logistics of moving to a new office space and setting up furniture there?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We handle office furniture removal, transportation, and installation per plan. We coordinate dock and elevator bookings, protect finishes, provide COI and WSIB clearance, and work after hours when needed in Toronto and nearby cities."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the purpose of liquidation and decommissioning services for a business?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The purpose is to efficiently and securely dispose of assets, equipment, or infrastructure no longer needed due to business closure, relocation, or upgrades. This aids in freeing up space, recovering capital, and redirecting resources toward core operations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you determine the value of our used office furniture?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Condition, brand and model, matching sets, neutral finishes, completeness (power and hardware), demand, access and timing determine value. Credits, if any, are confirmed after inspection and applied against your invoice. If items are resale ready, our team can assess them; otherwise we prioritize donation and certified recycling through office furniture liquidation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which locations do you serve?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We work across Toronto and the GTA, including Mississauga, Vaughan, Brampton, Markham, Oakville and Burlington, as well as Ottawa and Montreal. We also take on projects in the United States. See Toronto for our home market."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer a buyback program for some furniture, reducing decommissioning costs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, our buyback program identifies items with resale value, reducing overall project costs and promoting financial efficiency and environmental responsibility."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.michaelsglobaltrading.com/faqs#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.michaelsglobaltrading.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "FAQs"
+        }
+      ]
+    }
+  ]
+}

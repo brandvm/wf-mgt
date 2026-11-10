@@ -1,0 +1,4 @@
+{"@context":"https://schema.org","@graph":[
+ {"@type":"WebPage","@id":"https://www.michaelsglobaltrading.com/service-areas/{{wf {"path":"slug","type":"PlainText"\} }}#webpage","url":"https://www.michaelsglobaltrading.com/service-areas/{{wf {"path":"slug","type":"PlainText"\} }}","name":"{{wf {"path":"name","type":"PlainText"\} }}","isPartOf":{"@id":"https://www.michaelsglobaltrading.com/#website"},"about":{"@id":"https://www.michaelsglobaltrading.com/#organization"},"inLanguage":"en-CA","breadcrumb":{"@id":"https://www.michaelsglobaltrading.com/service-areas/{{wf {"path":"slug","type":"PlainText"\} }}#breadcrumbs"}},
+ {"@type":"BreadcrumbList","@id":"https://www.michaelsglobaltrading.com/service-areas/{{wf {"path":"slug","type":"PlainText"\} }}#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.michaelsglobaltrading.com/"},{"@type":"ListItem","position":2,"name":"{{wf {"path":"name","type":"PlainText"\} }}"}]}
+]}

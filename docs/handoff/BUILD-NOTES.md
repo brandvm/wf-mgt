@@ -12,7 +12,7 @@ conditional on which field, and each component's props.
 | Collection / component | How to edit | Notes |
 | --- | --- | --- |
 | | | |
-| FAQs | CMS → FAQs: edit Question and Answer; tick Show on Home / Show on Contact, or pick a Location, to choose where it appears; Order sets the position. | All questions start closed and only one opens at a time (faq module). Every item needs an Answer or its question won't open. |
+| FAQs | CMS → FAQs: edit Question and Answer; tick Show on Home / Show on Contact / Show on FAQs page (then pick a Topic for its filter tab), or pick a Location, to choose where it appears; Order sets the position. | All questions start closed and only one opens at a time (faq module). Every item needs an Answer or its question won't open. |
 
 ## Integrations
 
@@ -33,7 +33,20 @@ Every old URL → its closest new page, from the crawl saved in discovery.
 
 | Old URL | New URL | Status |
 | --- | --- | --- |
-| | | 301 |
+| `/services/used-office-furniture-buyers` | `/services/office-furniture-liquidation` | 301, decided (cms-plan) |
+| `/offers` | `/contact-us` | 301, decided |
+| `/testimonials` | `/about-us` | 301, live's existing redirect |
+| `/our-services` | none: rebuilt as a services hub at the same URL | decided |
+| `/auctions` | `/case-studies` | 301, decided |
+| `/auctions/ingram-micro` | `/case-studies` | 301, decided |
+| `/faq` | `/faqs` | 301, decided |
+| `/thank-you` | none: kept as a noindex page until HubSpot/GTM are checked | decided |
+
+Unchanged URLs (no redirect): `/`, `/about-us`, `/contact-us`, `/blog`,
+every `/blog/<slug>`, 16 `/services/<slug>`, 10 `/service-areas/<slug>`.
+`/privacy-policy` is rebuilt, not redirected. Live's other existing 301s
+come from the person's export. Source: SEO-PLAN.md (2026-11-09 crawl);
+import file `docs/seo/redirects.csv` (proposed rows included).
 
 ## Known issues
 

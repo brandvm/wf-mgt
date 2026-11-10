@@ -358,7 +358,7 @@ collected from client repos into those files.
 - Cause: the repo's §07 fallback `:focus-visible` ring lands on whichever element has focus, also one drawn by its wrapper; a `<select>` matches `:focus-visible` on a mouse click; the Designer has Focus Within but no keyboard-only state for a parent.
 - Fix: Designer: Form Input Focus and Focus Visible = Border/Active border + one 3px Form/Focus Ring outline at offset 0. Filter Pill, Choice and Segmented Tab carry the ring's colour, width and offset with `outline-style: none`, and a repo `designer-cant` rule (`:has(:focus-visible)`) only switches the style to solid, so the colour stays a Designer variable and the repo reads no variable name. The inner control's Focus Visible is outline none (Filter Pill Select, Radio Input). Services Panel Focus Visible is inset (-0.125em). Native selects are replaced by `src/modules/custom-select.ts` (button + listbox, `data-custom-select` on Filter Pill or Select W; the native select stays behind it for submission and Finsweet). Its look is Designer classes: Select List (+ Is Open), Select Option (+ Is Active, Is Selected), Filter Pill › Is Open, Form Input › Is Error for an empty required select on submit.
 - Also: `update_style` refuses custom properties ("Invalid style property --color-accent"), so the fallback ring colour can't be bound to Form/Focus through the API. In the module: `select.checkValidity()` fires `invalid` (use `validity.valid`); Webflow's `label { font-weight: bold }` reaches a list inside a pill label (Select List sets weight 400 and the Form Input type mode); a click inside a `<label>` activates its select (preventDefault on the list's click); the list needs `data-lenis-prevent` to scroll under Lenis.
-- Status: Webflow styles and attributes written and read back (not published); repo not pushed. Select List / Select Option have no style guide specimen yet, so "Clean up unused styles" would delete them.
+- Status: fixed d63a74f, published to webflow.io and checked there 2026-11-09 (Playwright: focus audit at 1440 / 375; Case Studies filter and sort through the dropdown; required-select error on the Services form). Open: Select List / Select Option have no style guide specimen yet, so "Clean up unused styles" would delete them.
 - Found by: human + claude
 
 ### 2026-11-09 · Copy/paste between pages: switch pages inside the Designer, never reload
@@ -378,3 +378,85 @@ collected from client repos into those files.
 - Fix: observe the clipping wrapper (`row.parentElement`) instead of the row. Tested on staging with the local bundle swapped in.
 - Status: fixed in src (pending push)
 - Found by: human
+
+### 2026-11-09 · `create_asset` with an existing file's hash returns that asset, under its old name
+- Area: mcp
+- Scope: template-candidate
+- Symptom: uploading `factor-replies.svg` for About Us, `create_asset` answered with asset `6af237d1…` named `price-timing.svg`, created hours earlier, and upload details for that old key; the other five new icons got fresh ids.
+- Cause: Webflow deduplicates assets by MD5: an identical file (here the same clock icon under another name) maps to the existing asset.
+- Fix: check the returned `id` / `originalFileName` against the name sent; when it is an older asset, skip the S3 POST and use that id. Nothing is wrong with the asset; only its display name differs.
+- Status: worked around (About Us, 2026-11-09)
+- Found by: claude
+
+### 2026-11-09 · FAQs page: option-field filter keys, builder text in children, variable ids in create_style
+- Area: mcp
+- Scope: template-candidate
+- Symptom: (1) binding the FAQs Topic option to `data-category` on a Collection Item gives the option's name ("IT & data", "Furniture value"); `filter-tabs.ts` split it on spaces, so the `it-data` / `furniture-value` tabs matched nothing. (2) `data_element_builder` ignored `set_text` on TextBlock children of a nested schema (they kept "This is some text inside of a div block."). (3) `create_style` with `variable_as_value: "2d3c…"` failed with "An internal error occurred"; the same call with `"variable-2d3c…"` (the id as `query_styles` prints it) worked.
+- Cause: (1) Webflow binds an Option field as its display name; (2) and (3) API quirks.
+- Fix: (1) `filter-tabs.ts` also compares the slug of the whole value (`IT & data` → `it-data`), so tab keys stay slugs. A custom attribute bound to an Option field works on a Designer-made Collection Item through `set_settings` key `attributes` with `value_binding`. (2) After a build, read the String children back and `set_text` them (it is ignored on a top-level TextBlock too, seen again 2026-11-09). (3) Pass variable ids with their `variable-` prefix.
+- Status: fixed in src (filter-tabs.ts + dist/, not committed); staging was checked with the local bundle swapped in
+- Found by: claude
+
+### 2026-11-09 · A GSAP `scale` tween on a parallax image jitters: both write `transform`
+- Area: js
+- Scope: template-candidate
+- Symptom: in the motion preview, the photo reveal (zoom 1.12 → 1) and the hero photo settle looked glitchy; spotted by the person.
+- Cause: GSAP's `scale` is part of the `transform` it writes inline; `parallax.ts` rewrites the same image's inline `transform` on every scroll frame, so each overwrote the other.
+- Fix: run the zoom on the CSS `scale` property, which composes with `transform`: `img.style.scale = 'var(--reveal-scale, 1)'` and tween `--reveal-scale` with GSAP (or WAAPI on `scale`). Rule: only parallax.ts writes `transform` on a `[data-parallax]` image. Prototype `design/motion/reveal.ts`; port target `src/modules/reveal.ts`.
+- Status: fixed in the preview (not built yet)
+- Found by: human
+
+### 2026-11-09 · CMS field tokens: refused in jsonLdSchema and OG image, accepted in page head code
+- Area: mcp
+- Scope: template-candidate
+- Symptom: porting the live site's CMS-bound schema, `bulk_update_pages_schema_markup` on a collection template refused a JSON-LD string holding `{{wf {"path":"slug",…\} }}` tokens ("The provided schema markup must be valid JSON"), with or without a `<script>` wrapper. `update_page_settings` refused a field token as `openGraph.imageUrl` ("should match pattern ^https?://").
+- Cause: the schema endpoint parses the value as JSON; the OG image field takes a URL or asset id only. The live site's bound schema was entered in the Designer (`rawJsonLdSchema`).
+- Fix: CMS-bound JSON-LD goes in the template's head code through `set_page_freeform_code`, with the tokens written the way the Designer stores them: `{{wf {&quot;path&quot;:&quot;slug&quot;,&quot;type&quot;:&quot;PlainText&quot;\} }}` (read back identical). Bind single-line fields only; check the rendered JSON on one published item per template. Static pages take a plain JSON object through `bulk_update_pages_schema_markup`. Binding an image field as the OG image is a Designer step (MANUAL-TODO U).
+- Status: worked around (Services, Service Areas, Blog Posts, Case Studies templates; rendering not yet checked on staging)
+- Found by: claude
+
+### 2026-11-09 · Phone links built by the importer keep a stale `href` attribute
+- Area: mcp
+- Scope: template-candidate
+- Symptom: changing the phone number, every imported Phone Button / D3 phone link still carried a custom attribute `href="tel:6473170860"` next to its link setting, which would override the new `set_link` value in the published HTML (as with the `href = #` on imported links, GOTCHAS 2026-11-09).
+- Cause: the WHTML importer copies `href` into a custom attribute as well as the link setting.
+- Fix: `set_link` with `linkType: phone` and the **bare number** (`+16474966362`): Webflow adds `tel:` itself, and a value written as `tel:6474966362` published as `href="tel:835:6474966362"` (broken; caught by the About session). Then `remove_attribute ["href"]`, query `attribute_name: href` to confirm none is left, and after the publish `curl` a page for `tel:` hrefs. Search a page with `element_filter.text` for the old number to find the String nodes; `set_text` works on them.
+- Status: fixed on every page except About Us and FAQs (their sessions told)
+- Found by: claude
+
+
+### 2026-11-09 · A phone link set to "tel:…" publishes as `tel:835:…`
+- Area: mcp
+- Scope: template-candidate
+- Symptom: after `set_link` `linkType: phone`, link `tel:6474966362`, staging published `href="tel:835:6474966362"` (broken) on About Us, Home, the CTA Banner and G | Footer W; the read-back showed `tel:6474966362`, so nothing looked wrong before the publish.
+- Cause: a phone link adds `tel:` itself; a value that already starts with `tel:` gets mangled on publish.
+- Fix: pass the bare number, `+16474966362` (publishes `tel:+16474966362`, as the nav's links do); check the published HTML for `tel:835`. About Us fixed and republished; components and other pages passed to the SEO session.
+- Status: fixed everywhere (the SEO session reset 28 links; published to webflow.io, Home / About / Contact checked: all `tel:+16474966362`)
+- Found by: claude
+
+### 2026-11-09 · Duplicating a page keeps its Designer-made filtered lists; the importer can make a case-variant duplicate combo
+- Area: mcp
+- Scope: template-candidate
+- Symptom: (1) the services hub needed four Services lists filtered by Category, which API-built lists refuse (entries above). (2) WHTML `class="arrow-link is-small is-end"` produced a new empty combo named `is-end` beside the existing `Is End` (same selector, no properties), so the arrows lost `margin-top: auto`.
+- Cause: (1) `create_page` with `duplicateOf` copies elements with their list settings. (2) the importer matched the class list by name, not by selector, for a three-class chain.
+- Fix: (1) duplicate a page that already has the lists you need (Home), then move and restyle them through the API: filters, sort and item links survive. (2) after an import, `query_styles` the combos you used; `set_style` to the existing name, then remove the duplicate (here it couldn't be removed yet: something else uses `is-end`).
+- Status: worked (Our Services, 2026-11-09)
+- Found by: claude
+
+### 2026-11-09 · Testing an unpublished bundle on staging: answer the bundle requests from dist/
+- Area: ci
+- Scope: template-candidate
+- Symptom: the loader's dev mode (`?wfc-dev=1`) is pinned to http://localhost:3000; the Browser pane's dev server came up on 3001 (3000 reported busy), and `pnpm dev` started from the workspace root with `--dir wf-mgt` failed with ERR_PNPM_BAD_PM_VERSION (corepack runs the global pnpm 12 against the repo's pinned 11).
+- Cause: launch configs run from the workspace root; dev mode has one fixed origin.
+- Fix: test with headless Playwright instead: `page.route(/brandvm\.github\.io\/wf-mgt\/(.+)/)` fulfilled from `wf-mgt/dist/<file>` after `pnpm build`. It also avoids the hidden Browser pane's frame throttling (transitions sat at time 0 there). A launch config for `pnpm dev` needs `"cwd": "wf-mgt"`.
+- Status: worked around
+- Found by: claude
+
+### 2026-11-10 · Setting a Block's text through `set_settings` deletes its child elements
+- Area: mcp
+- Scope: template-candidate
+- Symptom: making the Home carousel CMS-driven, the chip (`div.chip`) needed a static "Case study · " plus a span bound to Project Type. After the span was added and bound, a second `set_settings` `text` write on the chip (to change the prefix) left only the String: the bound span was gone. Also: `data_element_builder` refused a CMS binding at creation ("Element is not inside a CMS context") for a span inside a Collection Item, and `set_text` refused the Block ("doesn't support text"); a trailing normal space in the static text is trimmed on publish.
+- Cause: the Block's `text` setting replaces all its children.
+- Fix: write the Block's static text first (end it with a no-break space, U+00A0, so it isn't trimmed), then build the DOM span empty and bind it with a separate `set_settings` call. Read the children back after any `text` write. Separately: a carousel built from only 3 static slides looked jumpy because `carousel.ts` re-orders slides on every move and with 3 the moved slide is on screen; with 11 CMS slides, Playwright saw no on-screen jumps (only off-screen slides move).
+- Status: worked (Home carousel, published 2026-11-10)
+- Found by: claude

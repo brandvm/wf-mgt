@@ -1,0 +1,51 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.michaelsglobaltrading.com/blog#webpage",
+      "url": "https://www.michaelsglobaltrading.com/blog",
+      "name": "Blog | Michaels Global Trading",
+      "isPartOf": {
+        "@id": "https://www.michaelsglobaltrading.com/#website"
+      },
+      "about": {
+        "@id": "https://www.michaelsglobaltrading.com/#organization"
+      },
+      "inLanguage": "en-CA",
+      "breadcrumb": {
+        "@id": "https://www.michaelsglobaltrading.com/blog#breadcrumbs"
+      },
+      "mainEntity": {
+        "@id": "https://www.michaelsglobaltrading.com/blog#blog"
+      }
+    },
+    {
+      "@type": "Blog",
+      "@id": "https://www.michaelsglobaltrading.com/blog#blog",
+      "name": "Michaels Global Trading Blog",
+      "url": "https://www.michaelsglobaltrading.com/blog",
+      "publisher": {
+        "@id": "https://www.michaelsglobaltrading.com/#organization"
+      },
+      "inLanguage": "en-CA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.michaelsglobaltrading.com/blog#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.michaelsglobaltrading.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog"
+        }
+      ]
+    }
+  ]
+}

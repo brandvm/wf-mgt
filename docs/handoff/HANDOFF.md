@@ -17,6 +17,18 @@ current during the build. Agents read it after `AGENTS.md` and `GOTCHAS.md`.
 
 ## Status
 
+2026-11-09 (night) — **FAQs page built and published to webflow.io** (`/faqs`, page `6af29b6d4dd2addd044071ca`): hero, CMS FAQ list with the shared Side Filter topic sidebar (counts), CTA Banner; checked at 1440/991/767/375 (10 questions, one open at a time, filters 2/5/1/2). Topic filtering for the two-word topics needs the uncommitted `filter-tabs.ts` change pushed. Two questions (move-out date, unsellable furniture) are drafts waiting for the client's answers. Figma compare 05 filled.
+
+2026-11-09 — **About Us (`/about-us`, page `6af29af4b6d39bded3d833be`) built,
+published to webflow.io and checked.** Hero, client logos (Logo Marquee
+instance), Our story, Values, Our services, Why choose (Home's Why Split
+accordion, per the 2026-11-09 decision; the prototype was changed to match),
+then the Locations and CTA Banner instances. Staging vs prototype at 1440 /
+991 / 767 / 375: the hero matches; the rest differs only by the 4px-grid
+rounding (2–4px) and the shared components. No console errors, the nav and
+footer "About Us" links resolve. Figma "2026 Compare" › 03 has the staging
+tiles. Notes: `webflow/about-build.md`.
+
 2026-11-06 (later) — **Batch 11: the Home page is built in Webflow** (all 10
 sections before Locations and CTA Banner, read back and matched against the
 prototype; not published). Icons are Icon Size instances (Phosphor) and the
@@ -155,6 +167,10 @@ Blog Posts. None exist in Webflow yet.
 - 2026-11-06 · Secondary buttons: a Button link (`a.button`) holding a Button Color instance set to Secondary (C | Button can't take the variant through the API). Chosen by the person.
 - 2026-11-07 · FAQs are a vertical list (one column at every width) instead of the 3 / 2 / 1-column card grid; Faq Trigger's min-height (3.84em, there to line cards up across columns) removed. Applies to every FAQ list (Home, FAQs, Contact Us, Toronto). Asked by the person; prototype and Webflow changed together.
 - 2026-11-09 · Size and spacing values in Webflow classes are on the 4px grid (rendered px, rounded to the nearest 4, ties to 8); font sizes keep the type scale. Asked by the person; 194 values changed, listed in `webflow/grid-4px-rounding.md`. The prototype CSS was not changed.
+- 2026-11-09 · Every "Why choose MGT" section uses Home's split accordion (the Service Areas template's card grid was replaced; intro, reason 1 and closing stay bound to the CMS). Asked by the person.
+- 2026-11-09 · Every FAQ section (Home, Services template, Service Areas template, Contact) is left/right: the heading block on the left (Why Split › Why Split Head, sticky, button row left-aligned), the FAQ list on the right; one column from 991 down. Reuses the Why Split classes so both sections share one layout. Asked by the person. The prototype still shows the centred heading.
+- 2026-11-09 · Interaction motion: items 1–21 and 23–24 of `webflow/motion-plan.md` built (the yellow heading highlight, 22, left out). Headings use 11 (line-by-line H1/H2 inside the one-after-another heading group). Scroll entrances replace the scrubbed section fade and pick their elements by class (`src/modules/reveal.ts` TARGETS; `data-reveal` overrides, `data-reveal="off"` opts out). Asked by the person.
+- 2026-11-09 · FAQs page (`/faqs`): white section, heading left-aligned on top (Section Head), then Side Layout: a sticky Side Filter (rows of Side Filter Tab with a Side Filter Count each, filled live by filter-tabs; wraps into a row from 991 down) beside the CMS FAQ list. Same sidebar classes as the services hub `/our-services`. Asked by the person instead of the prototype's centred segmented tabs. The list is the FAQs collection filtered by the new switch **Show on FAQs page**, sorted by Order; Topic is bound to `data-category` for the filter-tabs module.
 - <Date> · <decision and why.>
 
 ## Open decisions
@@ -166,3 +182,4 @@ Blog Posts. None exist in Webflow yet.
 ## Stand-in assets and placeholders
 
 - <Images, copy and `#` links still to replace, with an owner.>
+- 2026-11-10 · **10 placeholder case studies** (CMS › Case Studies, slugs `placeholder-case-study-01` … `-10`, all copies of SNC-Lavalin, SEO title starts `[PLACEHOLDER]`), published so the Home carousel has enough slides. Delete (or replace with real projects) before launch. Asked by the person.

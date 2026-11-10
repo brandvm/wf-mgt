@@ -16,6 +16,8 @@ import { initMarquee } from './modules/marquee';
 import { initNav } from './modules/nav';
 import { initParallax } from './modules/parallax';
 import { initPlaceholders } from './modules/placeholders';
+import { initReadingProgress } from './modules/reading-progress';
+import { initReveal } from './modules/reveal';
 import { initScrollFx } from './modules/scroll-fx';
 import { initSmoothScroll, lenis } from './modules/smooth-scroll';
 import { initTabs } from './modules/tabs';
@@ -63,6 +65,8 @@ function boot() {
   run('marquee', initMarquee);
   run('parallax', initParallax);
   run('scroll-fx', initScrollFx); // after smooth-scroll: hooks Lenis
+  run('reveal', initReveal); // after scroll-fx: Lenis drives ScrollTrigger
+  run('reading-progress', initReadingProgress);
   // Last: adds dist/fs-bundle.js on pages with fs-list-* markup (Blog, Case Studies).
   run('finsweet-loader', initFinsweetLoader);
 }

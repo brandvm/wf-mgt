@@ -16,7 +16,8 @@
 // open has aria-expanded="true". Several can be open at once; with
 // data-faq="single" on the root, opening one closes the others.
 // The panel eases open and closed (height, padding, opacity) unless
-// reduced motion is on.
+// reduced motion is on; while it opens, its content rises 0.5em into place
+// (motion-plan.md 19).
 const MS = 300;
 
 export function initFaq(): void {
@@ -45,7 +46,7 @@ export function initFaq(): void {
       panel.hidden = !open;
       return;
     }
-    panel.getAnimations().forEach((a) => a.cancel());
+    panel.getAnimations({ subtree: true }).forEach((a) => a.cancel());
     panel.classList.add('is-open');
     panel.hidden = false;
     const { paddingTop, paddingBottom } = getComputedStyle(panel);
@@ -53,6 +54,16 @@ export function initFaq(): void {
     const closed = { height: '0px', paddingTop: '0px', paddingBottom: '0px', opacity: 0 };
     panel.style.overflow = 'hidden';
     const run = panel.animate(open ? [closed, opened] : [opened, closed], { duration: MS, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' });
+    if (open) {
+      Array.from(panel.children).forEach((child) =>
+        (child as HTMLElement).animate([{ opacity: 0, transform: 'translateY(0.5em)' }, { opacity: 1, transform: 'none' }], {
+          duration: MS,
+          delay: 60,
+          easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
+          fill: 'backwards',
+        }),
+      );
+    }
     run.onfinish = () => {
       panel.style.overflow = '';
       panel.classList.toggle('is-open', open);

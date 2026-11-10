@@ -1,0 +1,38 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.michaelsglobaltrading.com/case-studies#webpage",
+      "url": "https://www.michaelsglobaltrading.com/case-studies",
+      "name": "Case Studies | Michaels Global Trading",
+      "isPartOf": {
+        "@id": "https://www.michaelsglobaltrading.com/#website"
+      },
+      "about": {
+        "@id": "https://www.michaelsglobaltrading.com/#organization"
+      },
+      "inLanguage": "en-CA",
+      "breadcrumb": {
+        "@id": "https://www.michaelsglobaltrading.com/case-studies#breadcrumbs"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.michaelsglobaltrading.com/case-studies#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.michaelsglobaltrading.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Case Studies"
+        }
+      ]
+    }
+  ]
+}

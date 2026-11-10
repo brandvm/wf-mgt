@@ -59,6 +59,9 @@
   /* Motion */
   --ease-bbs: cubic-bezier(0.64, 0.05, 0, 1);
   --dur-bbs: 800ms;
+  /* Interaction motion (docs/handoff/webflow/motion-plan.md): ease-out-quint,
+     the Designer's "Ease Out Quint". */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
   /* Set this to the fixed header height when the navigation is built. */
   --nav-h: 0rem;
@@ -732,6 +735,184 @@ html.lenis body {
   visibility: hidden;
 }
 
+/* ---- Interaction motion ---------------------------------------------------
+   docs/handoff/webflow/motion-plan.md (approved 2026-11-09). The states the
+   Designer can express (hover backgrounds and borders, Active scale, the
+   field focus fade, the mega menu timing) are on the Webflow classes; here
+   is only what moves a child on its parent's hover, follows a module's
+   state, or needs a pseudo-element or @starting-style. Reduced motion: §07. */
+
+/* repo-css: designer-cant — a child styled on its parent's hover, mouse
+   only. 2: the caret in Button, Arrow Link, a hovered card's arrow and a
+   Service Row's arrow nudges forward and eases back. 1: the hovered Service
+   Row's arrow circle fills navy. 4: the hovered Article Card's photo zooms
+   on the CSS `scale` property, which adds to parallax.ts's transform on the
+   same image instead of replacing it. */
+.button-icon,
+.arrow-link .icon-circle .icon,
+.service-row-arrow .icon {
+  transition: transform 200ms var(--ease-out);
+}
+
+.service-row-arrow {
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.article-card-img {
+  transition: scale 500ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover .button-icon,
+  .arrow-link:hover .icon-circle .icon,
+  .article-card:hover .arrow-link .icon-circle .icon,
+  .service-row:hover .service-row-arrow .icon {
+    transform: translateX(0.125em);
+  }
+
+  .service-row:hover .service-row-arrow {
+    border-color: var(--_colors---brand--navy);
+    background-color: var(--_colors---brand--navy);
+    color: var(--_colors---base--white);
+  }
+
+  .article-card:hover .article-card-img {
+    scale: 1.04;
+  }
+}
+
+/* repo-css: js-state — 5: the FAQ / reason icon follows aria-expanded (faq
+   module). The vertical bar turns flat as it fades; the circle's navy and
+   the reason tile's yellow (rules above) fade in with the 300ms panel; a
+   closed question's circle tints on hover. transform-box: the bar is an SVG
+   path, which the Designer can't style. */
+.faq-icon {
+  transition: background-color 250ms ease, color 250ms ease;
+}
+
+.reason-trigger .icon-tile {
+  transition: background-color 250ms ease;
+}
+
+.faq-icon-bar {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 250ms var(--ease-out), opacity 250ms ease;
+}
+
+.faq-trigger[aria-expanded="true"] .faq-icon-bar,
+.reason-trigger[aria-expanded="true"] .faq-icon-bar {
+  transform: rotate(90deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .faq-trigger[aria-expanded="false"]:hover .faq-icon,
+  .reason-trigger[aria-expanded="false"]:hover .faq-icon {
+    background-color: color-mix(in srgb, currentColor 10%, transparent);
+    transition-duration: 150ms;
+  }
+}
+
+/* repo-css: designer-cant — @starting-style and a discrete display
+   transition. 7: Select List (custom-select module, Is Open = display
+   flex in the Designer) fades in from just under its pill, growing from the
+   top edge, and closes with a quicker fade. Browsers without
+   @starting-style open it instantly, as before. The chevron turns over while
+   its Filter Pill / Select W has Is Open (js-state). */
+.select-list {
+  transform-origin: top left;
+  opacity: 0;
+  transform: translateY(-0.25em) scale(0.98);
+  transition: opacity 100ms ease, transform 100ms ease, display 100ms allow-discrete;
+}
+
+.select-list.is-open {
+  opacity: 1;
+  transform: none;
+  transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out), display 150ms allow-discrete;
+}
+
+@starting-style {
+  .select-list.is-open {
+    opacity: 0;
+    transform: translateY(-0.25em) scale(0.98);
+  }
+}
+
+.select-icon .icon {
+  transition: transform 200ms var(--ease-out);
+}
+
+.is-open > .select-icon .icon,
+.is-open > .select-w > .select-icon .icon {
+  transform: rotate(180deg);
+}
+
+/* repo-css: designer-cant — ::after. 21: Footer Link and More Link's text
+   get a 1px underline in their own colour that grows from the left on hover
+   and leaves to the right. */
+.footer-link,
+.more-link > :first-child {
+  position: relative;
+}
+
+.footer-link::after,
+.more-link > :first-child::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.125em;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 250ms var(--ease-out);
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-link:hover::after,
+  .more-link:hover > :first-child::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+
+/* repo-css: js-state — 24: hubspot-form marks the site's submit button
+   aria-busy while HubSpot sends: a spinner in place of its icon, no second
+   click. */
+[aria-busy="true"] .button-icon {
+  display: none;
+}
+
+[aria-busy="true"] .button-content::after {
+  content: "";
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: wfc-spin 800ms linear infinite;
+}
+
+[aria-busy="true"] {
+  cursor: progress;
+}
+
+@keyframes wfc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* repo-css: third-party — SplitText line masks (reveal module, H1/H2 in a
+   heading block): room for descenders inside each line's clip. */
+.reveal-line {
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
 /* ============================================================
    06. UTILITIES
    ============================================================ */
@@ -938,6 +1119,39 @@ html.lenis body {
   .image-w:hover img,
   .button-link:hover .icon {
     transform: none;
+  }
+
+  /* Interaction motion (§05): no movement, the colour fades stay. The Active
+     scale on Button Color / Phone Button is a Designer state, so it is
+     undone here. */
+  .button-icon,
+  .arrow-link .icon-circle .icon,
+  .service-row-arrow .icon,
+  .faq-icon-bar,
+  .select-list,
+  .select-icon .icon,
+  .footer-link::after,
+  .more-link > :first-child::after {
+    transition-property: opacity, background-color, border-color, color;
+  }
+
+  .button:hover .button-icon,
+  .arrow-link:hover .icon-circle .icon,
+  .article-card:hover .arrow-link .icon-circle .icon,
+  .service-row:hover .service-row-arrow .icon,
+  .faq-icon-bar,
+  .select-list,
+  .button-color:active,
+  .phone-button:active {
+    transform: none !important;
+  }
+
+  .article-card:hover .article-card-img {
+    scale: none;
+  }
+
+  [aria-busy="true"] .button-content::after {
+    animation-duration: 2s;
   }
 }
 

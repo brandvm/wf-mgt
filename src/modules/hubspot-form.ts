@@ -30,6 +30,9 @@
 //   - moves [data-hubspot-submit] (and [data-hubspot-note] after it) out of
 //     its hidden holder in place of HubSpot's submit input, which stays in the form, hidden, and is
 //     clicked by the site's button;
+//   - once HubSpot has validated and starts sending, marks the site's button
+//     busy (aria-busy, label "Sending…", a spinner in place of its icon;
+//     src/styles.css js-state) so nobody clicks twice (motion-plan.md 24);
 //   - on submit, swaps the iframe for [data-hubspot-success] (adds Is Shown);
 //   - forwards wheel events to Lenis, which never sees events in a frame.
 // Styles stay in the Designer: change a class there, never here. Only
@@ -189,9 +192,9 @@ function syncFontSize(frame: Document) {
   window.addEventListener('resize', apply);
 }
 
-function useSiteSubmit(form: HTMLFormElement, template: HTMLElement | null) {
+function useSiteSubmit(form: HTMLFormElement, template: HTMLElement | null): HTMLElement | undefined {
   const input = form.querySelector<HTMLInputElement>('input[type="submit"], button[type="submit"]');
-  if (!input || !template) return;
+  if (!input || !template) return undefined;
   const actions = input.parentElement ?? form;
   const note = template.parentElement?.querySelector<HTMLElement>('[data-hubspot-note]');
   show(input, false);
@@ -207,9 +210,37 @@ function useSiteSubmit(form: HTMLFormElement, template: HTMLElement | null) {
   const button = template.querySelector<HTMLElement>('button, a') ?? template;
   button.addEventListener('click', (event) => {
     event.preventDefault();
+    if (button.getAttribute('aria-busy') === 'true') return;
     input.click();
   });
+  return button;
 }
+
+// The busy state between HubSpot's onFormSubmit (validation passed) and its
+// answer. The label keeps the button's width; a slow or failed send frees
+// the button again after 15s.
+const SENDING = 'Sending…';
+function setSending(button: HTMLElement | undefined, on: boolean) {
+  if (!button) return;
+  const label = button.querySelector<HTMLElement>('.button-content > :not(.button-icon)');
+  if (on) {
+    if (label) {
+      label.dataset.label ??= label.textContent ?? '';
+      label.style.minWidth = `${label.offsetWidth}px`;
+      label.textContent = SENDING;
+      label.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: 150, easing: 'ease' });
+    }
+    button.setAttribute('aria-busy', 'true');
+    window.setTimeout(() => setSending(button, false), 15000);
+  } else {
+    button.removeAttribute('aria-busy');
+    if (label?.dataset.label !== undefined) {
+      label.textContent = label.dataset.label;
+      label.style.minWidth = '';
+    }
+  }
+}
+const buttons = new Map<HTMLElement, HTMLElement>();
 
 // Designer-owned parts placed inside HubSpot's form: [data-hubspot-before=
 // "<field name>"] (a step header) goes in front of that field. They wait in
@@ -251,7 +282,8 @@ function restyle(target: HTMLElement, form: HTMLFormElement, lenis: Lenis | null
     attributeFilter: ['class'],
   });
   placeParts(target, form);
-  useSiteSubmit(form, target.parentElement?.querySelector<HTMLElement>('[data-hubspot-submit]') ?? null);
+  const button = useSiteSubmit(form, target.parentElement?.querySelector<HTMLElement>('[data-hubspot-submit]') ?? null);
+  if (button) buttons.set(target, button);
   target.dataset.hubspotState = 'ready';
 }
 
@@ -291,7 +323,11 @@ export function initHubspotForm(lenis: Lenis | null = null): void {
             const el = 'nodeType' in form ? form : form[0];
             if (el) restyle(target, el, lenis);
           },
-          onFormSubmitted: () => showSuccess(target),
+          onFormSubmit: () => setSending(buttons.get(target), true),
+          onFormSubmitted: () => {
+            setSending(buttons.get(target), false);
+            showSuccess(target);
+          },
         });
       });
     })

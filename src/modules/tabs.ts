@@ -17,6 +17,30 @@
 // (roving tabindex). Panels use the `hidden` attribute and .is-active: the
 // panel class is display: none and its Is Active combo shows it, so the
 // open panel is right on first paint before this script runs.
+//
+// On a click or key (never on load) the new panel fades in and rises 0.5em,
+// then its Service Rows follow 40ms apart (motion-plan.md 6 and 18). Under
+// reduced motion the panel only fades.
+const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
+
+const enter = (panel: HTMLElement) => {
+  if (!panel.animate) return;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  panel.getAnimations({ subtree: true }).forEach((a) => a.cancel());
+  panel.animate([still ? { opacity: 0 } : { opacity: 0, transform: 'translateY(0.5em)' }, { opacity: 1, transform: 'none' }], {
+    duration: 220,
+    easing: EASE,
+  });
+  if (still) return;
+  panel.querySelectorAll<HTMLElement>('.service-row').forEach((row, i) =>
+    row.animate([{ opacity: 0, transform: 'translateY(0.5em)' }, { opacity: 1, transform: 'none' }], {
+      duration: 300,
+      delay: 80 + i * 40,
+      easing: EASE,
+      fill: 'backwards',
+    }),
+  );
+};
 export function initTabs(): void {
   document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root, r) => {
     const tabs = Array.from(root.querySelectorAll<HTMLElement>('[data-tabs-tab]'));
@@ -54,7 +78,8 @@ export function initTabs(): void {
       return panel;
     });
 
-    const select = (index: number, focus = false) => {
+    const select = (index: number, focus = false, animate = false) => {
+      const was = panels.find((p) => p && !p.hidden);
       tabs.forEach((tab, i) => {
         const active = i === index;
         tab.classList.toggle('is-active', active);
@@ -66,13 +91,15 @@ export function initTabs(): void {
         }
       });
       if (focus) tabs[index].focus();
+      const now = panels[index];
+      if (animate && now && now !== was) enter(now);
     };
     select(Math.max(0, tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true')));
 
     tabs.forEach((tab, i) => {
       tab.addEventListener('click', (e) => {
         e.preventDefault();
-        select(i);
+        select(i, false, true);
       });
       tab.addEventListener('keydown', (e) => {
         const last = tabs.length - 1;
@@ -85,7 +112,7 @@ export function initTabs(): void {
           : -1;
         if (next < 0) return;
         e.preventDefault();
-        select(next, true);
+        select(next, true, true);
       });
     });
   });
