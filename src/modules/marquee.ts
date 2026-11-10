@@ -91,8 +91,11 @@ export function initMarquee(): (() => void) | void {
     const resize = new ResizeObserver(measure);
     resize.observe(row);
     resize.observe(items[0]);
+    // Watch the clipping wrapper, not the row: the row moves, and when one set
+    // is wider than the wrapper it can slide fully out of its own box, read as
+    // off screen and never restart.
     const view = new IntersectionObserver(([entry]) => (state.visible = entry.isIntersecting));
-    view.observe(row);
+    view.observe(row.parentElement ?? row);
     observers.push(resize, view);
     rows.push(state);
   });

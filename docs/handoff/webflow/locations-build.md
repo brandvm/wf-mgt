@@ -219,7 +219,7 @@ the API.
    passes); until pushed, staging's tabs show the first panel but don't
    switch. The other session commits.
 3a. **Resources** cards are static (Blog Posts collection later).
-4. **Locations strip** is a Service Areas Collection List in the Locations component (2026-11-09, MANUAL-TODO K); the **nav**'s Service Areas links still point at `#` / `/location-toronto`
+4. **Locations strip** is a Service Areas Collection List in the Locations component (2026-11-09, MANUAL-TODO K); the **nav** mega menu (Services, Service Areas, Resources) is CMS-driven too (2026-11-09, GOTCHAS "component used on the 404 page")
    in the components; they belong to the components session or a list once
    the person decides (cms-plan open decision 6).
 5. **Quote form**: the importer kept the field ids (`tor-name` …) this time;

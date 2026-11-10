@@ -22,6 +22,7 @@ are kept wherever a page carries over, so no redirect is needed for them.
 - **Published 2026-11-09 (person's OK):** 4 Service Categories, 16 Services, 124 service FAQs, plus 6 Toronto FAQs imported from the live Toronto page (slugs `toronto-q1`…`q6`, Location = Toronto `6af2364f008757e51c6ddf32`, links made site-relative; q4's link to the dropped `used-office-furniture-buyers` points to `/services/office-furniture-liquidation`). The 6 Contact FAQs stay drafts (5 placeholders). Staging check (`.webflow-build/staging-states.mjs`): Home and Toronto Services tabs show 4 rows each, the right category, rows link to `/services/<slug>`; Toronto FAQs 6, closed on first paint; no height change scripts off/on. `/services/<slug>` returns 404 until the Services template is built and published.
 - Services notes: Name is the page H1, which differs from the preview's listing name on 4 (Office Furniture Removal vs "… Services", Relocation vs "… Services", Warehouse Liquidation vs "… Services", Landfill Diversion For Office Cleanouts vs Landfill Diversion Services). 9 services have no before/after pair on the preview, only one outcome image: it is in After Image with Before Image empty, so the template shows the compare slider only when Before Image is set (conditional visibility, Designer step). Item Icons: mapped from the preview's Figma SVGs to Phosphor classes and written 2026-11-09 (`services-build.md`). The preview's CTA button labels vary per service but have no field (fixed on the template).
 
+- **Case Studies built 2026-11-09** (side session, nothing published): collection `6af2794c982e680f792fc90e` (27 fields, 5 groups; stats as plain text, one Hero Image, Challenge/Execution images added), 4 draft items (SNC-Lavalin full from the prototype; Toys“R”Us, Moneris, WilsonHCG card-only from the services preview site — the live site has no case studies), the Case Studies Template and the `/case-studies` listing page, all bound. Open: MANUAL-TODO P (list filter/sort) and Q (conditional visibility), the other three stories. Notes: `case-studies-build.md`.
 - **Services Template built 2026-11-09** (published to webflow.io and checked 2026-11-09): Figma 1689:240 layout, preview content, all fields bound; FAQ list, conditional visibility and Rich Body child styles done in the Designer (MANUAL-TODO H, I, J ticked); Item Icons written 2026-11-09 (person's OK; staged until the next publish). Notes: `services-build.md`.
 
 **Rule (the person, 2026-11-09):** every element's first-paint state is a Designer class (closed panels, active first tab, reveal start state, reserved size for injected embeds), so nothing flashes before the bundle runs; JS only changes state.
@@ -216,6 +217,13 @@ Used on: Home and location Resources (3 newest), nav Resources (2 newest),
 the blog listing and post template (**open decision 2**: neither is in the
 prototype).
 
+**Built 2026-11-09 (blog session): see `blog-build.md`.** Both collections with
+field groups, 5 categories (drafts), the Blog page and the Blog Posts
+Template; 249 posts imported as drafts (CSV import, MANUAL-TODO L), lists and
+rich-text styles done in the Designer (M, N, O). Not published.
+Open decision 2 settled by the person: listing = Figma 1689:3390 with
+Finsweet List, template = the live post refined to the site's classes.
+
 ## Not CMS
 
 Stats (105+ reviews, 2k+ clients, 13+ years), trusted logos, steps, Home
@@ -288,3 +296,9 @@ and the client.
 6. Templates: Services, Service Areas (Toronto), Case Studies, then Blog
    once designed.
 7. Blog import (243), then the redirect map in `BUILD-NOTES.md`.
+
+### Clients (2026-11-09)
+
+`6af28d514c4ec01e01c74f0b` (slug `clients`): Name, Logo (Image, alt = company name), Order, Show in Marquee (Switch), Case Study (Reference → Case Studies, for linking logos later). Groups: Logo / Where it shows / Case study. 13 items imported as drafts from the live site's **Customers** collection (live MCP): the design's 7 (SiriusXM, Telus, Agnico Eagle, BlackBerry, Coinsquare, EllisDon, SNC-Lavalin) with Show in Marquee on, Order 1–7; Toys R Us, CFL, Ontario Dental, Canadian Press, Wood, DreamCloud off (8–13). SNC-Lavalin and Toys R Us reference their case studies.
+
+Used by the **Logo Marquee** component (`1f90ca5d-32ce-d6a0-b180-6a812f129649`): root Logo Strip Track (`data-marquee`) › Designer-made Collection List (Logo Strip Set / Logo Strip List; filter Show in Marquee on, sort Order) › Logo Strip Img bound to Logo, alt = Name, eager (lazy images in a clipped marquee never load). The marquee module clones the whole list as one set. Instances replace the static strip image on Home (×2), Case Studies and the Service Areas template (×2); the style guide's two strips are static specimens. Small logos: the wrapper's font size (Logo Strip › Is Small, and Logo Strip › Is Ruled › Is Small on the Toronto overview strip). Logo Strip Img has `aspect-ratio: 289 / 120`.

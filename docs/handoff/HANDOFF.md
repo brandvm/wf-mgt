@@ -154,6 +154,7 @@ Blog Posts. None exist in Webflow yet.
 - 2026-11-06 · Icons in Webflow are Icon / Icon Size component instances (Phosphor), never hand-built `i.ph` or inline SVG; Figma SVG icons are mapped to the nearest Phosphor icon. Exception: the FAQ/reason plus/minus stays SVG (repo CSS animates its bar). Icon Size got a 14px variant. Chosen by the person.
 - 2026-11-06 · Secondary buttons: a Button link (`a.button`) holding a Button Color instance set to Secondary (C | Button can't take the variant through the API). Chosen by the person.
 - 2026-11-07 · FAQs are a vertical list (one column at every width) instead of the 3 / 2 / 1-column card grid; Faq Trigger's min-height (3.84em, there to line cards up across columns) removed. Applies to every FAQ list (Home, FAQs, Contact Us, Toronto). Asked by the person; prototype and Webflow changed together.
+- 2026-11-09 · Size and spacing values in Webflow classes are on the 4px grid (rendered px, rounded to the nearest 4, ties to 8); font sizes keep the type scale. Asked by the person; 194 values changed, listed in `webflow/grid-4px-rounding.md`. The prototype CSS was not changed.
 - <Date> · <decision and why.>
 
 ## Open decisions

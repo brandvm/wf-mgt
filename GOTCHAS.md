@@ -304,6 +304,53 @@ collected from client repos into those files.
 - Status: worked around
 - Found by: claude
 
+### 2026-11-09 · Collection List sort refused on brand-new lists, even at body level
+- Area: mcp
+- Scope: project
+- Symptom: on the new Case Studies page, `filters` (`featured` `isOn`) and then `sort` (`project-date` descending) on two fresh body-level Collection Lists, and `sort` on a list rebuilt for the purpose, all failed with "[Conflict] … component map". `source` and the nested lists' `limit` took. (`equals` on a Switch is rejected with a clear message: use `isOn`.)
+- Cause: the API-built-list conflict in the entries above; on this day it also hit `sort`, which had taken on the Service Areas and Home lists.
+- Fix: build the item content and bindings in the API lists, move them into place, and leave source/filter/sort to Designer-made lists (MANUAL-TODO P), as for E/G/H. Nested lists sourced from a multi-reference (`{"collectionId", "fieldId"}`) took source and `limit` on the Case Studies template; the item context reads the referenced collection (`get_bindable_sources` lists its fields).
+- Status: worked around
+- Found by: claude
+
+### 2026-11-09 · Blog build: CSV import, nested heading modes, pagination and list filters
+- Area: mcp
+- Scope: template-candidate
+- Symptom: (1) the Designer's CSV import preview said the Category reference "does not exist" for every row, and dropped `loading="lazy"` from all 246 rich-text images (`loading="auto"`); items arrived staged, not draft. (2) Inserting a Button Color instance into a Collection List's pagination Next failed: "Components are not allowed in Pagination"; `set_text` on Pagination's text blocks fails too. (3) On a template page, a Designer-made list filter "Blog Post is not Current Blog Post" reads back as `filters: []` through the API, while other filters (Switch `isOn`) read back.
+- Cause: (1) the preview matches by name, the import by slug; the import rewrites rich-text images. (2) Pagination is a closed Webflow structure. (3) The API has no shape for "current item" filters.
+- Fix: (1) a Category column of category slugs works; set `isDraft: true` afterwards (`update_collection_items` with `fieldData: {}` is accepted; the response echoes every body, so it lands in a file); lazy loading would need every body written through the API. (2) give PaginationNext its own class (Load More) and WHTML-import the label div into it, hide PaginationPrevious. (3) check "exclude current item" on staging, not through the API. Also: for rich-text heading sizes, nest the tag selector in the class and set its **Typography Styles variable mode** (H2 → H4 mode) in the Designer instead of font-size properties; margins can then be set through the API with `parent_style_names`.
+- Status: worked around (Blog page and Blog Posts Template, 2026-11-09)
+- Update 2026-11-09 (Finsweet List filter, checked against the 2.7.1 source after the person said it wasn't right): (a) the WHTML importer had dropped `fs-list-field` from the card chip (lessons: "WHTML drops fs-* attributes"), so every category would have filtered to nothing: set it with `set_attributes` after the import and read it back. (b) An "All" built as `fs-list-element="clear"` never gets or loses the active class: Finsweet toggles it only on radio/checkbox labels (`closest('.w-radio, .w-checkbox, label')`). Make All a radio in the same group with `value=""`, `fs-list-value=""` and `checked`. (c) The default active class is `is-list-active`; to use a Designer combo (Is Active) put `fs-list-activeclass="is-active"` on each radio. Radios use the `equal` operator, so `fs-list-value` must match the bound CMS text exactly. Load more needs nothing else: `fs-list-load="more"` on the list fetches all pages, filters across them and uses Webflow's pagination Next.
+- Update 2026-11-09 (dates): imported Published Dates at `T00:00:00Z` displayed one day early on staging, since the site time zone is America/Toronto (the live site showed the right day). Fixed by rewriting every date at `T12:00:00Z` and republishing the items. Also: the live CMS held 5 posts dated in the future that live had never published (scheduled content); importing "everything not draft" published them. Check `lastPublished` on the source items, not only `isDraft`.
+- Found by: human + claude
+
+### 2026-11-09 · A component used on the 404 page can't hold a Collection List
+- Area: designer
+- Scope: template-candidate
+- Symptom: adding a Collection List to G | Nav W (to make the mega menu CMS-driven) failed in the Designer: "Sorry, you can't add a Collection List to a Component that's used on 404 page." The page shell (G | Page W, which holds the nav) is on the 404 utility page, where Webflow allows no CMS.
+- Cause: platform limit on utility pages.
+- Fix (person's choice): on the 404 page, unlink the G | Page W instance, then the G | Nav W instance inside it (right-click › Unlink instance; Page W's nested instances stay linked otherwise). The 404 keeps a static copy of the shell and nav that won't follow later edits. The nav component then took the lists: Services (4 lists, Category = each category and Show in Nav on, sort Order), Service Areas (sort Order), Resources (Blog Posts, Published Date newest first, limit 2). Built one Services list in the Designer, moved the static row in through the API, bound Name / URL Path, then copied that list (cmd+c) into the other three columns (select the column, cmd+v) and changed only the Category filter value: bindings travel with the copy. Inside a list, a link is the Link dot › Connect › <collection> › URL Path.
+- Status: worked around (404 nav is a static copy; update it by hand if the nav changes)
+- Found by: claude
+
+### 2026-11-09 · Select options through the API: one WHTML action per `<option>`
+- Area: mcp
+- Scope: template-candidate
+- Symptom: importing five `<option>`s into a DOM `select` (Case Studies filter bar) in one WHTML action failed: "Expected single root element but found 5 elements"; wrapping them in a div isn't valid inside a select.
+- Cause: the importer takes exactly one root element per action.
+- Fix: build the form controls as DOM elements with `data_element_builder` (`select` with `id`, `name`, `fs-list-field` / `fs-list-element` set at creation, which sticks inside the page shell's slot), then append each `<option value="…">Text</option>` in its own WHTML action (5 per call). The option arrives as a DOM `option` with its `value` kept and an `&` split into three strings (renders fine). Label text: append `<span>Service:</span>` into the DOM label span.
+- Status: worked (Case Studies filter bar)
+- Found by: claude
+
+### 2026-11-09 · Adding a combo class to an element that already has one makes a new three-class combo
+- Area: designer
+- Scope: template-candidate
+- Symptom: the Toronto overview logo strip (Logo Strip + Is Ruled) needed the existing Logo Strip › Is Small combo; typing "Is Small" in the Designer would have created `.logo-strip.is-ruled.is-small`, an empty new combo, not reused `.logo-strip.is-small`.
+- Cause: Webflow combos are the full class chain.
+- Fix: create the three-class combo with the same values (`create_style` with `parent_style_names: ["Logo Strip", "Is Ruled"]`), then pick it in the Designer selector (it shows under Existing Combo Classes). Better: size with a property the parent can carry (here the wrapper's font-size drives the logo's em height), so one combo per chain is enough.
+- Status: worked around
+- Found by: claude
+
 ### 2026-11-09 · Double and missing focus rings on wrapped controls; selects replaced by a custom dropdown
 - Area: css
 - Scope: template-candidate
@@ -313,3 +360,21 @@ collected from client repos into those files.
 - Also: `update_style` refuses custom properties ("Invalid style property --color-accent"), so the fallback ring colour can't be bound to Form/Focus through the API. In the module: `select.checkValidity()` fires `invalid` (use `validity.valid`); Webflow's `label { font-weight: bold }` reaches a list inside a pill label (Select List sets weight 400 and the Form Input type mode); a click inside a `<label>` activates its select (preventDefault on the list's click); the list needs `data-lenis-prevent` to scroll under Lenis.
 - Status: Webflow styles and attributes written and read back (not published); repo not pushed. Select List / Select Option have no style guide specimen yet, so "Clean up unused styles" would delete them.
 - Found by: human + claude
+
+### 2026-11-09 · Copy/paste between pages: switch pages inside the Designer, never reload
+- Area: designer
+- Scope: template-candidate
+- Symptom: copying Home's Why Split block, loading the Service Areas template by URL and pasting gave "For pasting cross-site we had to drop some custom fonts. Renamed 18 classes in order to avoid conflicts" — the paste brought duplicate, renamed classes.
+- Cause: a reloaded Designer treats the clipboard as coming from another site.
+- Fix: undo (the renamed classes went with it; checked the style list), then copy, switch page through the Pages panel and paste: classes, attributes (`data-faq…`), DOM buttons and images all came through intact. Re-bind CMS fields on the pasted copy (`set_settings` text binding) and change static text with `set_text` on the String nodes.
+- Status: worked around
+- Found by: claude
+
+### 2026-11-09 · The marquee paused for good when one logo set was wider than its strip
+- Area: js
+- Scope: template-candidate
+- Symptom: on /case-studies the logo marquee stopped after scrolling back up from the bottom; Home kept moving.
+- Cause: `marquee.ts` paused rows its IntersectionObserver reported off screen, and it observed the moving row. In the narrower Case Studies column one set (~1350px) was wider than the row (1240px), so the transformed row could slide entirely out of its own box, read as not intersecting and never restart.
+- Fix: observe the clipping wrapper (`row.parentElement`) instead of the row. Tested on staging with the local bundle swapped in.
+- Status: fixed in src (pending push)
+- Found by: human
