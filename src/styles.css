@@ -860,33 +860,94 @@ html.lenis body {
   }
 }
 
-/* repo-css: js-state — cta-loop: a light sheen sweeps across a primary
-   (yellow) button about every 6s while it is on screen (.is-cta-live, set
-   by the module). designer-cant: ::after and @keyframes. The sweep takes
-   the first fifth of the cycle; the rest is rest. Hover pauses it. */
-[data-wf--button-color--variant="primary"] {
+/* repo-css: js-state — cta-loop: a light sheen sweeps across each main
+   CTA (the quote buttons, any colour; the module marks them data-cta-loop)
+   about every 6s while it is on screen (.is-cta-live). designer-cant:
+   ::after and @keyframes. The sweep takes the first fifth of the cycle; the
+   rest is rest. Hover pauses it. White on yellow and navy, a navy tint on
+   the white nav button. */
+[data-cta-loop="sheen"] {
+  --cta-sheen: rgb(255 255 255 / 0.55);
   position: relative;
   overflow: hidden;
   isolation: isolate;
 }
 
-[data-wf--button-color--variant="primary"]::after {
+[data-cta-loop="sheen"][data-wf--button-color--variant="secondary"] {
+  --cta-sheen: rgb(255 255 255 / 0.28);
+}
+
+[data-cta-loop="sheen"].is-light {
+  --cta-sheen: rgb(0 46 117 / 0.12);
+}
+
+[data-cta-loop="sheen"]::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.55) 50%, transparent 65%);
+  background-image: linear-gradient(105deg, transparent 35%, var(--cta-sheen) 50%, transparent 65%);
   transform: translateX(-100%);
   pointer-events: none;
 }
 
-.is-cta-live[data-wf--button-color--variant="primary"]::after {
+.is-cta-live[data-cta-loop="sheen"]::after {
   animation: wfc-cta-sheen 6s cubic-bezier(0.4, 0, 0.2, 1) 0.8s infinite;
 }
 
-.is-cta-live[data-wf--button-color--variant="primary"]:hover::after,
-.button:hover .is-cta-live[data-wf--button-color--variant="primary"]::after {
+/* The phone buttons ring instead: the hover's ring and handset wiggle, once
+   every 6s, 3s after the sheens so the two kinds of CTA take turns. */
+.is-cta-live[data-cta-loop="ring"] .icon-circle::after {
+  animation: wfc-cta-ring 6s var(--ease-out) 3.8s infinite;
+}
+
+.is-cta-live[data-cta-loop="ring"] .icon-glyph {
+  animation: wfc-cta-wiggle 6s ease-in-out 3.8s infinite;
+}
+
+/* Hover keeps its own ring and wiggle (the rules above outrank it). */
+@media (hover: hover) and (pointer: fine) {
+  .is-cta-live[data-cta-loop="ring"]:hover .icon-circle::after {
+    animation: wfc-ring 900ms var(--ease-out) 1;
+  }
+
+  .is-cta-live[data-cta-loop="ring"]:hover .icon-glyph {
+    animation: wfc-wiggle 600ms ease-in-out 1;
+  }
+}
+
+.is-cta-live[data-cta-loop="sheen"]:hover::after,
+.button:hover .is-cta-live[data-cta-loop="sheen"]::after {
   animation-play-state: paused;
+}
+
+@keyframes wfc-cta-ring {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  15%,
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+@keyframes wfc-cta-wiggle {
+  0%,
+  10%,
+  100% {
+    transform: rotate(0);
+  }
+  2.5% {
+    transform: rotate(-14deg);
+  }
+  5% {
+    transform: rotate(10deg);
+  }
+  7.5% {
+    transform: rotate(-6deg);
+  }
 }
 
 @keyframes wfc-cta-sheen {
@@ -1285,7 +1346,9 @@ html.lenis body {
 
   .phone-button .icon-circle::after,
   .phone-button .icon-glyph,
-  [data-wf--button-color--variant="primary"]::after {
+  [data-cta-loop]::after,
+  [data-cta-loop] .icon-circle::after,
+  [data-cta-loop] .icon-glyph {
     animation: none !important;
   }
 
