@@ -249,3 +249,30 @@ collected from client repos into those files.
 - Fix: in the Designer, add a Collection List (select the parent and add it, or it nests in the selected list and fails), set source, filter and sort there; then through the API move the item content into the new Collection Item, `set_style` the list class, hide the empty state, remove the old list. Moves keep bindings and link settings. Remove the `href` custom attribute on imported links. Done for the Service Areas template (4 Services + FAQs) and Home (4 Services). The Designer hides draft items, so these lists show "No items" there until items are published.
 - Status: worked around
 - Found by: claude
+
+### 2026-11-09 · Rich-text child styles can't be created through the API; conditional visibility can't bind an Image field
+- Area: mcp
+- Scope: template-candidate
+- Symptom: on the Services template, `create_style` with name `p` and `parent_style_names: ["Rich Body"]` made a combo class `.rich-body.p`, not the nested `.rich-body p`; `update_style` with the same names failed ("Style \"Rich Body > p\" not found"). `set_visibility` with a CMS binding to an Image field (Before Image) failed: "Incompatible binding … cannot bind to target".
+- Cause: nested rich-text styles are created by the Designer only (the API can update them afterwards, lessons/mcp.md 2026-10-28); visibility binds only boolean sources.
+- Fix: both are Designer steps (MANUAL-TODO I and J). Keep a `data-condition="<rule>"` attribute on each wrapper during the build so the Designer step is easy to find, and a single-image figure next to the slider for items with no Before Image. `text-wrap: balance` is accepted by `update_style` (D0–D6, read back).
+- Status: worked around 2026-11-09 (I and J done in the Designer; see the next entry)
+- Found by: claude
+
+### 2026-11-09 · Imported elements refuse conditional visibility in the Designer; bound rich text children can't be styled; Designer-made list wrappers shrink
+- Area: designer
+- Scope: template-candidate
+- Symptom: on the Services template (built in G \| Page W's slot with the WHTML importer), Settings › Visibility › Create conditional on an imported div showed "[Conflict] The operation could not be applied to the component map". A CMS-bound Rich Text's paragraphs can't be selected, so its child styles can't be made on it. The Designer-made FAQs Collection List rendered 735px wide inside a 1240px column (same on staging for Toronto's FAQ list).
+- Cause: the same component-map conflict as API-built Collection Lists (entry above): elements created through the API in the slot refuse some Designer writes. The Collection List Wrapper has no class, so it shrinks inside a flex column with `align-items: flex-start` (S Wrapper).
+- Fix: add a Box in the Designer, set its condition there (it takes it), then through the API move it into place, `set_style` / `set_attributes` it as the old wrapper, move the content in and remove the old wrapper. For rich-text child styles, add a temporary unbound Rich Text with the class, select its p / ul / ol / li / a and choose the tag in the selector with the keyboard (Down, Enter; a click on the menu item often doesn't take), tick "Nest selector inside of <class>", set a property, then delete the temporary element; later edits work through `update_style` with `parent_style_names`. Give Designer-made list wrappers a class with `width: 100%` (Faq List W). Also: an API call with another page's `pageId` switches the open Designer to that page.
+- Status: worked around (Services template); Toronto's FAQ list wrapper still unclassed
+- Found by: claude
+
+### 2026-11-09 · A form's classes land on the w-form wrapper, not the `<form>`
+- Area: designer
+- Scope: template-candidate
+- Symptom: the Services hero quote form was 62px shorter on staging than in the prototype: no gap between the fields, Add details, the button and the note.
+- Cause: the importer (and Webflow's Form Block) puts the class list on the `div.w-form` wrapper; the inner `<form>` gets no class. Quote Form's `display: flex; flex-direction: column; row-gap` laid out the wrapper (form + hidden success/error), not the form's children. The prototype has the classes on the `<form>`.
+- Fix: put the layout class on the Form Form element (`set_style` on the `FormForm` child) and keep only Form on the wrapper. Done on the Services Template; Toronto's quote form still has it on the wrapper. Check every imported form for this.
+- Status: fixed on the Services Template; Toronto open
+- Found by: claude
