@@ -8,6 +8,7 @@ import { initCountUp } from './modules/count-up';
 import { initEnvironmentSwitcher } from './modules/environment-switcher';
 import { initFaq } from './modules/faq';
 import { initFilterTabs } from './modules/filter-tabs';
+import { initFinsweetLoader } from './modules/finsweet-loader';
 import { initHubspotForm } from './modules/hubspot-form';
 import { initItemIcons } from './modules/item-icons';
 import { initMarquee } from './modules/marquee';
@@ -59,6 +60,8 @@ function boot() {
   run('marquee', initMarquee);
   run('parallax', initParallax);
   run('scroll-fx', initScrollFx); // after smooth-scroll: hooks Lenis
+  // Last: adds dist/fs-bundle.js on pages with fs-list-* markup (Blog, Case Studies).
+  run('finsweet-loader', initFinsweetLoader);
 }
 
 if (document.readyState === 'loading') {

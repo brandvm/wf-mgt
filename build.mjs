@@ -14,7 +14,9 @@ const stamp = process.argv.includes('--stamp');
 const version = JSON.parse(await readFile(new URL('./package.json', import.meta.url), 'utf8')).version ?? '0.0.0';
 
 const config = {
-  entryPoints: ['src/index.ts', 'src/styles.css'],
+  // fs-bundle: Finsweet Attributes, kept out of index.js and loaded only on
+  // pages that use them (src/modules/finsweet-loader.ts).
+  entryPoints: ['src/index.ts', 'src/fs-bundle.ts', 'src/styles.css'],
   bundle: true,
   outdir: 'dist',
   // Icon fonts (src/phosphor/) are copied next to the stylesheet, with a
