@@ -479,3 +479,13 @@ collected from client repos into those files.
 - Fix: classes used inside the iframe size by their own width, not breakpoints: Form Columns is `repeat(auto-fit, minmax(min(100%, 16em), 1fr))` (2 columns in the hero and on Contact, 1 on phones). Two more lessons from the same change: `:has()` can't nest, and one invalid selector in a list drops the whole rule (split such rules); an IntersectionObserver only sees targets in its own window, so observe iframe elements with the frame's own `IntersectionObserver` (cta-loop). Form Embed's reserved min-height must be re-measured whenever the form's layout changes (now 43.75 / 37.25 / 42.75 / 66.25em, Is Contact 66.5 / 84.75em).
 - Status: fixed (published 2026-11-10)
 - Found by: claude
+
+### 2026-11-11 · The live Home "slideshow" was not in Webflow: CSS keyframes plus images injected by the bundle
+- Area: js
+- Scope: template-candidate
+- Symptom: asked for "the same slideshow as the current site", the live Home HTML showed one hero image, no Webflow slider, no interaction (`data-w-id`), and a MutationObserver on the hero saw nothing change, yet the photo changed every few seconds.
+- Cause: the old repo's bundle (`brandvm/mgt-live`) adds two more `<img class="hero-slide">` at load and its stylesheet crossfades them with `@keyframes hs` and per-image `animation-delay`. Nothing in the markup or the Designer shows it.
+- Fix: to find how something on a live site moves, read `document.getAnimations()` on the element (it gave the keyframe name, duration and delays at once), then grep the site's custom bundle and stylesheet for that name. Rebuilt here with the slides in the markup, the states as Designer combos (S Bg Media › Is Slide, › Is Active) and `hero-slides.ts` moving one class. To test Webflow changes that are staged but not published, the Playwright run rewrote the staging HTML in `page.route` (the two extra images and the two combo rules) next to the local-bundle swap (GOTCHAS 2026-11-09); re-check on staging after the publish. Also: `query_elements` with `return_parent: "parent"` returned no match for an element a plain query found; query the parent's class with `children_depth` instead.
+- Status: worked (staged; check on staging after the next publish and push)
+- Found by: claude
+

@@ -11,6 +11,7 @@ import { initCustomSelect } from './modules/custom-select';
 import { initFaq } from './modules/faq';
 import { initFilterTabs } from './modules/filter-tabs';
 import { initFinsweetLoader } from './modules/finsweet-loader';
+import { initHeroSlides } from './modules/hero-slides';
 import { initHubspotForm } from './modules/hubspot-form';
 import { initItemIcons } from './modules/item-icons';
 import { initMarquee } from './modules/marquee';
@@ -65,6 +66,7 @@ function boot() {
   run('cta-loop', () => { initCtaLoop(); });
   run('count-up', initCountUp); // after carousel: reads the slides' Is Dimmed
   run('marquee', initMarquee);
+  run('hero-slides', initHeroSlides);
   run('parallax', initParallax);
   run('scroll-fx', initScrollFx); // after smooth-scroll: hooks Lenis
   run('reveal', initReveal); // after scroll-fx: Lenis drives ScrollTrigger
