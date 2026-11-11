@@ -486,6 +486,15 @@ collected from client repos into those files.
 - Symptom: asked for "the same slideshow as the current site", the live Home HTML showed one hero image, no Webflow slider, no interaction (`data-w-id`), and a MutationObserver on the hero saw nothing change, yet the photo changed every few seconds.
 - Cause: the old repo's bundle (`brandvm/mgt-live`) adds two more `<img class="hero-slide">` at load and its stylesheet crossfades them with `@keyframes hs` and per-image `animation-delay`. Nothing in the markup or the Designer shows it.
 - Fix: to find how something on a live site moves, read `document.getAnimations()` on the element (it gave the keyframe name, duration and delays at once), then grep the site's custom bundle and stylesheet for that name. Rebuilt here with the slides in the markup, the states as Designer combos (S Bg Media › Is Slide, › Is Active) and `hero-slides.ts` moving one class. To test Webflow changes that are staged but not published, the Playwright run rewrote the staging HTML in `page.route` (the two extra images and the two combo rules) next to the local-bundle swap (GOTCHAS 2026-11-09); re-check on staging after the publish. Also: `query_elements` with `return_parent: "parent"` returned no match for an element a plain query found; query the parent's class with `children_depth` instead.
-- Status: worked (staged; check on staging after the next publish and push)
+- Status: worked (pushed 4ac558a, published and checked on staging 2026-11-11)
+- Found by: claude
+
+### 2026-11-11 · Webflow published the hero image with `sizes="… 239px"`: a blurry 500px file on desktop
+- Area: mcp
+- Scope: template-candidate
+- Symptom: after the Home hero image got a combo class and two sibling images through the API, the next publish changed its `sizes` from `(max-width: 2880px) 100vw, 2880px` to `(max-width: 479px) 100vw, 239px`, so a 1440 screen loaded `hero-p-500.webp` for a full-width hero (`naturalWidth` 239 in Playwright). The test before the publish had injected the old tag, so it couldn't show this.
+- Cause: Webflow recomputes an Image's `sizes` itself (probably when a Designer tab renders the page); the value was wrong for an image filling an absolute S Bg. Not the stacking: it stayed after the image went back to normal flow. `set_attributes` refuses `sizes` on an Image ("internal error"). A fresh Image from `data_element_builder` published with no `srcset` at all (the full file at every width), and API-uploaded assets have no `-p-###` variants for Webflow to use.
+- Fix: the first slide is a DOM `img` (`data_element_builder` type DOM, `dom_tag: img`) with `src`, `srcset` (the asset's existing `-p-500 … -p-2600` variants plus the original), `sizes="100vw"`, `alt`, `loading`, `fetchpriority` as attributes; Webflow doesn't rewrite a DOM element's attributes. The cost: the photo is changed by editing attributes, not with the image picker. After any publish that touched a full-width image, read its published `sizes` and check `currentSrc` at 1440. A stale CDN copy of the page can answer for a minute after a publish: compare the "Last Published" comment in the HTML before judging.
+- Status: fixed (published and checked on staging 2026-11-11: 1600 / 1080 / 800 variants at 1440 / 991 / 767+375)
 - Found by: claude
 
