@@ -1,0 +1,38 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.michaelsglobaltrading.com/privacy-policy#webpage",
+      "url": "https://www.michaelsglobaltrading.com/privacy-policy",
+      "name": "Privacy Policy | Michaels Global Trading",
+      "isPartOf": {
+        "@id": "https://www.michaelsglobaltrading.com/#website"
+      },
+      "about": {
+        "@id": "https://www.michaelsglobaltrading.com/#organization"
+      },
+      "inLanguage": "en-CA",
+      "breadcrumb": {
+        "@id": "https://www.michaelsglobaltrading.com/privacy-policy#breadcrumbs"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.michaelsglobaltrading.com/privacy-policy#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.michaelsglobaltrading.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Privacy Policy"
+        }
+      ]
+    }
+  ]
+}

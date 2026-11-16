@@ -64,6 +64,62 @@ being built by other sessions during the check: About Us exists (SEO set,
 not yet published), FAQs has no page yet. **Every fix below waits for the
 person's OK**; the decisions are under "Decisions".
 
+2026-11-10 (later) — **Published to webflow.io (person's OK) and
+re-checked.** Schema check re-run on all 294 URLs: no findings (289 pages
+200, the 5 future-dated drafts 404); the FAQPage now has the 10 FAQs on
+the page; the 3 blog headlines have ’ and no entity. Crawl of the 88
+linked pages: every indexable page has a description, one H1 and JSON-LD;
+static pages show the share image; no `tel:835` link anywhere. Still open:
+`og:image` on 80 CMS pages (templates, MANUAL-TODO U); `/faq` and
+`/services/used-office-furniture-buyers` 404 until the redirects are
+imported at launch. After the publish the FAQs description (162) was
+trimmed to 141 characters: staged, goes live with the next publish.
+
+2026-11-10 — **Schema check** (JSON-LD of 294 staging URLs: every page
+in the crawl plus all 249 blog slugs). 289 pages answer 200 and every one
+has exactly one JSON-LD block that parses, `@context` schema.org, no
+unresolved `{{wf}}` tokens, every `@id` it points to defined (Organization,
+WebSite, Blog, the 16 Service ids), required fields present (BlogPosting
+headline/image/datePublished/author, Article headline/image, Service
+name/provider/url, breadcrumbs numbered with links on every crumb but the
+last), `url` = the page's own path, BlogPosting dates ISO 8601
+(`2018-04-10T12:00:00.000Z`), logo and share image answer 200. The 5
+non-200 URLs are the future-dated blog drafts. Found and fixed (staged):
+- **FAQPage on /faqs was out of date**: the list had gained "What
+  strategies can we employ to reduce the environmental footprint…"
+  (`faqs-q13`) and lost "Which locations do you serve?" (`contact-q6`,
+  unpublished). Rewritten from the 10 published FAQs with Show on FAQs
+  page, in Order. **Rewrite `docs/seo/schema/faqs.jsonld` and the page
+  schema whenever that list changes** (it is a fixed copy).
+- **3 blog posts output `&#39;`** in the bound headline/name (straight
+  apostrophe in the Title): Title and SEO Title switched to ’ on
+  `canadas-e-waste-explosion…`, `dos-and-donts-of-computer-disposal`,
+  `evaluating-your-options…`. New posts: type ’ in titles, never ' or ".
+  (The last one also spells the brand "Michael’s" as live did.)
+
+2026-11-10 — **Audit of every page's SEO settings** (API page settings +
+schema, and a crawl of all 88 pages linked on staging). Every static page
+and every published CMS item has a title, a description, OG "same as SEO",
+one H1 and JSON-LD that parses. Fixed in this pass (staged, not
+published): JSON-LD on **Our Services** (CollectionPage + ItemList of the
+16 services) and **Privacy Policy** (WebPage + BreadcrumbList), the share
+image on Our Services, About's description trimmed to 157 characters.
+Left as they are:
+- `/design/style-guide`, `/design/media`: `noindex, nofollow` (correct).
+- `/faq` and `/services/used-office-furniture-buyers` answer 404 on
+  staging: they are the 301s in `docs/seo/redirects.csv`, imported at
+  launch (redirects need the site plan).
+- Template OG images (Services, Service Areas, Case Studies, Blog Posts):
+  MANUAL-TODO U.
+- 10 `[PLACEHOLDER]` case studies are published with the same title and
+  description (HANDOFF › Stand-in assets): delete or unpublish before
+  launch.
+- Blog posts carry live's SEO text unchanged: of the 44 posts the crawl
+  reached, 31 titles are over 60 characters and 30 descriptions over 160
+  (live is the same). A rewrite is content work for the client's OK.
+- The staging sitemap is still the 3-URL one; sitemap controls need the
+  site plan (403).
+
 ## Headline findings
 
 1. **Home has no SEO settings.** Staging serves `<title>Michaels Global

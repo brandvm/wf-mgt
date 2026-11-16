@@ -86,10 +86,10 @@
         },
         {
           "@type": "Question",
-          "name": "Which locations do you serve?",
+          "name": "What strategies can we employ to reduce the environmental footprint during decommissioning?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "We work across Toronto and the GTA, including Mississauga, Vaughan, Brampton, Markham, Oakville and Burlington, as well as Ottawa and Montreal. We also take on projects in the United States. See Toronto for our home market."
+            "text": "We prioritize reuse and donation, then route the remainder to certified recycling with diversion summaries available. Crews separate metals, wood, plastics, and e-waste and follow building rules to keep docks and elevators moving, supported by our sustainable office decommissioning practices and project planning in Toronto."
           }
         },
         {

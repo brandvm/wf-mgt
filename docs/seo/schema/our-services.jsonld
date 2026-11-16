@@ -1,0 +1,188 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.michaelsglobaltrading.com/our-services#webpage",
+      "url": "https://www.michaelsglobaltrading.com/our-services",
+      "name": "Our Services | Michaels Global Trading",
+      "isPartOf": {
+        "@id": "https://www.michaelsglobaltrading.com/#website"
+      },
+      "about": {
+        "@id": "https://www.michaelsglobaltrading.com/#organization"
+      },
+      "inLanguage": "en-CA",
+      "breadcrumb": {
+        "@id": "https://www.michaelsglobaltrading.com/our-services#breadcrumbs"
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "@id": "https://www.michaelsglobaltrading.com/our-services#services",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/office-furniture-liquidation#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/office-furniture-liquidation",
+            "name": "Office Furniture Liquidation"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/office-furniture-decommissioning#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/office-furniture-decommissioning",
+            "name": "Office Furniture Decommissioning"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/office-furniture-removal#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/office-furniture-removal",
+            "name": "Office Furniture Removal"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/office-furniture-relocation#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/office-furniture-relocation",
+            "name": "Office Furniture Relocation"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/warehouse-liquidation-services#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/warehouse-liquidation-services",
+            "name": "Warehouse Liquidation"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/warehouse-decommissioning#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/warehouse-decommissioning",
+            "name": "Warehouse Decommissioning"
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/commercial-asset-liquidation#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/commercial-asset-liquidation",
+            "name": "Commercial Asset Liquidation"
+          },
+          {
+            "@type": "ListItem",
+            "position": 8,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/industrial-equipment-removal#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/industrial-equipment-removal",
+            "name": "Industrial Equipment Removal"
+          },
+          {
+            "@type": "ListItem",
+            "position": 9,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/it-equipment-liquidation#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/it-equipment-liquidation",
+            "name": "IT Equipment Liquidation"
+          },
+          {
+            "@type": "ListItem",
+            "position": 10,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/it-asset-disposition#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/it-asset-disposition",
+            "name": "IT Asset Disposition (ITAD)"
+          },
+          {
+            "@type": "ListItem",
+            "position": 11,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/data-center-decommissioning#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/data-center-decommissioning",
+            "name": "Data Center Decommissioning"
+          },
+          {
+            "@type": "ListItem",
+            "position": 12,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/e-waste-recycling#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/e-waste-recycling",
+            "name": "E-Waste Recycling"
+          },
+          {
+            "@type": "ListItem",
+            "position": 13,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/sustainable-office-decommissioning#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/sustainable-office-decommissioning",
+            "name": "Sustainable Office Decommissioning"
+          },
+          {
+            "@type": "ListItem",
+            "position": 14,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/eco-friendly-office-furniture-disposal#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/eco-friendly-office-furniture-disposal",
+            "name": "Eco-Friendly Office Furniture Disposal"
+          },
+          {
+            "@type": "ListItem",
+            "position": 15,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/office-furniture-donation#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/office-furniture-donation",
+            "name": "Office Furniture Donation"
+          },
+          {
+            "@type": "ListItem",
+            "position": 16,
+            "item": {
+              "@id": "https://www.michaelsglobaltrading.com/services/landfill-diversion#service"
+            },
+            "url": "https://www.michaelsglobaltrading.com/services/landfill-diversion",
+            "name": "Landfill Diversion"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.michaelsglobaltrading.com/our-services#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.michaelsglobaltrading.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Our Services"
+        }
+      ]
+    }
+  ]
+}

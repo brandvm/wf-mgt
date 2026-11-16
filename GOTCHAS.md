@@ -480,6 +480,15 @@ collected from client repos into those files.
 - Status: fixed (published 2026-11-10)
 - Found by: claude
 
+### 2026-11-11 · Lossy WebP/AVIF flattens a dark gradient into blotches
+- Area: perf
+- Scope: template-candidate
+- Symptom: the service hero images (subject left, baked-in navy gradient right) lost the fine grain of the gradient at normal settings: WebP q80–88 and AVIF q60–82 turned it into flat 8–16px patches (seen with the navy area's contrast amplified ×10; adjacent-pixel "flat pairs" went from 0.30 in the source to 0.94–0.99).
+- Cause: the gradient spans only a few 8-bit levels; the encoders quantise away the noise that hides the steps, and an upscale without dither removes it first.
+- Fix: resize in float and add ±1-level triangular noise before rounding to 8-bit, then `cwebp -q 90 -m 6 -sharp_yuv -sns 0 -f 0` (no noise shaping, no deblocking filter). 2560×1440 came out at 190–310 KB with the navy area within ±7 levels (mean 0.7) of the source. Check a gradient with an amplified crop, not by eye at 1×. Also: a Figma frame's "raw image" can be no larger than the frame (here 1672×941), so exporting at 2× adds no detail.
+- Status: worked (16 service heroes)
+- Found by: human + claude
+
 ### 2026-11-11 · The live Home "slideshow" was not in Webflow: CSS keyframes plus images injected by the bundle
 - Area: js
 - Scope: template-candidate
