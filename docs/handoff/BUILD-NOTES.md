@@ -12,7 +12,8 @@ conditional on which field, and each component's props.
 | Collection / component | How to edit | Notes |
 | --- | --- | --- |
 | | | |
-| FAQs | CMS → FAQs: edit Question and Answer; tick Show on Home / Show on Contact / Show on FAQs page (then pick a Topic for its filter tab), or pick a Location, to choose where it appears; Order sets the position. | All questions start closed and only one opens at a time (faq module). Every item needs an Answer or its question won't open. |
+| Blog Posts | CMS → Blog Posts: Title, SEO Title (under 60 characters), Meta Description (140–160), Thumbnail (with alt text), Excerpt, Body. | Use a curly apostrophe (’) and no straight double quotes in the Title: it is written into the page's structured data, where `'` comes out as `&#39;` and `"` breaks it. |
+| FAQs | CMS → FAQs: edit Question and Answer; tick Show on Home / Show on Contact / Show on FAQs page (then pick a Topic for its filter tab), or pick a Location, to choose where it appears; Order sets the position. | All questions start closed and only one opens at a time (faq module). Every item needs an Answer or its question won't open. The FAQs page's structured data is a fixed copy of its list (`docs/seo/schema/faqs.jsonld`): ask for it to be updated when Show on FAQs page items change. |
 
 ## Integrations
 
@@ -26,6 +27,8 @@ Changes made during the build that differ from the approved design, and
 who approved them.
 
 - <Date> · <change> · <approved by>
+- 2026-11-16 · Service area FAQs: 7 per page from the client's final FAQ document, earlier location FAQs removed · client
+- 2026-11-16 · Reply time "2–4 hours" / "24 hours" → "one business day" on every page and form message · client
 - 2026-11-10 · Privacy Policy ported from live with small wording fixes (see HANDOFF Status 2026-11-10); effective date kept at January 17, 2024 · needs the client's legal OK
 
 ## Redirect map
