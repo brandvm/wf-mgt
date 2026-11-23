@@ -1,10 +1,9 @@
 # Session report: 2026-11-23
 
-The Claude Code sessions listed below were archived on 2026-11-23 to keep the Claude app responsive. This file records where each one left off, so a new session can pick up the work.
+The Claude Code sessions listed below were archived and then deleted on 2026-11-23 to keep the Claude app responsive. This file records where each one left off, so a new session can pick up the work.
 
 Read this with `HANDOFF.md` (the project brief and its Status section). If something here conflicts with `HANDOFF.md`, `HANDOFF.md` and the git history are more current.
 
-To reopen a session, go to the Claude app's sidebar → Archived, or use the session link while the app is installed.
 
 ## Open items
 
@@ -30,7 +29,7 @@ Branches not merged into the default branch:
 ### 00 Response time guarantee update
 
 - **Active:** 2026-11-16 → 2026-11-16 16:48
-- **Session:** [local_eef79f9e-157b-487d-8258-4369b4a875ac](claude://claude.ai/epitaxy/local_eef79f9e-157b-487d-8258-4369b4a875ac) (archived)
+- **Session:** `local_eef79f9e-157b-487d-8258-4369b4a875ac` (deleted 2026-11-23)
 - **Started with:** "what client said: <pasted_content id="466e"> The website looks great. I really appreciate the update!! The only change I would want to make is the guarantee of 2-4 hour response. I spoke to my team we don’t want to commit to that and we don’t hit the benchmark every time. Can we change it to respons…"
 - **Where it ended:** The updated HANDOFF.md is committed (724ebb1) and pushed to master on brandvm/wf-mgt.
 - **Recent progress:**
@@ -41,7 +40,7 @@ Branches not merged into the default branch:
 ### Port the live site's Home hero slideshow
 
 - **Active:** 2026-11-11 → 2026-11-11 15:05
-- **Session:** [local_3aafe84d-0ae0-47f8-81b3-3a6db2b0df3c](claude://claude.ai/epitaxy/local_3aafe84d-0ae0-47f8-81b3-3a6db2b0df3c) (archived)
+- **Session:** `local_3aafe84d-0ae0-47f8-81b3-3a6db2b0df3c` (deleted 2026-11-23)
 - **Started with:** "Task (from the session that started this one): Background (from the session that started this one): Workspace: `/Users/Work/Documents/Webflow Projects/Michaels Global Trading` (repo in `wf-mgt/`, prototype in `prototype/`). The person asked, while service hero images were being replaced, that the ho…"
 - **Where it ended:** The blurry 239px first slide is already fixed and published on wf-mgt.webflow.io: it now loads the 1600px variant at 1440 and the 2000px variant at 1920.
 - **Recent progress:**
@@ -52,7 +51,7 @@ Branches not merged into the default branch:
 ### Service Hero Images frame review
 
 - **Active:** 2026-11-11 → 2026-11-11 15:05
-- **Session:** [local_6e39ab49-ac79-4076-a073-774c7299d140](claude://claude.ai/epitaxy/local_6e39ab49-ac79-4076-a073-774c7299d140) (archived)
+- **Session:** `local_6e39ab49-ac79-4076-a073-774c7299d140` (deleted 2026-11-23)
 - **Started with:** "check MGT | Service Hero Images | 16 Assets frame in https://www.figma.com/design/mRsQ8WQJeWKEm3N7J0OmCN/Michaels-Global-Trading--Website-?node-id=1920-2&t=1ud0PCY2TtgC00Hh-0 and see if you can update the image based on description written there"
 - **Status:** home hero slideshow blur fixed; staging confirmed at 1440px
 - **Recent progress:**
@@ -63,7 +62,7 @@ Branches not merged into the default branch:
 ### Start prototype
 
 - **Active:** 2026-11-09 → 2026-11-10 17:22
-- **Session:** [local_10e9b9b0-5671-46ca-a34f-821aa5284308](claude://claude.ai/epitaxy/local_10e9b9b0-5671-46ca-a34f-821aa5284308) (archived)
+- **Session:** `local_10e9b9b0-5671-46ca-a34f-821aa5284308` (deleted 2026-11-23)
 - **Started with:** "start prototype"
 - **Status:** MGT staging tab sits in Reformd session's Chrome group
 - **Recent progress:**
@@ -74,7 +73,7 @@ Branches not merged into the default branch:
 ### SEO and page settings: live vs new build
 
 - **Active:** 2026-11-09 → 2026-11-10 11:57
-- **Session:** [local_b2c50eb2-c212-4e97-bb8f-6144e90ebb59](claude://claude.ai/epitaxy/local_b2c50eb2-c212-4e97-bb8f-6144e90ebb59) (archived)
+- **Session:** `local_b2c50eb2-c212-4e97-bb8f-6144e90ebb59` (deleted 2026-11-23)
 - **Where it ended:** Staging is published and re-checked.
 - **Recent progress:**
   - 2026-11-10 16:49 UTC: Every page and published CMS item now has an SEO title, description, share tags, one H1 and valid schema. Today's fixes (Our Services and Privacy Policy schema, Our Services share image, About description) are staged, not published. Template share images still need MANUAL-TODO U.
@@ -84,7 +83,7 @@ Branches not merged into the default branch:
 ### Subtle interaction animation plan with previews
 
 - **Active:** 2026-11-09 → 2026-11-10 00:04
-- **Session:** [local_b5da13d5-43f1-4510-b9cd-756f58b9d8f2](claude://claude.ai/epitaxy/local_b5da13d5-43f1-4510-b9cd-756f58b9d8f2) (archived)
+- **Session:** `local_b5da13d5-43f1-4510-b9cd-756f58b9d8f2` (deleted 2026-11-23)
 - **Status:** motion build ready; awaiting go to commit and publish
 - **Recent progress:**
   - 2026-11-10 04:38 UTC: The preview now has seven scroll entrances (10–16) replacing today's section fade: staggered headings, heading lines, steps with drawn lines, card/FAQ stagger, photo reveals, CTA expand and a hero photo settle. The plan file is updated. Nothing is built or committed.
@@ -94,7 +93,7 @@ Branches not merged into the default branch:
 ### FAQs page in Webflow
 
 - **Active:** 2026-11-09 → 2026-11-09 23:59
-- **Session:** [local_4a77a538-56f6-4d31-b5b8-23ba5d34d083](claude://claude.ai/epitaxy/local_4a77a538-56f6-4d31-b5b8-23ba5d34d083) (archived)
+- **Session:** `local_4a77a538-56f6-4d31-b5b8-23ba5d34d083` (deleted 2026-11-23)
 - **Started with:** "Another Claude session sent a message: <cross-session-message from="local_10e9b9b0-5671-46ca-a34f-821aa5284308" from-name="Start prototype"> The person gave the FAQs page design link and wants the FAQ list in the same left/right layout as the other FAQ sections. Their words: "FAQs page design: https…"
 - **Where it ended:** /faqs now uses the services hub's sidebar (Side Filter rows with live counts) and is on webflow.io, checked at all 4 widths.
 - **Recent progress:**
@@ -105,7 +104,7 @@ Branches not merged into the default branch:
 ### Build services hub page at /our-services
 
 - **Active:** 2026-11-09 → 2026-11-09 23:56
-- **Session:** [local_e8ca565c-0cdc-4242-b97e-37ca33fc8f2d](claude://claude.ai/epitaxy/local_e8ca565c-0cdc-4242-b97e-37ca33fc8f2d) (archived)
+- **Session:** `local_e8ca565c-0cdc-4242-b97e-37ca33fc8f2d` (deleted 2026-11-23)
 - **Started with:** "Another Claude session sent a message: <cross-session-message from="local_4a77a538-56f6-4d31-b5b8-23ba5d34d083" from-name="FAQs page in Webflow"> FAQs session: the person wants /faqs to follow your new hub sidebar design (Hub Filter panel, Hub Filter Tab rows, Hub Filter Count), so I'll reuse your c…"
 - **Where it ended:** The new sidebar and the phone link fix are live on wf-mgt.webflow.io/our-services.
 - **Recent progress:**
@@ -116,7 +115,7 @@ Branches not merged into the default branch:
 ### About Us page in Webflow
 
 - **Active:** 2026-11-09 → 2026-11-09 23:50
-- **Session:** [local_5ddfdd89-f816-45e0-9717-1de7c867b8ee](claude://claude.ai/epitaxy/local_5ddfdd89-f816-45e0-9717-1de7c867b8ee) (archived)
+- **Session:** `local_5ddfdd89-f816-45e0-9717-1de7c867b8ee` (deleted 2026-11-23)
 - **Started with:** "[Image: original 1440x4000, displayed at 720x2000. Multiply coordinates by 2.00 to map to original image.]"
 - **Where it ended:** Published once more to webflow.io, carrying the SEO session's fix for the shared phone links.
 - **Recent progress:**
@@ -127,7 +126,7 @@ Branches not merged into the default branch:
 ### Focus rings and custom dropdowns for selects
 
 - **Active:** 2026-11-09 → 2026-11-09 22:53
-- **Session:** [local_4cad0390-e840-427d-84f7-24b081586486](claude://claude.ai/epitaxy/local_4cad0390-e840-427d-84f7-24b081586486) (archived)
+- **Session:** `local_4cad0390-e840-427d-84f7-24b081586486` (deleted 2026-11-23)
 - **Started with:** "Another Claude session sent a message: <cross-session-message from="local_10e9b9b0-5671-46ca-a34f-821aa5284308" from-name="Start prototype"> FYI: the Case Studies session (`local_f1835738-a215-4af5-9f72-fd4289391477`) has just added the /case-studies filter bar through the API: Service, Industry, So…"
 - **Status:** re-verified 54e3ad3 on staging; all checks pass
 - **Recent progress:**
@@ -137,7 +136,7 @@ Branches not merged into the default branch:
 ### Blog CMS and template
 
 - **Active:** 2026-11-09 → 2026-11-09 22:49
-- **Session:** [local_5866967f-46c0-4ad6-8489-9c6dc9e0c484](claude://claude.ai/epitaxy/local_5866967f-46c0-4ad6-8489-9c6dc9e0c484) (archived)
+- **Session:** `local_5866967f-46c0-4ad6-8489-9c6dc9e0c484` (deleted 2026-11-23)
 - **Started with:** "Another Claude session sent a message: <cross-session-message from="local_10e9b9b0-5671-46ca-a34f-821aa5284308" from-name="Start prototype"> From the person (their words): "for content use https://mgt-office-liquidation-preview.brandvmarketin315346.chatgpt.site/ if not there use what is in figma and…"
 - **Where it ended:** The card fix passed on staging at 1440, 991, 767 and 390 on all five pages.
 - **Recent progress:**
@@ -148,7 +147,7 @@ Branches not merged into the default branch:
 ### Case Studies CMS and template
 
 - **Active:** 2026-11-09 → 2026-11-09 22:37
-- **Session:** [local_f1835738-a215-4af5-9f72-fd4289391477](claude://claude.ai/epitaxy/local_f1835738-a215-4af5-9f72-fd4289391477) (archived)
+- **Session:** `local_f1835738-a215-4af5-9f72-fd4289391477` (deleted 2026-11-23)
 - **Started with:** "Another Claude session sent a message: <cross-session-message from="local_5866967f-46c0-4ad6-8489-9c6dc9e0c484" from-name="Blog CMS and template"> Blog session here: are you adding Finsweet List to the repo (recipes/finsweet → src/modules/finsweet.ts, `pnpm finsweet add list`)? The blog listing need…"
 - **Status:** case-studies filters checked; nothing needed changing
 - **Recent progress:**
@@ -159,7 +158,7 @@ Branches not merged into the default branch:
 ### Services template: prototype then Webflow
 
 - **Active:** 2026-11-09 → 2026-11-09 20:48
-- **Session:** [local_88aa05cc-8d1b-4a99-be8a-6a76bf11615b](claude://claude.ai/epitaxy/local_88aa05cc-8d1b-4a99-be8a-6a76bf11615b) (archived)
+- **Session:** `local_88aa05cc-8d1b-4a99-be8a-6a76bf11615b` (deleted 2026-11-23)
 - **Started with:** "[Image: original 390x2215, displayed at 352x2000. Multiply coordinates by 1.11 to map to original image.]"
 - **Where it ended:** Pushed 17e8b9c to master with the item-icons script, dist/ and the Services notes.
 - **Recent progress:**
@@ -170,7 +169,7 @@ Branches not merged into the default branch:
 ### Service Areas CMS and location template
 
 - **Active:** 2026-11-09 → 2026-11-09 17:47
-- **Session:** [local_b783b865-62f1-48fc-9e16-6d7f333b39d6](claude://claude.ai/epitaxy/local_b783b865-62f1-48fc-9e16-6d7f333b39d6) (archived)
+- **Session:** `local_b783b865-62f1-48fc-9e16-6d7f333b39d6` (deleted 2026-11-23)
 - **Started with:** "Yes, publish and compare"
 - **Where it ended:** Manual steps E and G are done in the Designer.
 - **Recent progress:**
@@ -181,7 +180,7 @@ Branches not merged into the default branch:
 ### Contact page with restyled HubSpot form
 
 - **Active:** 2026-11-09 → 2026-11-09 16:56
-- **Session:** [local_7feded82-cd83-42df-b2bd-f530a1b29525](claude://claude.ai/epitaxy/local_7feded82-cd83-42df-b2bd-f530a1b29525) (archived)
+- **Session:** `local_7feded82-cd83-42df-b2bd-f530a1b29525` (deleted 2026-11-23)
 - **Started with:** "Another Claude session sent a message: <cross-session-message from="local_10e9b9b0-5671-46ca-a34f-821aa5284308" from-name="Start prototype"> New rule from the person: every element's default (first-paint) state must be set with Webflow Designer styles wherever possible, so nothing flashes or jumps o…"
 - **Where it ended:** The Contact form redesign and the FAQ closed-by-default fix are built and tested.
 - **Recent progress:**
@@ -192,7 +191,7 @@ Branches not merged into the default branch:
 ### MCP count in repo
 
 - **Active:** 2026-11-09 → 2026-11-09 15:58
-- **Session:** [local_86f18d1b-2058-4fe9-8233-0f1c0456e6ed](claude://claude.ai/epitaxy/local_86f18d1b-2058-4fe9-8233-0f1c0456e6ed) (archived)
+- **Session:** `local_86f18d1b-2058-4fe9-8233-0f1c0456e6ed` (deleted 2026-11-23)
 - **Started with:** "how many mcp are in the repo?"
 - **Where it ended:** The repo and workspace .mcp.json files now list two Webflow servers: the new build and the old live build (`-live`).
 - **Recent progress:**
@@ -201,7 +200,7 @@ Branches not merged into the default branch:
 ### Nav, home and footer
 
 - **Active:** 2026-11-05 → 2026-11-08 22:56
-- **Session:** [local_52099f4f-ddad-4b55-a415-f02e5a4e0b03](claude://claude.ai/epitaxy/local_52099f4f-ddad-4b55-a415-f02e5a4e0b03) (archived)
+- **Session:** `local_52099f4f-ddad-4b55-a415-f02e5a4e0b03` (deleted 2026-11-23)
 - **Started with:** "Continue i think previous session got interrupted while you were working on nav, home and footer"
 - **Where it ended:** The notes are committed as eec5ae0 and pushed to master.
 - **Recent progress:**
@@ -212,7 +211,7 @@ Branches not merged into the default branch:
 ### Build page shell, Nav and Footer in Webflow
 
 - **Active:** 2026-11-05 → 2026-11-05 22:46
-- **Session:** [local_02248c85-b62c-4d5c-86dd-34afe2e08dde](claude://claude.ai/epitaxy/local_02248c85-b62c-4d5c-86dd-34afe2e08dde) (archived)
+- **Session:** `local_02248c85-b62c-4d5c-86dd-34afe2e08dde` (deleted 2026-11-23)
 - **Started with:** "Background (from the session that started this one): Webflow build of Michaels Global Trading from an approved localhost prototype, done in batches with one go-ahead per batch. Batches 1–7 are done and verified by script against full read-backs: all variables and modes (Colors Semantic has Base, Dar…"
 - **Where it ended:** All five two-class combos are now on their 15 elements and read back; no prototype class is missing from the nav, footer, CTA Banner or Locations.
 - **Recent progress:**
