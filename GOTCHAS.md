@@ -514,7 +514,7 @@ collected from client repos into those files.
 - Symptom: the launch QA found the HubSpot form (`07684124…`) set to redirect to `https://www.michaelsglobaltrading.com/thank-you` after submit. Live had that page (noindex, not in the sitemap), the rebuild didn't, and nothing in the crawl of live's sitemap showed it.
 - Cause: a form's redirect target lives in HubSpot, not on the page; noindex pages aren't in a sitemap, so URL-parity checks built from the sitemap miss them.
 - Fix: read each embedded form's settings before launch (`https://forms.hsforms.com/embed/v3/form/<portal>/<guid>/json` › `redirectUrl` / `inlineMessage`) and make sure the target exists. Built `/thank-you` (noindex via page head code). Also read the live GTM container (`gtm.js?id=…`, `resource.tags`) for page-path triggers such as `thank-you-submission`.
-- Status: fixed (staged 2026-11-24, needs a publish)
+- Status: fixed bccc7ef (published to webflow.io and checked 2026-11-24)
 - Found by: claude
 
 ### 2026-11-24 · Blog posts kept changing on the old site after the import
@@ -523,7 +523,7 @@ collected from client repos into those files.
 - Symptom: 12 posts were rewritten on live (new text, links and images) and 1 new post went live between the 2026-11-09 import and launch QA; the rebuild still had the old versions.
 - Cause: the client's content team kept editing the live CMS; nothing compared the two after the import.
 - Fix: before launch, list the source collection sorted by `lastPublished` and re-sync every item updated after the import (`docs/handoff/webflow/tools/blog/blog-csv.py` › `clean_body`, keep the Figma overrides). Agree a content freeze on the old site until DNS moves.
-- Status: fixed (staged 2026-11-24)
+- Status: fixed (published to webflow.io and checked 2026-11-24)
 - Found by: claude
 
 ### 2026-11-24 · loader.html may hold only three bare `<script>` tags
@@ -532,7 +532,7 @@ collected from client repos into those files.
 - Symptom: adding the live GTM snippet to piece 1 made `tests/loader.check.mjs` count four `<script>` blocks, which would fail CI and the staging deploy.
 - Cause: the tests find the loader pieces with `/<script>([\s\S]*?)<\/script>/`.
 - Fix: give third-party inline scripts an attribute (`<script data-tracking="gtm">`), in `loader.html` and the installed head code alike.
-- Status: fixed (uncommitted)
+- Status: fixed bccc7ef
 - Found by: claude
 
 ### 2026-11-24 · The live site's cookie banner script doesn't resolve
