@@ -540,6 +540,6 @@ collected from client repos into those files.
 - Scope: project
 - Symptom: after copying live's head code, every page logged `ERR_NAME_NOT_RESOLVED` for `https://platform.illow.io/banner.js?siteId=…`; live does the same, so live has shown no cookie banner for some time.
 - Cause: `platform.illow.io` has no DNS record (checked with 1.1.1.1); `illow.io` itself answers.
-- Fix: removed from the head code and `loader.html` on 2026-11-24 (the person's call). A consent banner (custom Consent Mode v2 component, or another CMP) is still to be chosen; until then nothing gates the GTM tags on consent.
-- Status: script removed; consent banner open
+- Fix: removed from the head code and `loader.html` on 2026-11-24 (the person's call). Decided the same day: no consent banner (as live has run); nothing gates the GTM tags on consent.
+- Status: fixed 1660650 (no banner, by decision)
 - Found by: claude
