@@ -38,7 +38,7 @@ Every old URL → its closest new page, from the crawl saved in discovery.
 | Old URL | New URL | Status |
 | --- | --- | --- |
 | `/services/used-office-furniture-buyers` | `/services/office-furniture-liquidation` | 301, decided (cms-plan) |
-| `/offers` | `/contact-us` | 301, decided |
+| `/offers` | none: rebuilt as a Get a Quote page at the same URL (2026-11-24, duplicated from Contact Us, same HubSpot form) | decided |
 | `/testimonials` | `/about-us` | 301, live's existing redirect |
 | `/our-services` | none: rebuilt as a services hub at the same URL | decided |
 | `/auctions` | `/case-studies` | 301, decided |
