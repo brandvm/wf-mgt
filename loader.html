@@ -40,6 +40,19 @@ published.
    Site custom code is ignored by the Designer canvas, which is what
    we want here — no scroll lock, no preloader while designing.
 ------------------------------------------------------------ -->
+<!-- Tracking, carried over from the live site (mgt-live head code, 2026-11-24).
+     GTM-NKPQBTX holds GA4, Google Ads, CallRail, HubSpot tracking, Clarity and
+     LinkedIn; its tags only fire on michaelsglobaltrading.com hostnames.
+     Live's illow banner script was left out: platform.illow.io no longer
+     resolves (GOTCHAS 2026-11-24); a consent banner is still to be chosen. -->
+<!-- Google Tag Manager -->
+<script data-tracking="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NKPQBTX');</script>
+<!-- End Google Tag Manager -->
+<meta name="ahrefs-site-verification" content="b811c9bc3997d8d4a4b7db2098b13327f586dab17857b1f0dff01cd406e1732b">
 <meta name="theme-color" content="#000000" />
 
 <script>
@@ -254,6 +267,10 @@ find its global undefined.
 
 Rollback = set RELEASE in piece 1 back to the previous tag and publish.
 ============================================================ -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKPQBTX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <script>
   (function () {
     var C = window.WFC;

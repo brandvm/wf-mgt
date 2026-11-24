@@ -19,7 +19,7 @@ Filled in by `pnpm new-project` on 2026-11-06.
 - Staging site: `https://wf-mgt.webflow.io`
 - Staging bundles: `https://brandvm.github.io/wf-mgt/`
 - Production domain: `not attached yet`
-- Production release: `none yet`
+- Production release: `v1.0.0` (tag on ff39b72; `RELEASE = "1.0.0"` set in the Webflow head code and published to webflow.io 2026-11-24; jsDelivr serves it)
 
 ## Who owns what
 

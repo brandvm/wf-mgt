@@ -480,6 +480,15 @@ collected from client repos into those files.
 - Status: fixed (published 2026-11-10)
 - Found by: claude
 
+### 2026-11-11 · Lossy WebP/AVIF flattens a dark gradient into blotches
+- Area: perf
+- Scope: template-candidate
+- Symptom: the service hero images (subject left, baked-in navy gradient right) lost the fine grain of the gradient at normal settings: WebP q80–88 and AVIF q60–82 turned it into flat 8–16px patches (seen with the navy area's contrast amplified ×10; adjacent-pixel "flat pairs" went from 0.30 in the source to 0.94–0.99).
+- Cause: the gradient spans only a few 8-bit levels; the encoders quantise away the noise that hides the steps, and an upscale without dither removes it first.
+- Fix: resize in float and add ±1-level triangular noise before rounding to 8-bit, then `cwebp -q 90 -m 6 -sharp_yuv -sns 0 -f 0` (no noise shaping, no deblocking filter). 2560×1440 came out at 190–310 KB with the navy area within ±7 levels (mean 0.7) of the source. Check a gradient with an amplified crop, not by eye at 1×. Also: a Figma frame's "raw image" can be no larger than the frame (here 1672×941), so exporting at 2× adds no detail.
+- Status: worked (16 service heroes)
+- Found by: human + claude
+
 ### 2026-11-11 · The live Home "slideshow" was not in Webflow: CSS keyframes plus images injected by the bundle
 - Area: js
 - Scope: template-candidate
@@ -498,3 +507,39 @@ collected from client repos into those files.
 - Status: fixed (published and checked on staging 2026-11-11: 1600 / 1080 / 800 variants at 1440 / 991 / 767+375)
 - Found by: claude
 
+
+### 2026-11-24 · Pre-launch: the HubSpot form redirects to a page the rebuild never had
+- Area: js
+- Scope: template-candidate
+- Symptom: the launch QA found the HubSpot form (`07684124…`) set to redirect to `https://www.michaelsglobaltrading.com/thank-you` after submit. Live had that page (noindex, not in the sitemap), the rebuild didn't, and nothing in the crawl of live's sitemap showed it.
+- Cause: a form's redirect target lives in HubSpot, not on the page; noindex pages aren't in a sitemap, so URL-parity checks built from the sitemap miss them.
+- Fix: read each embedded form's settings before launch (`https://forms.hsforms.com/embed/v3/form/<portal>/<guid>/json` › `redirectUrl` / `inlineMessage`) and make sure the target exists. Built `/thank-you` (noindex via page head code). Also read the live GTM container (`gtm.js?id=…`, `resource.tags`) for page-path triggers such as `thank-you-submission`.
+- Status: fixed bccc7ef (published to webflow.io and checked 2026-11-24)
+- Found by: claude
+
+### 2026-11-24 · Blog posts kept changing on the old site after the import
+- Area: mcp
+- Scope: template-candidate
+- Symptom: 12 posts were rewritten on live (new text, links and images) and 1 new post went live between the 2026-11-09 import and launch QA; the rebuild still had the old versions.
+- Cause: the client's content team kept editing the live CMS; nothing compared the two after the import.
+- Fix: before launch, list the source collection sorted by `lastPublished` and re-sync every item updated after the import (`docs/handoff/webflow/tools/blog/blog-csv.py` › `clean_body`, keep the Figma overrides). Agree a content freeze on the old site until DNS moves.
+- Status: fixed (published to webflow.io and checked 2026-11-24)
+- Found by: claude
+
+### 2026-11-24 · loader.html may hold only three bare `<script>` tags
+- Area: loader
+- Scope: template-candidate
+- Symptom: adding the live GTM snippet to piece 1 made `tests/loader.check.mjs` count four `<script>` blocks, which would fail CI and the staging deploy.
+- Cause: the tests find the loader pieces with `/<script>([\s\S]*?)<\/script>/`.
+- Fix: give third-party inline scripts an attribute (`<script data-tracking="gtm">`), in `loader.html` and the installed head code alike.
+- Status: fixed bccc7ef
+- Found by: claude
+
+### 2026-11-24 · The live site's cookie banner script doesn't resolve
+- Area: js
+- Scope: project
+- Symptom: after copying live's head code, every page logged `ERR_NAME_NOT_RESOLVED` for `https://platform.illow.io/banner.js?siteId=…`; live does the same, so live has shown no cookie banner for some time.
+- Cause: `platform.illow.io` has no DNS record (checked with 1.1.1.1); `illow.io` itself answers.
+- Fix: removed from the head code and `loader.html` on 2026-11-24 (the person's call). Decided the same day: no consent banner (as live has run); nothing gates the GTM tags on consent.
+- Status: fixed 1660650 (no banner, by decision)
+- Found by: claude
