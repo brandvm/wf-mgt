@@ -38,11 +38,11 @@ Every old URL → its closest new page, from the crawl saved in discovery.
 | Old URL | New URL | Status |
 | --- | --- | --- |
 | `/services/used-office-furniture-buyers` | `/services/office-furniture-liquidation` | 301, decided (cms-plan) |
-| `/offers` | none: rebuilt as a Get a Quote page at the same URL (2026-11-24, duplicated from Contact Us, same HubSpot form) | decided |
+| `/offers` | none: rebuilt at the same URL with live's content in the new layout (2026-11-24: quote hero with the HubSpot form, services and industries tabs, process, FAQs, CTA Banner) | decided |
 | `/testimonials` | `/about-us` | 301, live's existing redirect |
 | `/our-services` | none: rebuilt as a services hub at the same URL | decided |
-| `/auctions` | `/case-studies` | 301, decided |
-| `/auctions/ingram-micro` | `/case-studies` | 301, decided |
+| `/auctions` | none: rebuilt at the same URL with an Auctions CMS collection (2026-11-24) | decided |
+| `/auctions/ingram-micro` | none: Auctions collection item at the same URL (2026-11-24) | decided |
 | `/faq` | `/faqs` | 301, decided |
 | `/thank-you` | none: kept as a noindex page until HubSpot/GTM are checked | decided |
 
