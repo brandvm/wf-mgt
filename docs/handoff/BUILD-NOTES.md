@@ -48,9 +48,30 @@ Every old URL → its closest new page, from the crawl saved in discovery.
 
 Unchanged URLs (no redirect): `/`, `/about-us`, `/contact-us`, `/blog`,
 every `/blog/<slug>`, 16 `/services/<slug>`, 10 `/service-areas/<slug>`.
-`/privacy-policy` is rebuilt, not redirected. Live's other existing 301s
-come from the person's export. Source: SEO-PLAN.md (2026-11-09 crawl);
-import file `docs/seo/redirects.csv` (proposed rows included).
+`/privacy-policy` is rebuilt, not redirected. Source: SEO-PLAN.md
+(2026-11-09 crawl).
+
+**Import file `docs/seo/redirects.csv` (96 rules, 2026-11-24):** live's 94
+existing 301s (the person's export, `michaels-global-trading-2026-11-24.csv`)
+plus `/services/used-office-furniture-buyers` and `/faq` above. Checked
+against staging: no source is a page on the new site, every one of the 42
+targets loads, and no target is itself a source (no chains). Changes from
+live's export:
+- 28 chained rules point straight at their final page (e.g.
+  `/our-services/liquidation` → `/services/office-furniture-liquidation`
+  instead of via `/services/business-asset-liquidation`).
+- 4 targets 404 on live and on the new site: `/services/e-waste-removal` and
+  `/services/business-asset-e-waste-removal` → `/services/e-waste-recycling`;
+  `/services/asset-appraisal` and `/services/certified-business-asset-appraisal`
+  → `/our-services` (no appraisal page; About Us links appraisal there too).
+- Closer matches than live's generic targets: the 4 donation URLs →
+  `/services/office-furniture-donation` (live: office-furniture-removal); 3
+  computers/electronics URLs → `/services/it-equipment-liquidation` and
+  `/our-services/warehouse-equipment` → `/services/warehouse-liquidation-services`
+  (live: office-furniture-liquidation), following live's own newer rules for
+  those topics.
+- `/get-a-quote`, `/landing` → `/offers` and `/upcoming-auctions` →
+  `/auctions` are kept: both pages exist again.
 
 ## Known issues
 
